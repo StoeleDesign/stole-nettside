@@ -334,7 +334,7 @@ export const forside = (ctx, c) => {
 
     <section class="s-om" id="om" aria-labelledby="om-tittel">
       <div class="wrap s-om__grid">
-        <div>
+        <div class="s-om__head">
           <p class="label label--caps">${esc(c.om.etikett)}</p>
           <h2 class="display display--statement" id="om-tittel">${inline(c.om.tittel)}</h2>
         </div>
@@ -343,11 +343,9 @@ export const forside = (ctx, c) => {
           <p>${inline(c.om.hvem)}</p>
           <p>${inline(c.om.verktoy)}</p>
         </div>
-      </div>
-      <div class="wrap">
         <figure class="s-om__fig">
+          <div class="s-om__sheet"><img src="/i/rydde.svg" alt="${esc(c.om.illustrasjon_alt)}" width="358" height="141" loading="lazy"></div>
           <figcaption class="s-om__figcap">${esc(c.om.illustrasjon_tekst)}</figcaption>
-          <img src="/i/rydde.svg" alt="${esc(c.om.illustrasjon_alt)}" width="358" height="141" loading="lazy">
         </figure>
       </div>
       <div class="s-om__glow" aria-hidden="true"></div>

@@ -693,9 +693,6 @@ section, footer { position: relative; }
 .s-leveranse { --bg: var(--wine); --edge: var(--wine-800); background: linear-gradient(180deg, var(--wine-800) 0, #44131d 70px, #4d1621 140px, var(--wine) 230px); padding: clamp(96px, 9vw, 140px) 0 clamp(64px, 7vw, 100px); }
 
 /* «Personen bak»: illustrasjonen som et rolig ark på linje med teksten */
-.s-om__fig { position: relative; z-index: 3; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; width: min(560px, 100%); margin: clamp(56px, 6vw, 80px) 0 0; padding: clamp(22px, 2.6vw, 32px) clamp(22px, 2.6vw, 36px) clamp(24px, 2.8vw, 34px); background: var(--cream); color: var(--wine); }
-.s-om__figcap { font-family: var(--serif); font-size: var(--fs-label); line-height: 1.4; color: var(--wine); }
-.s-om__fig img { width: 100%; height: auto; }
 
 @media (max-width: 900px) {
   .s-pagehero__grid { grid-template-columns: minmax(0, 1fr); }
@@ -721,3 +718,21 @@ section, footer { position: relative; }
 @media (max-width: 759px) {
   .s-pagehero__side, .s-pagehero__grid:has(.s-pagehero__tl) .s-pagehero__side { padding-top: 76px; }
 }
+
+/* «Personen bak»: illustrasjonen under utsagnet, på linje med teksten */
+.s-om__grid { grid-template-areas: "head body" "fig body"; grid-template-rows: auto 1fr; }
+.s-om__head { grid-area: head; }
+.s-om__body { grid-area: body; }
+.s-om__fig { grid-area: fig; position: relative; z-index: 3; align-self: start; width: min(540px, 100%); margin: clamp(40px, 4vw, 56px) 0 0; }
+.s-om__sheet { padding: clamp(22px, 2.4vw, 32px) clamp(22px, 2.6vw, 36px); background: var(--cream); }
+.s-om__sheet img { width: 100%; height: auto; }
+.s-om__figcap { display: flex; align-items: center; gap: 12px; margin-top: 14px; font-size: .875rem; line-height: 1.5; color: var(--rose); }
+.s-om__figcap::before { content: ""; flex: none; width: 28px; height: 1px; background: var(--rose); opacity: .7; }
+.s-om { padding-bottom: clamp(130px, 12vw, 180px); }
+@media (max-width: 900px) {
+  .s-om__grid { grid-template-areas: "head" "body" "fig"; grid-template-rows: none; }
+  .s-om__fig { margin-top: 16px; }
+}
+
+/* Intro-tittelen: tynnere og luftigere, som i Figma */
+.s-intro .display--hero { font-weight: 400; line-height: 1.24; letter-spacing: -0.005em; }
