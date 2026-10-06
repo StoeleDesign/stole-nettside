@@ -1,0 +1,551 @@
+// Maler for alle sidene. Ren JavaScript (template literals), ingen rammeverk.
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+/* ---------- Hjelpere ---------- */
+export const esc = (s = '') => String(s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// *tekst* blir fremhevet (kursiv aksent). \n blir linjeskift.
+const inline = (s = '') => esc(s).replace(/\*(.+?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
+const paras = (s = '', cls = '') => String(s).split(/\n\s*\n/).filter(Boolean)
+  .map((p) => `<p${cls ? ` class="${cls}"` : ''}>${inline(p.trim())}</p>`).join('');
+const svg = (name) => fs.readFileSync(path.join(root, 'src/i', name), 'utf8');
+const mailto = (site, body) => {
+  const q = [`subject=${encodeURIComponent(site.kontakt.emne)}`];
+  if (body) q.push(`body=${encodeURIComponent(body)}`);
+  return `mailto:${site.epost_teknisk}?${q.join('&')}`;
+};
+const chevron = `<svg class="chev" width="6" height="12" viewBox="0 0 6 12" aria-hidden="true" focusable="false"><path d="M1 1l4 5-4 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* ---------- Organiske kanter (fra Figma) ---------- */
+const EDGES = {
+  wave: ['28 -2 1311 152', 'M1339.02 104.296C1285.08 66.6411 1233.73 100.027 1163.96 117.96C1094.18 135.893 984.76 138.438 948.683 117.96C912.607 97.482 812.497 63.1311 680.482 95.5655C617.619 118.597 523.129 108.85 496.763 59.0888C475.847 19.6147 387.396 -31.9868 318.921 25.9718C250.445 83.9303 203.176 45.5088 167.491 33.2313C114.541 15.0138 91.1532 107.279 28.0471 66.6252V150H1339.02Z'],
+  panel: ['0 0 460 80', 'M0 8.56417C32.6887 26.737 40.9873 25.8013 88.1132 43.2959C109.862 49.4871 145.73 57.9534 167.5 56.7954C167.5 56.7954 214.887 56.7949 245.5 52.2954C276.113 47.7959 281.113 45.7954 321.439 31.785C361.764 17.7745 390.113 -2.70402 409.113 0.29579C428.113 3.29559 460 4.7959 460 66.1114V80H0Z'],
+  sag: ['0 0 1314 57', 'M0 0C0 0 399.338 56.9121 657 56.9121C914.662 56.9121 1314 0 1314 0V57H0Z'],
+  peak: ['0 0 1314 56', 'M0 56C0 56 399.374 0 657 0C914.626 0 1314 56 1314 56Z'],
+  soft: ['0 -4 1329 60', 'M0 0.590889C0 0.590889 201.244 45.6223 332.51 50.7937C461.973 55.8941 534.272 37.4992 663.459 27.7414C793.68 17.9056 866.225 -3.85265 996.75 0.590889C1127.94 5.05716 1329 50.7937 1329 50.7937V56H0Z'],
+  double: ['0 0 1329 67', 'M1329 0C1329 0 1129.64 66.668 996.75 66.668C863.861 66.668 797.389 -0.02 664.5 0C531.711 0.02 465.3 66.628 332.51 66.668C199.522 66.708 0 0 0 0V67H1329Z'],
+  organic: ['0 -12 1281 82', 'M0.5 40.7862C196.06 -0.423752 418.28 -11.1738 640.5 13.9062C862.72 38.9962 1076.06 69.4562 1280.5 19.2862V70H0.5Z'],
+};
+const edge = (name, cls = '') => {
+  const [vb, d] = EDGES[name];
+  return `<svg class="edge edge--${name} ${cls}" viewBox="${vb}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="${d}" fill="currentColor"/></svg>`;
+};
+
+/* ---------- Bilder ---------- */
+const picture = ({ name, widths, sizes, alt, cls = '', w, h, eager = false }) => {
+  const set = (ext) => widths.map((x) => `/img/${name}-${x}.${ext} ${x}w`).join(', ');
+  return `<picture class="${cls}">
+    <source type="image/avif" srcset="${set('avif')}" sizes="${sizes}">
+    <source type="image/webp" srcset="${set('webp')}" sizes="${sizes}">
+    <img src="/img/${name}-${widths[1]}.jpg" alt="${esc(alt)}" width="${w}" height="${h}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+  </picture>`;
+};
+
+/* ---------- Ramme ---------- */
+const layout = (ctx, { title, description, path: p, body, bodyClass = '', noindex = false, preloadHero = false }) => {
+  const { site, hashed } = ctx;
+  const url = site.url + p;
+  const fonts = ['Newsreader-normal', 'SchibstedGrotesk-normal']
+    .map((f) => `<link rel="preload" href="/fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`).join('\n  ');
+  const ld = p === '/' ? `<script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'ProfessionalService', name: site.navn,
+    legalName: site.virksomhet, url: site.url, email: site.epost_teknisk, description: site.beskrivelse,
+    image: `${site.url}/img/og.jpg`,
+    address: { '@type': 'PostalAddress', streetAddress: 'Husvikveien 101B', postalCode: '3113', addressLocality: 'Tønsberg', addressCountry: 'NO' },
+    areaServed: 'Norge', founder: { '@type': 'Person', name: 'Simen Støle Skjelland' },
+    identifier: { '@type': 'PropertyValue', propertyID: 'Organisasjonsnummer', value: site.orgnr.replace(/\s/g, '') },
+  })}</script>` : '';
+  return `<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${esc(title)}</title>
+  <meta name="description" content="${esc(description)}">
+  ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${url}">`}
+  <meta name="theme-color" content="#48151e">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="nb_NO">
+  <meta property="og:site_name" content="${esc(site.navn)}">
+  <meta property="og:title" content="${esc(title)}">
+  <meta property="og:description" content="${esc(description)}">
+  <meta property="og:url" content="${url}">
+  <meta property="og:image" content="${site.url}/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="STØLE-logoen over en tåkete fjellvidde.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  ${fonts}
+  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="/img/hero-1100.avif 1100w, /img/hero-1600.avif 1600w, /img/hero-2320.avif 2320w" imagesizes="100vw" fetchpriority="high">` : ''}
+  <link rel="stylesheet" href="${hashed['css/main.css']}">
+  <script src="${hashed['js/main.js']}" defer></script>
+  ${ld}
+</head>
+<body class="${bodyClass}">
+  <a class="skip" href="#innhold">Hopp til innholdet</a>
+  ${header(ctx, p, body.includes('id="kontakt"') ? '#kontakt' : '/#kontakt')}
+  <main id="innhold" tabindex="-1">
+${body}
+  </main>
+  ${footer(ctx)}
+</body>
+</html>`;
+};
+
+const header = ({ site }, current, cta = '#kontakt') => {
+  const isActive = (l) => l !== '/' && (current === l || (l !== '/#arbeid' && !l.includes('#') && current.startsWith(l)));
+  const links = site.meny.map((m) => `<li><a href="${m.lenke}"${isActive(m.lenke) ? ' aria-current="page"' : ''}>${esc(m.tekst)}</a></li>`).join('');
+  return `<header class="site-header" data-header>
+    <div class="site-header__bar wrap">
+      <a class="brand" href="/" aria-label="STØLE – til forsiden"><img src="/i/logo-cream.svg" alt="" width="149" height="37"></a>
+      <nav class="nav" aria-label="Hovedmeny">
+        <ul class="nav__list" id="meny">${links}</ul>
+      </nav>
+      <a class="pill pill--nav" href="${cta}">
+        <span class="pill--nav__long">${esc(site.knapp_meny)}</span><span class="pill--nav__short">${esc(site.knapp_meny_kort)}</span>
+      </a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobilmeny" data-menu-btn>
+        <span>Meny</span><span class="menu-btn__icon" aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobilmeny" hidden data-menu>
+      <nav aria-label="Mobilmeny"><ul>${links}</ul></nav>
+      <a class="pill pill--sand" href="${cta}">${esc(site.knapp_meny)}</a>
+    </div>
+  </header>`;
+};
+
+const footer = ({ site }) => `<footer class="site-footer">
+    ${edge('organic')}
+    <div class="wrap site-footer__grid">
+      <a class="site-footer__logo" href="/" aria-label="STØLE – til forsiden"><img src="/i/logo-cream-lg.svg" alt="" width="934" height="270" loading="lazy"></a>
+      <dl class="facts facts--footer">
+        <dt>Virksomhet</dt><dd>${esc(site.virksomhet)} <span class="muted">(${esc(site.foretaksform)})</span></dd>
+        <dt>Org.nr.</dt><dd>${esc(site.orgnr)}</dd>
+        <dt>Adresse</dt><dd>${esc(site.adresse)}</dd>
+        <dt>E-post</dt><dd><a href="mailto:${site.epost_teknisk}">${esc(site.epost)}</a></dd>
+      </dl>
+      <nav class="site-footer__nav" aria-label="Bunnmeny">
+        <ul>
+          <li><a href="/tjenester/">Tjenester</a></li>
+          <li><a href="/#arbeid">Arbeid</a></li>
+          <li><a href="/#om">Om STØLE</a></li>
+          <li><a href="/personvern/">Personvern</a></li>
+        </ul>
+      </nav>
+      <p class="site-footer__fine">${esc(site.bunntekst_personvern)} <a href="/personvern/">Personvern</a><br>© ${new Date().getFullYear()} STØLE</p>
+    </div>
+  </footer>`;
+
+/* ---------- Delte komponenter ---------- */
+const kontakt = ({ site }, { lead, id = 'kontakt' } = {}) => {
+  const k = site.kontakt;
+  return `<section class="s-kontakt" id="${id}" aria-labelledby="${id}-tittel">
+    <div class="s-kontakt__mark" aria-hidden="true"><img src="/i/mark-deep.svg" alt="" width="499" height="937" loading="lazy"></div>
+    <div class="wrap s-kontakt__grid">
+      <div class="s-kontakt__head">
+        <h2 class="display display--xl" id="${id}-tittel">${inline(k.tittel)}</h2>
+        <p class="s-kontakt__sub">${esc(k.undertittel)}</p>
+        <p class="lead">${inline(lead || k.ingress)}</p>
+      </div>
+      <div class="s-kontakt__ways">
+        <h3 class="s-kontakt__h3">${esc(k.epost_tittel)}</h3>
+        <p class="s-kontakt__muted">${esc(k.epost_tekst)}</p>
+        <p class="s-kontakt__addr"><a href="mailto:${site.epost_teknisk}">${esc(site.epost)}</a></p>
+        <div class="btn-row">
+          <a class="btn btn--solid" href="${mailto(site)}">Skriv e-post ${chevron}</a>
+          <button class="btn btn--ghost" type="button" data-copy="${esc(site.epost)}" data-copied="Adressen er kopiert">Kopier adressen</button>
+        </div>
+        <details class="tmpl">
+          <summary><span>${esc(k.mal_tittel)}</span><span class="tmpl__plus" aria-hidden="true"></span></summary>
+          <div class="tmpl__body">
+            <p class="s-kontakt__muted">${esc(k.mal_forklaring)}</p>
+            <pre class="tmpl__text" id="${id}-mal">${esc(k.mal)}</pre>
+            <div class="btn-row">
+              <button class="btn btn--ghost" type="button" data-copy-from="${id}-mal" data-copied="Teksten er kopiert">Kopier teksten</button>
+              <a class="btn btn--solid" href="${mailto(site, k.mal)}">Åpne i e-post ${chevron}</a>
+            </div>
+          </div>
+        </details>
+        <p class="sr-only" role="status" aria-live="polite" data-copy-status></p>
+      </div>
+    </div>
+  </section>`;
+};
+
+const tidslinje = (f) => {
+  const k = `<span class="tl__k">${esc(f.bli_kjent)}</span>`;
+  const d = `<span class="tl__d">${esc(f.design)}</span>`;
+  const jobs = (n) => `<span class="tl__job">${esc(f.oppdrag)} ${n}</span>`;
+  return `<figure class="tl" aria-labelledby="tl-cap">
+    <figcaption class="sr-only" id="tl-cap">Sammenligning: Med ny designer hver gang starter hvert av tre oppdrag med «bli kjent» før design. Med fast designer skjer «bli kjent» bare én gang, og tiden som spares blir til overs.</figcaption>
+    <div class="tl__row" aria-hidden="true">
+      <p class="tl__title">${esc(f.rad_a)}</p>
+      <div class="tl__bars tl__bars--a"><div class="tl__grp">${k}${d}${jobs(1)}</div><div class="tl__grp">${k}${d}${jobs(2)}</div><div class="tl__grp">${k}${d}${jobs(3)}</div></div>
+    </div>
+    <div class="tl__row" aria-hidden="true">
+      <p class="tl__title">${esc(f.rad_b)}</p>
+      <div class="tl__bars tl__bars--b"><div class="tl__grp tl__grp--2">${k}${d}${jobs(1)}</div><div class="tl__grp">${d}<span class="tl__job">2</span></div><div class="tl__grp">${d}<span class="tl__job">3</span></div><span class="tl__s">${esc(f.spart)}</span></div>
+    </div>
+  </figure>`;
+};
+
+const dybdeIkon = (nivaa, cls = '') => nivaa > 0
+  ? `<img class="dybde ${cls}" src="/i/dybde-${Math.min(3, Math.round(nivaa))}.svg" alt="" width="176" height="88" loading="lazy">`
+  : `<img class="dybde dybde--fast ${cls}" src="/i/steg-5.svg" alt="" width="138" height="32" loading="lazy">`;
+
+/* ---------- Forside ---------- */
+export const forside = (ctx, c) => {
+  const { site, tjenester } = ctx;
+  const ikon = { vokst: ['ikon-vokst.svg', 166, 100], like: ['ikon-like.svg', 166, 100], logo: ['ikon-logo.svg', 144, 87] };
+  const body = `
+    <section class="s-hero" aria-label="Velkommen">
+      ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-hero__img', w: 2320, h: 1490, eager: true })}
+      <h1 class="s-hero__logo"><img src="/i/logo-wine.svg" alt="STØLE" width="934" height="270"></h1>
+    </section>
+
+    <section class="s-intro" aria-labelledby="intro-tittel">
+      ${edge('wave')}
+      <div class="s-intro__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
+      <div class="s-intro__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>
+      <div class="wrap s-intro__grid">
+        <h2 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h2>
+        <hr class="rule">
+        <div class="s-intro__body">${paras(c.helt.ingress)}</div>
+        <div class="s-intro__actions">
+          <a class="pill" href="#kontakt">${esc(c.helt.knapp)}</a>
+          <a class="textlink" href="#arbeid">${esc(c.helt.lenke)}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="s-kjenner" aria-labelledby="kjenner-tittel">
+      ${edge('sag')}
+      <div class="wrap">
+        <h2 class="label label--caps label--center" id="kjenner-tittel">${esc(c.kjenner.etikett)}</h2>
+        <ul class="moments">
+          ${c.kjenner.sitater.map((s) => { const [f, w, h] = ikon[s.ikon] || ikon.vokst; return `<li class="moment">
+            <img src="/i/${f}" alt="" width="${w}" height="${h}" loading="lazy">
+            <blockquote><p>${esc(s.a)}${s.b ? ` <span>${esc(s.b)}</span>` : ''}</p></blockquote>
+          </li>`; }).join('')}
+        </ul>
+      </div>
+    </section>
+
+    <section class="s-hvorfor" aria-labelledby="hvorfor-tittel">
+      ${edge('peak')}
+      <div class="wrap">
+        <p class="label">${esc(c.hvorfor.etikett)}</p>
+        <div class="s-hvorfor__grid">
+          <h2 class="display" id="hvorfor-tittel">${inline(c.hvorfor.tittel)}</h2>
+          <div class="s-hvorfor__prop">
+            <p class="s-hvorfor__big">${inline(c.hvorfor.stor)}</p>
+            ${c.hvorfor.liten ? `<p class="s-hvorfor__small">${inline(c.hvorfor.liten)}</p>` : ''}
+          </div>
+        </div>
+        <div class="distill" aria-hidden="true">
+          <div class="distill__grid">${Array.from({ length: 52 }, (_, i) => `<span${i === 21 ? ' class="is-deg"' : ''}></span>`).join('')}</div>
+          <p class="distill__note">${esc(c.hvorfor.merknad)}</p>
+          <img class="distill__arrow" src="/i/pil-deg.svg" alt="" width="263" height="152" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section class="s-arbeid" id="arbeid" aria-labelledby="arbeid-tittel">
+      <div class="s-arbeid__band"><div class="wrap"><p class="label">${esc(c.arbeid.etikett)}</p></div></div>
+      <div class="wrap"><h2 class="display" id="arbeid-tittel">${inline(c.arbeid.tittel)}</h2></div>
+      ${c.arbeid.prosjekter.map((p, i) => `<article class="case${i % 2 ? ' case--flip' : ''}" aria-labelledby="case-${i}">
+        <div class="case__pic case__pic--${esc(p.bilde)}">
+          ${p.bilde === 'nordhagen'
+            ? picture({ name: 'nordhagen', widths: [800, 1200, 1600], sizes: '(min-width: 760px) 48vw, 100vw', alt: p.bilde_alt, w: 1600, h: 1200 })
+            : `<img src="/i/bauta.svg" alt="${esc(p.bilde_alt)}" width="624" height="624" loading="lazy">`}
+        </div>
+        <div class="case__meta">
+          <p class="tag">${esc(p.merke)}</p>
+          <h3 class="case__title" id="case-${i}">${esc(p.navn)}</h3>
+          <p class="case__text">${inline(p.tekst)}</p>
+          <dl class="facts"><dt>Fagfelt</dt><dd>${esc(p.fagfelt)}</dd><dt>Leveranse</dt><dd>${esc(p.leveranse)}</dd></dl>
+        </div>
+      </article>`).join('')}
+    </section>
+
+    <section class="s-prosess" id="prosess" aria-labelledby="prosess-tittel">
+      <div class="s-prosess__band" aria-hidden="true"></div>
+      <div class="s-prosess__body">
+        ${edge('soft')}
+        <div class="wrap">
+          <p class="label">${esc(c.prosess.etikett)}</p>
+          <h2 class="display" id="prosess-tittel">${inline(c.prosess.tittel)}</h2>
+          <ol class="steps">
+            ${c.prosess.steg.map((s, i) => `<li class="step">
+              <img class="step__icon" src="/i/steg-${i + 1}.svg" alt="" loading="lazy">
+              <span class="step__num">0${i + 1}</span>
+              <h3 class="step__title">${esc(s.navn)}</h3>
+              <p class="step__text">${inline(s.tekst)}</p>
+            </li>`).join('')}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="s-tjenester" id="tjenester" aria-labelledby="tjenester-tittel">
+      ${edge('double')}
+      <div class="wrap">
+        <p class="label label--caps label--blue">${esc(c.tjenester.etikett)}</p>
+        <div class="s-tjenester__intro">
+          <div>
+            <h2 class="display" id="tjenester-tittel">${inline(c.tjenester.tittel)}</h2>
+            <div class="serif-body">${paras(c.tjenester.ingress)}</div>
+          </div>
+          <p class="serif-body s-tjenester__usikker">${inline(c.tjenester.usikker)}</p>
+        </div>
+        <ul class="tiers">
+          ${tjenester.pakker.filter((p) => p.nivaa > 0).map((p) => `<li class="tier">
+            ${dybdeIkon(p.nivaa)}
+            <h3 class="tier__name">${esc(p.navn)}</h3>
+            <p class="tier__when">${esc(p.naar)}</p>
+            <p class="tier__ex">${esc(p.eksempler)}</p>
+            <a class="pill pill--sand" href="/tjenester/${p.slug}/" aria-label="${esc(c.tjenester.knapp)}: ${esc(p.navn)}">${esc(c.tjenester.knapp)}</a>
+          </li>`).join('')}
+        </ul>
+        <p class="s-tjenester__all"><a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a></p>
+      </div>
+    </section>
+
+    <section class="s-fast" aria-labelledby="fast-tittel">
+      <div class="wrap s-fast__grid">
+        <div>
+          <p class="label label--caps label--wine">${esc(c.fast.etikett)}</p>
+          <h2 class="display" id="fast-tittel">${inline(c.fast.tittel)}</h2>
+          <p class="s-fast__q">${esc(c.fast.sporsmal)}</p>
+          <p class="s-fast__text">${inline(c.fast.tekst)}</p>
+          <a class="pill pill--wine" href="/tjenester/fast-designer/">${esc(c.fast.knapp)}</a>
+        </div>
+        ${tidslinje(c.fast)}
+      </div>
+    </section>
+
+    <section class="s-om" id="om" aria-labelledby="om-tittel">
+      <div class="wrap s-om__grid">
+        <div>
+          <p class="label label--caps">${esc(c.om.etikett)}</p>
+          <h2 class="display display--statement" id="om-tittel">${inline(c.om.tittel)}</h2>
+        </div>
+        <div class="s-om__body">
+          <p>${inline(c.om.tekst)}</p>
+          <p>${inline(c.om.hvem)}</p>
+          <p>${inline(c.om.verktoy)}</p>
+        </div>
+      </div>
+      <figure class="s-om__fig">
+        <img src="/i/rydde.svg" alt="${esc(c.om.illustrasjon_alt)}" width="358" height="141" loading="lazy">
+        <figcaption>${esc(c.om.illustrasjon_tekst)}</figcaption>
+      </figure>
+    </section>
+
+    ${kontakt(ctx)}`;
+  return layout(ctx, { title: c.seo_tittel, description: c.seo_beskrivelse, path: '/', body, bodyClass: 'page-home', preloadHero: true });
+};
+
+/* ---------- Tjenester: oversikt ---------- */
+export const tjenesteoversikt = (ctx, t) => {
+  const pakker = t.pakker.filter((p) => p.nivaa > 0);
+  const fast = t.pakker.find((p) => p.slug === 'fast-designer');
+  const f = JSON.parse(fs.readFileSync(path.join(root, 'content/forside.json'), 'utf8')).fast;
+  const body = `
+    <section class="s-pagehero" aria-labelledby="side-tittel">
+      <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
+      <div class="wrap s-pagehero__grid">
+        <div class="s-pagehero__text">
+          <p class="label label--caps label--blue">${esc(t.etikett)}</p>
+          <h1 class="display display--hero" id="side-tittel">${inline(t.tittel)}</h1>
+          <hr class="rule">
+          <p class="s-pagehero__lead">${inline(t.ingress)}</p>
+        </div>
+        <nav class="depth-index" aria-label="Pakkene">
+          <p class="depth-index__title">${esc(t.skala_tittel)}</p>
+          <ol>${pakker.map((p) => `<li><a href="#${p.slug}">${dybdeIkon(p.nivaa)}<span class="depth-index__name">${esc(p.navn)}</span><span class="depth-index__depth">${esc(p.dybde)}</span></a></li>`).join('')}</ol>
+        </nav>
+      </div>
+    </section>
+
+    <section class="s-pakker" aria-label="Pakkene">
+      ${edge('soft')}
+      <div class="wrap">
+        <ol class="pakkeliste">
+          ${pakker.map((p, i) => `<li class="pakkerad" id="${p.slug}">
+            <span class="step__num">0${i + 1}</span>
+            <div class="pakkerad__head">
+              ${dybdeIkon(p.nivaa, 'dybde--wine')}
+              <h2 class="pakkerad__name">${esc(p.navn)}</h2>
+              <p class="pakkerad__depth">Hvor dypt: ${esc(p.dybde)}</p>
+            </div>
+            <div class="pakkerad__body">
+              <p class="pakkerad__when">${esc(p.naar)}</p>
+              <p>${esc(p.ingress)}</p>
+              <p class="pakkerad__ex">${esc(p.eksempler)}</p>
+            </div>
+            <a class="pill pill--wine-solid" href="/tjenester/${p.slug}/" aria-label="Les mer om ${esc(p.navn)}">Les mer ${chevron}</a>
+          </li>`).join('')}
+        </ol>
+      </div>
+    </section>
+
+    <section class="s-fast s-fast--page" aria-labelledby="fast-tittel">
+      <div class="wrap s-fast__grid">
+        <div>
+          <p class="label label--caps label--wine">${esc(fast.navn)}</p>
+          <h2 class="display" id="fast-tittel">${esc(f.tittel)}</h2>
+          <p class="s-fast__q">${esc(fast.naar)}</p>
+          <p class="s-fast__text">${esc(fast.ingress)}</p>
+          <a class="pill pill--wine" href="/tjenester/${fast.slug}/">Utforsk mer</a>
+        </div>
+        ${tidslinje(f)}
+      </div>
+    </section>
+
+    <section class="s-felles" aria-labelledby="felles-tittel">
+      <div class="wrap">
+        <h2 class="label label--caps label--center label--blue" id="felles-tittel">${esc(t.felles_tittel)}</h2>
+        <ul class="moments moments--text">
+          ${t.felles.map((x) => `<li class="moment"><h3>${esc(x.tittel)}</h3><p>${inline(x.tekst)}</p></li>`).join('')}
+        </ul>
+      </div>
+    </section>
+
+    ${kontakt(ctx, { lead: t.usikker_tekst })}`;
+  return layout(ctx, { title: t.seo_tittel, description: t.seo_beskrivelse, path: '/tjenester/', body, bodyClass: 'page-sub' });
+};
+
+/* ---------- Tjenester: enkeltpakke ---------- */
+export const pakke = (ctx, t, p) => {
+  const andre = t.pakker.filter((x) => x.slug !== p.slug);
+  const f = JSON.parse(fs.readFileSync(path.join(root, 'content/forside.json'), 'utf8')).fast;
+  const body = `
+    <section class="s-pagehero s-pagehero--pakke" aria-labelledby="side-tittel">
+      <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
+      <div class="wrap s-pagehero__grid">
+        <div class="s-pagehero__text">
+          <nav class="crumbs" aria-label="Brødsmuler"><ol><li><a href="/">Forside</a></li><li><a href="/tjenester/">Tjenester</a></li><li><span aria-current="page">${esc(p.navn)}</span></li></ol></nav>
+          <h1 class="display display--hero" id="side-tittel">${esc(p.navn)}. <em>${esc(p.naar)}</em></h1>
+          <hr class="rule">
+          <p class="s-pagehero__lead">${inline(p.ingress)}</p>
+          <div class="s-intro__actions">
+            <a class="pill" href="#kontakt">Gratis konsultasjon</a>
+            <a class="textlink" href="#prosess">Slik foregår det</a>
+          </div>
+        </div>
+        <div class="s-pagehero__art">
+          ${p.nivaa > 0
+            ? `${dybdeIkon(p.nivaa, 'dybde--xl dybde--wine')}<p class="s-pagehero__caption"><strong>Hvor dypt:</strong> ${esc(p.dybde)}</p>`
+            : `<div class="s-pagehero__tl">${tidslinje(f)}</div>`}
+        </div>
+      </div>
+    </section>
+
+    <section class="s-passer" aria-labelledby="passer-tittel">
+      ${edge('sag')}
+      <div class="wrap s-passer__grid">
+        <h2 class="label label--caps label--blue" id="passer-tittel">${esc(p.passer_tittel)}</h2>
+        <ul class="checklist">${(p.passer || []).map((x) => `<li>${inline(x)}</li>`).join('')}</ul>
+      </div>
+    </section>
+
+    <section class="s-prosess s-prosess--pakke" id="prosess" aria-labelledby="prosess-tittel">
+      <div class="s-prosess__body">
+        ${edge('peak')}
+        <div class="wrap">
+          <p class="label">${esc(p.prosess_tittel)}</p>
+          <h2 class="display" id="prosess-tittel">Forstå behovet bak først. Designe etterpå.</h2>
+          <ol class="steps steps--${(p.prosess || []).length}">
+            ${(p.prosess || []).map((s, i) => `<li class="step">
+              <span class="step__num">0${i + 1}</span>
+              <h3 class="step__title">${esc(s.navn)}</h3>
+              <p class="step__text">${inline(s.tekst)}</p>
+            </li>`).join('')}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="s-leveranse" aria-labelledby="lev-tittel">
+      ${edge('double')}
+      <div class="wrap s-leveranse__grid">
+        <div>
+          <h2 class="label label--caps label--blue" id="lev-tittel">${esc(p.leveranser_tittel)}</h2>
+          <ul class="tags">${(p.leveranser || []).map((x) => `<li class="tag">${esc(x)}</li>`).join('')}</ul>
+        </div>
+        <div>
+          <h2 class="label label--caps label--blue">${esc(p.forvent_tittel)}</h2>
+          <p class="serif-body serif-body--lg">${inline(p.forvent)}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="s-andre" aria-labelledby="andre-tittel">
+      <div class="wrap">
+        <h2 class="label label--caps label--blue" id="andre-tittel">Andre måter å jobbe sammen på</h2>
+        <ul class="tiers tiers--small">
+          ${andre.map((x) => `<li class="tier">
+            ${dybdeIkon(x.nivaa)}
+            <h3 class="tier__name">${esc(x.navn)}</h3>
+            <p class="tier__when">${esc(x.naar)}</p>
+            <a class="pill pill--sand" href="/tjenester/${x.slug}/" aria-label="Utforsk: ${esc(x.navn)}">Utforsk</a>
+          </li>`).join('')}
+        </ul>
+      </div>
+    </section>
+
+    ${kontakt(ctx, { lead: p.neste })}`;
+  return layout(ctx, { title: `${p.navn} – STØLE`, description: p.seo_beskrivelse, path: `/tjenester/${p.slug}/`, body, bodyClass: 'page-sub' });
+};
+
+/* ---------- Personvern ---------- */
+export const personvern = (ctx, c) => {
+  const body = `
+    <section class="s-pagehero s-pagehero--short" aria-labelledby="side-tittel">
+      <div class="wrap">
+        <p class="label label--caps label--blue">${esc(c.etikett)}</p>
+        <h1 class="display display--hero" id="side-tittel">${inline(c.tittel)}</h1>
+        <p class="s-pagehero__lead">${inline(c.ingress)}</p>
+      </div>
+    </section>
+    <section class="s-tekst" aria-label="Personvernerklæring">
+      ${edge('peak')}
+      <div class="wrap s-tekst__grid">
+        <nav class="toc" aria-label="Innhold på siden"><p class="label">På denne siden</p><ol>${c.seksjoner.map((s, i) => `<li><a href="#del-${i + 1}">${esc(s.tittel)}</a></li>`).join('')}</ol></nav>
+        <div class="prose">
+          ${c.seksjoner.map((s, i) => `<h2 id="del-${i + 1}">${esc(s.tittel)}</h2>${paras(s.tekst)}`).join('')}
+          <p class="prose__updated">Sist oppdatert ${esc(c.oppdatert)}.</p>
+        </div>
+      </div>
+    </section>`;
+  return layout(ctx, { title: c.seo_tittel, description: c.seo_beskrivelse, path: '/personvern/', body, bodyClass: 'page-sub page-legal' });
+};
+
+/* ---------- 404 ---------- */
+export const ikkeFunnet = (ctx) => {
+  const body = `
+    <section class="s-404" aria-labelledby="side-tittel">
+      <div class="wrap s-404__grid">
+        <div>
+          <p class="label label--caps label--blue">Feil 404</p>
+          <h1 class="display display--hero" id="side-tittel">Denne siden finnes ikke. <em>Men du er fortsatt hos STØLE.</em></h1>
+          <p class="s-pagehero__lead">Lenken kan være gammel, eller adressen kan ha en skrivefeil.</p>
+          <div class="s-intro__actions">
+            <a class="pill" href="/">Til forsiden</a>
+            <a class="textlink" href="/tjenester/">Se tjenestene</a>
+          </div>
+        </div>
+        <div class="s-404__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>
+      </div>
+    </section>`;
+  return layout(ctx, { title: 'Siden finnes ikke – STØLE', description: 'Siden du lette etter finnes ikke.', path: '/404.html', body, bodyClass: 'page-sub page-404', noindex: true });
+};

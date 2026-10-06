@@ -1,0 +1,30 @@
+{
+  "seo_tittel": "Personvern – STØLE",
+  "seo_beskrivelse": "Slik behandler STØLE personopplysninger. Nettsiden bruker ingen informasjonskapsler og ingen sporing.",
+  "etikett": "Personvern",
+  "tittel": "Kort fortalt: ingen sporing, ingen informasjonskapsler.",
+  "ingress": "Denne nettsiden samler ikke inn mer enn den må. Her står det hva som skjer med opplysningene dine, og hvilke rettigheter du har.",
+  "oppdatert": "6. oktober 2026",
+  "seksjoner": [
+    {
+      "tittel": "Hvem er ansvarlig?",
+      "tekst": "STØLE SKJELLAND (enkeltpersonforetak, org.nr. 938 558 000), Husvikveien 101B, 3113 Tønsberg, er behandlingsansvarlig for personopplysningene som beskrives her. Har du spørsmål, send en e-post til hei@støle.com."
+    },
+    {
+      "tittel": "Når du besøker nettsiden",
+      "tekst": "Nettsiden bruker ingen informasjonskapsler (cookies), ingen analyseverktøy og ingen sporing. Skriftene ligger på vår egen server, og det er ingen innebygde tjenester fra tredjeparter, som kart, video eller sosiale medier.\n\nNettsiden driftes av Netlify, Inc. For å levere sidene trygt registrerer serverne tekniske opplysninger i logger, blant annet IP-adresse, nettlesertype og tidspunkt. Behandlingsgrunnlaget er vår berettigede interesse i å drive en sikker og stabil nettside (personvernforordningen artikkel 6 nr. 1 bokstav f). Netlify er et amerikansk selskap. Overføringen er sikret gjennom EU–USA-rammeverket for personvern (Data Privacy Framework) og EUs standard personvernbestemmelser."
+    },
+    {
+      "tittel": "Når du sender en e-post",
+      "tekst": "Knappene «Skriv e-post» og «Kopier adressen» sender ingenting via nettsiden. E-posten går fra ditt eget e-postprogram.\n\nNår du skriver til hei@støle.com, behandler jeg navnet ditt, e-postadressen din og det du skriver. Formålet er å svare deg og eventuelt inngå et samarbeid. Behandlingsgrunnlaget er å svare på henvendelsen og gjennomføre tiltak før en eventuell avtale (artikkel 6 nr. 1 bokstav b), og ellers berettiget interesse (bokstav f).\n\nHenvendelser lagres i ett år og slettes deretter, med mindre de blir en del av et kundeforhold. E-posten driftes av Uniweb."
+    },
+    {
+      "tittel": "Hvis du blir kunde",
+      "tekst": "Blir vi enige om et oppdrag, behandler jeg kontaktopplysninger og fakturaopplysninger for å gjennomføre avtalen. Regnskapsopplysninger oppbevares så lenge bokføringsloven krever. Fakturering skjer i Tripletex."
+    },
+    {
+      "tittel": "Dine rettigheter",
+      "tekst": "Du har rett til innsyn i opplysningene jeg har om deg, og til å få dem rettet eller slettet. Du kan også be om at behandlingen begrenses, protestere mot den, eller be om å få opplysningene utlevert. Send en e-post til hei@støle.com, så svarer jeg så raskt som mulig og senest innen 30 dager.\n\nMener du at opplysningene dine behandles i strid med regelverket, kan du klage til Datatilsynet (datatilsynet.no)."
+    }
+  ]
+}

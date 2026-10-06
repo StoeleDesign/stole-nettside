@@ -1,0 +1,14 @@
+# Netlify: bygger siden med ren Node (ingen npm-pakker trengs)
+[build]
+  command = "node build.mjs"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Gammel/teknisk adresse og www sendes til hovedadressen
+[[redirects]]
+  from = "https://www.xn--stle-hra.com/*"
+  to = "https://xn--stle-hra.com/:splat"
+  status = 301
+  force = true

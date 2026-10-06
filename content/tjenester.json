@@ -1,0 +1,234 @@
+{
+  "seo_tittel": "Måter å jobbe sammen på – STØLE",
+  "seo_beskrivelse": "Friskt pust, Grunnmuren, Total eller en fast designer. Se hva som skiller pakkene, hvem de passer for, og hva du får.",
+  "etikett": "Måter å jobbe sammen på",
+  "tittel": "Noen trenger ett grep. Andre trenger mer.",
+  "ingress": "Det er ikke størrelsen på bedriften som avgjør hva dere trenger, men hvor dypt problemet sitter. Halvsirklene viser hvor langt inn i bedriften vi går. Jo mer som er fylt, jo dypere graver vi.",
+  "skala_tittel": "Hvor dypt går vi?",
+  "skala": [
+    "Uttrykket",
+    "Identiteten",
+    "Markedet",
+    "Menneskene",
+    "Bedriften"
+  ],
+  "felles_tittel": "Uansett hvor vi starter",
+  "felles": [
+    {
+      "tittel": "Forståelse før design",
+      "tekst": "Selv det minste oppdraget starter med at jeg setter meg inn i bedriften. Ellers blir det bare pynt."
+    },
+    {
+      "tittel": "Begrunnede valg",
+      "tekst": "Du får vite hvorfor ting ser ut som de gjør, ikke bare at det ser bra ut."
+    },
+    {
+      "tittel": "Filer du faktisk kan bruke",
+      "tekst": "Alt leveres ryddig og i formatene du trenger, til skjerm, trykk og skilt."
+    }
+  ],
+  "usikker_tittel": "Usikker på hva som passer?",
+  "usikker_tekst": "Det er helt vanlig. Mange vet at noe skurrer, men ikke hva. Ta en gratis prat på 15 minutter, så finner vi ut av det sammen. Er det ikke meg du trenger, sier jeg det.",
+  "pakker": [
+    {
+      "slug": "friskt-pust",
+      "navn": "Friskt pust",
+      "nivaa": 1,
+      "dybde": "uttrykket",
+      "naar": "Når én ting skal bli riktig.",
+      "eksempler": "Ny logo, en oppfriskning, illustrasjoner, meny, skilt eller presentasjon.",
+      "seo_beskrivelse": "Friskt pust er for bedrifter som trenger én ting gjort riktig: en logo, en meny, et skilt eller en presentasjon som passer resten av bedriften.",
+      "ingress": "Noen ganger er det ikke hele identiteten som skurrer, men én ting. En logo som har gått ut på dato, en meny som ikke ligner resten av stedet, eller et skilt som ikke gjør jobben. Friskt pust er for de oppdragene.",
+      "passer_tittel": "Passer for deg som",
+      "passer": [
+        "har en identitet som fungerer, men mangler én viktig del",
+        "trenger noe konkret til en åpning, et arrangement eller en sesong",
+        "vil friske opp noe dere allerede har, uten å starte på nytt",
+        "vil teste et samarbeid med et avgrenset oppdrag først"
+      ],
+      "prosess_tittel": "Slik foregår det",
+      "prosess": [
+        {
+          "navn": "Kort samtale",
+          "tekst": "Vi snakker om hva som skal lages, hvem det er for og hvor det skal brukes."
+        },
+        {
+          "navn": "Innsikt",
+          "tekst": "Jeg ser på det dere har fra før, så det nye passer inn i helheten."
+        },
+        {
+          "navn": "Forslag",
+          "tekst": "Du får en gjennomtenkt retning med begrunnelse, ikke en vegg av alternativer."
+        },
+        {
+          "navn": "Justering og levering",
+          "tekst": "Vi finjusterer sammen, og du får ferdige filer klare til bruk."
+        }
+      ],
+      "leveranser_tittel": "Typiske leveranser",
+      "leveranser": [
+        "Logo eller oppfrisket logo",
+        "Meny, prisliste eller brosjyre",
+        "Skilt, banner eller dekor",
+        "Illustrasjoner",
+        "Presentasjonsmal",
+        "Ferdige filer til skjerm og trykk"
+      ],
+      "forvent_tittel": "Dette kan du forvente",
+      "forvent": "Et tydelig avgrenset oppdrag med en klar plan for hva som skal leveres. Du vet hva du får før vi starter, og du får det du trenger, ikke mer.",
+      "neste": "Fortell meg kort hva du trenger. Så gir jeg deg et ærlig svar på om Friskt pust er riktig, eller om noe annet vil hjelpe mer."
+    },
+    {
+      "slug": "grunnmuren",
+      "navn": "Grunnmuren",
+      "nivaa": 2,
+      "dybde": "identiteten og uttrykket",
+      "naar": "Når dere trenger en helhet i den visuelle profilen.",
+      "eksempler": "Logo, typografi, farger, maler og retningslinjer som henger sammen.",
+      "seo_beskrivelse": "Grunnmuren er en komplett visuell identitet: logo, farger, typografi, maler og retningslinjer som henger sammen og er enkle å bruke.",
+      "ingress": "Når logoen, nettsiden, bilen og Instagram-profilen ser ut som fire forskjellige bedrifter, er det ikke én ting som må fikses. Det er grunnmuren. Her bygger vi et visuelt system som holder sammen alt dere viser fram.",
+      "passer_tittel": "Passer for deg som",
+      "passer": [
+        "starter noe nytt og vil gjøre det riktig fra begynnelsen",
+        "har vokst, men uttrykket har ikke vokst med dere",
+        "opplever at ting ser forskjellig ut fra gang til gang",
+        "vil at ansatte og samarbeidspartnere skal kunne bruke profilen riktig"
+      ],
+      "prosess_tittel": "Slik foregår det",
+      "prosess": [
+        {
+          "navn": "Bli kjent",
+          "tekst": "Jeg setter meg inn i bedriften, kundene og konkurrentene. Du forteller det ingen andre vet."
+        },
+        {
+          "navn": "Finne retningen",
+          "tekst": "Vi blir enige om hva som skal skille dere ut, før noe blir tegnet."
+        },
+        {
+          "navn": "Utvikle systemet",
+          "tekst": "Logo, farger, skrift og grafiske elementer utvikles som én helhet."
+        },
+        {
+          "navn": "Forfine",
+          "tekst": "Vi tester systemet på ekte flater, justerer og spisser."
+        },
+        {
+          "navn": "Levere",
+          "tekst": "Du får alle filer, maler og en enkel veiledning for hvordan profilen brukes."
+        }
+      ],
+      "leveranser_tittel": "Typiske leveranser",
+      "leveranser": [
+        "Logo med varianter",
+        "Fargepalett",
+        "Typografi",
+        "Grafiske elementer",
+        "Maler, for eksempel visittkort, brevmal og sosiale medier",
+        "Designmanual med retningslinjer"
+      ],
+      "forvent_tittel": "Dette kan du forvente",
+      "forvent": "Et grundigere løp der du er med underveis. Du får se retningen før detaljene, og hvert valg er begrunnet. Målet er et system dere kan bruke selv i mange år, ikke bare en ny logo.",
+      "neste": "Send en e-post med litt om bedriften og hva som skurrer i dag. Så tar vi en prat og ser om Grunnmuren er riktig nivå."
+    },
+    {
+      "slug": "total",
+      "navn": "Total",
+      "nivaa": 3,
+      "dybde": "hele veien fra bedriften",
+      "naar": "Når dere vil tenke nytt om hvordan dere fremstår.",
+      "eksempler": "Posisjonering, identitet, nettside og en struktur fra bunnen av.",
+      "seo_beskrivelse": "Total er for bedrifter som vil tenke helt nytt: posisjonering, identitet, nettside og tone, bygget fra bunnen av.",
+      "ingress": "Noen ganger handler det ikke om hvordan dere ser ut, men om hvem dere vil være. Total starter helt inne i bedriften og bygger utover: hva dere står for, hvem dere er til for, og hvordan det skal merkes i alt dere gjør.",
+      "passer_tittel": "Passer for deg som",
+      "passer": [
+        "står foran et veiskille, for eksempel nytt marked, nytt tilbud eller generasjonsskifte",
+        "opplever at kundene ikke forstår hva som gjør dere annerledes",
+        "vil bygge identitet og nettside som ett gjennomtenkt løp",
+        "ønsker en sparringspartner som tenker strategi, ikke bare utseende"
+      ],
+      "prosess_tittel": "Slik foregår det",
+      "prosess": [
+        {
+          "navn": "Innsikt",
+          "tekst": "Samtaler med deg og gjerne ansatte og kunder. Jeg ser på markedet, konkurrentene og kodene i bransjen."
+        },
+        {
+          "navn": "Posisjon",
+          "tekst": "Vi formulerer hva dere står for, hvem dere er til for, og hvordan dere skal snakke."
+        },
+        {
+          "navn": "Identitet",
+          "tekst": "Posisjonen blir til et visuelt system: logo, farger, skrift, bilder og tone."
+        },
+        {
+          "navn": "Flater",
+          "tekst": "Systemet tas i bruk der kundene møter dere, for eksempel nettside, skilt, trykksaker og sosiale medier."
+        },
+        {
+          "navn": "Overlevering",
+          "tekst": "Du får alt samlet, og en plan for hvordan identiteten holdes i live."
+        }
+      ],
+      "leveranser_tittel": "Typiske leveranser",
+      "leveranser": [
+        "Innsikt og posisjonering",
+        "Budskap og tone",
+        "Komplett visuell identitet",
+        "Nettside",
+        "Maler og flater etter behov",
+        "Designmanual og overlevering"
+      ],
+      "forvent_tittel": "Dette kan du forvente",
+      "forvent": "Et grundig samarbeid der vi tar oss tid til å forstå før vi bygger. Du er med på de viktige veivalgene, og du får en identitet med en tydelig begrunnelse bak hvert valg.",
+      "neste": "Fortell meg hvor dere står i dag og hvor dere vil. Så tar vi en uforpliktende prat om hvordan et Total-løp kan se ut for dere."
+    },
+    {
+      "slug": "fast-designer",
+      "navn": "Fast designer",
+      "nivaa": 0,
+      "dybde": "bygger seg opp over tid",
+      "naar": "Når dere trenger design jevnlig.",
+      "eksempler": "En designer som kjenner bedriften din, og som alltid er der når noe skal lages.",
+      "seo_beskrivelse": "Fast designer er et løpende samarbeid med en designer som kjenner bedriften din, så du slipper å starte på nytt hver gang noe skal lages.",
+      "ingress": "Hver gang du bruker en ny designer, går den første delen av jobben med til å forklare hvem dere er. Med en fast designer gjør du det én gang. Etter det går tiden til det som faktisk skal lages, og arbeidet blir bedre jo lenger vi holder på.",
+      "passer_tittel": "Passer for deg som",
+      "passer": [
+        "trenger design jevnlig, for eksempel kampanjer, plakater, sosiale medier og trykksaker",
+        "vil at alt skal se ut som det kommer fra samme sted",
+        "er lei av å forklare bedriften på nytt hver gang",
+        "vil ha én person å spørre når noe visuelt dukker opp"
+      ],
+      "prosess_tittel": "Slik foregår det",
+      "prosess": [
+        {
+          "navn": "Bli kjent én gang",
+          "tekst": "Vi starter med å bli godt kjent, akkurat som i et større prosjekt."
+        },
+        {
+          "navn": "Avtale",
+          "tekst": "Vi blir enige om omfang og hvordan oppdrag skal meldes inn og prioriteres."
+        },
+        {
+          "navn": "Løpende oppdrag",
+          "tekst": "Du sender oppdrag når de dukker opp. Jeg kjenner bedriften og kan gå rett på sak."
+        },
+        {
+          "navn": "Jevnlig oppsummering",
+          "tekst": "Vi ser tilbake på det som er laget og justerer kursen ved behov."
+        }
+      ],
+      "leveranser_tittel": "Typiske oppdrag",
+      "leveranser": [
+        "Innhold til sosiale medier",
+        "Plakater, flygeblad og annonser",
+        "Menyer og prislister",
+        "Presentasjoner",
+        "Skilt og dekor",
+        "Oppdateringer av profilen"
+      ],
+      "forvent_tittel": "Dette kan du forvente",
+      "forvent": "Ikke et abonnement på billig design, men et fast samarbeid med en som kjenner bedriften. Du får jevn kvalitet, kortere vei fra idé til ferdig resultat, og en profil som holder seg samlet over tid.",
+      "neste": "Fortell meg kort hva slags oppdrag dere har i løpet av et år. Så finner vi ut om et fast samarbeid lønner seg for dere."
+    }
+  ]
+}

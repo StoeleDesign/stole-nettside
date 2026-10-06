@@ -1,0 +1,224 @@
+# Redigeringspanel for STØLE (Pages CMS – https://app.pagescms.org)
+# Tips: skriv *slik* rundt ord for å få kursiv aksent. Tom linje = nytt avsnitt.
+
+content:
+  - name: forside
+    label: Forside
+    type: file
+    path: content/forside.json
+    format: json
+    fields:
+      - { name: seo_tittel, label: Tittel i Google og nettleserfanen, type: string }
+      - { name: seo_beskrivelse, label: Beskrivelse i Google, type: text }
+      - name: helt
+        label: Toppen
+        type: object
+        fields:
+          - { name: bilde_alt, label: Beskrivelse av bildet (for skjermlesere), type: string }
+          - { name: tittel_a, label: Tittel (første del), type: string }
+          - { name: tittel_b, label: Tittel (andre del, i blått), type: string }
+          - { name: ingress, label: Tekst, type: text, description: "Tom linje gir nytt avsnitt." }
+          - { name: knapp, label: Knappetekst, type: string }
+          - { name: lenke, label: Lenketekst, type: string }
+      - name: kjenner
+        label: Kjenner du deg igjen?
+        type: object
+        fields:
+          - { name: etikett, label: Etikett, type: string }
+          - name: sitater
+            label: Sitater
+            type: object
+            list: { min: 3, max: 3 }
+            fields:
+              - { name: ikon, label: Ikon, type: select, options: { values: [vokst, like, logo] } }
+              - { name: a, label: Første linje, type: string }
+              - { name: b, label: Resten (rosa), type: string }
+      - name: hvorfor
+        label: Hvorfor det betyr noe
+        type: object
+        fields:
+          - { name: etikett, label: Etikett, type: string }
+          - { name: tittel, label: Tittel, type: text }
+          - { name: stor, label: Stor kursiv tekst, type: text }
+          - { name: liten, label: Liten tekst (valgfri), type: text }
+          - { name: merknad, label: Ordet ved pilen, type: string }
+      - name: arbeid
+        label: Utvalgt arbeid
+        type: object
+        fields:
+          - { name: etikett, label: Etikett, type: string }
+          - { name: tittel, label: Tittel, type: text }
+          - name: prosjekter
+            label: Prosjekter
+            type: object
+            list: { min: 2, max: 2 }
+            fields:
+              - { name: merke, label: Merkelapp, type: string }
+              - { name: navn, label: Navn, type: string }
+              - { name: tekst, label: Beskrivelse, type: text }
+              - { name: fagfelt, label: Fagfelt, type: string }
+              - { name: leveranse, label: Leveranse, type: string }
+              - { name: bilde_alt, label: Beskrivelse av bildet, type: string }
+              - { name: bilde, label: Bilde, type: string, hidden: true }
+      - name: prosess
+        label: Slik jobber vi sammen
+        type: object
+        fields:
+          - { name: etikett, label: Etikett, type: string }
+          - { name: tittel, label: Tittel, type: string }
+          - name: steg
+            label: Steg
+            type: object
+            list: { min: 5, max: 5 }
+            fields:
+              - { name: navn, label: Navn, type: string }
+              - { name: tekst, label: Tekst, type: text }
+      - name: tjenester
+        label: Måter å jobbe sammen på (forsiden)
+        type: object
+        fields:
+          - { name: etikett, label: Etikett, type: string }
+          - { name: tittel, label: Tittel, type: text }
+          - { name: ingress, label: Tekst, type: text }
+          - { name: usikker, label: Tekst til høyre, type: text }
+          - { name: knapp, label: Knappetekst, type: string }
+          - { name: alle, label: Lenke til tjenestesiden, type: string }
+      - name: fast
+        label: Fast designer (forsiden)
+        type: object
+        fields:
+          - { name: etikett, label: Etikett, type: string }
+          - { name: tittel, label: Tittel, type: string }
+          - { name: sporsmal, label: Spørsmål (kursiv), type: string }
+          - { name: tekst, label: Tekst, type: text }
+          - { name: knapp, label: Knappetekst, type: string }
+          - { name: rad_a, label: Diagram – rad 1, type: string }
+          - { name: rad_b, label: Diagram – rad 2, type: string }
+          - { name: bli_kjent, label: Diagram – «Bli kjent», type: string }
+          - { name: design, label: Diagram – «Design», type: string }
+          - { name: spart, label: Diagram – «Spart tid», type: string }
+          - { name: oppdrag, label: Diagram – «Oppdrag», type: string }
+      - name: om
+        label: Personen bak
+        type: object
+        fields:
+          - { name: etikett, label: Etikett, type: string }
+          - { name: tittel, label: Stor tekst, type: text, description: "Skriv *slik* rundt den blå, kursive delen." }
+          - { name: tekst, label: Avsnitt 1, type: text }
+          - { name: hvem, label: Avsnitt 2, type: text }
+          - { name: verktoy, label: Avsnitt 3, type: text }
+          - { name: illustrasjon_alt, label: Beskrivelse av illustrasjonen, type: string }
+          - { name: illustrasjon_tekst, label: Bildetekst, type: string }
+
+  - name: tjenester
+    label: Tjenester og pakker
+    type: file
+    path: content/tjenester.json
+    format: json
+    fields:
+      - { name: seo_tittel, label: Tittel i Google, type: string }
+      - { name: seo_beskrivelse, label: Beskrivelse i Google, type: text }
+      - { name: etikett, label: Etikett, type: string }
+      - { name: tittel, label: Tittel, type: text }
+      - { name: ingress, label: Ingress, type: text }
+      - { name: skala_tittel, label: Tittel over pakkeoversikten, type: string }
+      - { name: skala, label: Skala, type: string, list: true, hidden: true }
+      - { name: felles_tittel, label: «Uansett hvor vi starter» – tittel, type: string }
+      - name: felles
+        label: «Uansett hvor vi starter» – punkter
+        type: object
+        list: { min: 3, max: 3 }
+        fields:
+          - { name: tittel, label: Tittel, type: string }
+          - { name: tekst, label: Tekst, type: text }
+      - { name: usikker_tittel, label: Usikker – tittel, type: string, hidden: true }
+      - { name: usikker_tekst, label: Tekst i kontaktfeltet nederst, type: text }
+      - name: pakker
+        label: Pakker
+        type: object
+        list: true
+        fields:
+          - { name: navn, label: Navn, type: string, required: true }
+          - { name: slug, label: Adresse (støle.com/tjenester/…), type: string, required: true, pattern: { regex: "^[a-z0-9-]+$", message: "Bare små bokstaver, tall og bindestrek. Ikke æ, ø, å." } }
+          - { name: nivaa, label: Dybde (1–3, 0 = fast designer), type: number }
+          - { name: dybde, label: Hvor dypt (tekst), type: string }
+          - { name: naar, label: Når passer den?, type: string }
+          - { name: eksempler, label: Eksempler (kort), type: text }
+          - { name: seo_beskrivelse, label: Beskrivelse i Google, type: text }
+          - { name: ingress, label: Ingress på pakkesiden, type: text }
+          - { name: passer_tittel, label: «Passer for» – tittel, type: string }
+          - { name: passer, label: «Passer for» – punkter, type: string, list: true }
+          - { name: prosess_tittel, label: Prosess – tittel, type: string }
+          - name: prosess
+            label: Prosess – steg
+            type: object
+            list: true
+            fields:
+              - { name: navn, label: Navn, type: string }
+              - { name: tekst, label: Tekst, type: text }
+          - { name: leveranser_tittel, label: Leveranser – tittel, type: string }
+          - { name: leveranser, label: Leveranser, type: string, list: true }
+          - { name: forvent_tittel, label: «Dette kan du forvente» – tittel, type: string }
+          - { name: forvent, label: «Dette kan du forvente» – tekst, type: text }
+          - { name: neste, label: Tekst i kontaktfeltet nederst, type: text }
+
+  - name: site
+    label: Kontaktinfo og meny
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - { name: navn, label: Navn, type: string }
+      - { name: beskrivelse, label: Kort beskrivelse (Google), type: text }
+      - { name: epost, label: E-post (som vist), type: string }
+      - { name: epost_teknisk, label: E-post (teknisk form, xn--), type: string, description: "Samme adresse med xn--stle-hra.com. Brukes i lenker, så alle e-postprogram forstår den." }
+      - { name: virksomhet, label: Virksomhetsnavn, type: string }
+      - { name: foretaksform, label: Foretaksform, type: string }
+      - { name: orgnr, label: Org.nr., type: string }
+      - { name: adresse, label: Adresse, type: string }
+      - name: meny
+        label: Meny
+        type: object
+        list: true
+        fields:
+          - { name: tekst, label: Tekst, type: string }
+          - { name: lenke, label: Lenke, type: string }
+      - { name: knapp_meny, label: Knapp i menyen, type: string }
+      - { name: knapp_meny_kort, label: Knapp i menyen (mobil), type: string }
+      - { name: bunntekst_personvern, label: Personverntekst i bunnen, type: string }
+      - name: kontakt
+        label: Kontaktfeltet
+        type: object
+        fields:
+          - { name: etikett, label: Etikett, type: string, hidden: true }
+          - { name: tittel, label: Tittel, type: text }
+          - { name: undertittel, label: Undertittel, type: string }
+          - { name: ingress, label: Tekst, type: text }
+          - { name: epost_tittel, label: «Send en e-post», type: string }
+          - { name: epost_tekst, label: Tekst under, type: string }
+          - { name: emne, label: Emnefelt i e-posten, type: string }
+          - { name: mal_tittel, label: Mal – tittel, type: string }
+          - { name: mal_forklaring, label: Mal – forklaring, type: text }
+          - { name: mal, label: Mal – tekst, type: text }
+      - { name: url, type: string, hidden: true }
+      - { name: visningsdomene, type: string, hidden: true }
+
+  - name: personvern
+    label: Personvern
+    type: file
+    path: content/personvern.json
+    format: json
+    fields:
+      - { name: seo_tittel, label: Tittel i Google, type: string }
+      - { name: seo_beskrivelse, label: Beskrivelse i Google, type: text }
+      - { name: etikett, label: Etikett, type: string }
+      - { name: tittel, label: Tittel, type: text }
+      - { name: ingress, label: Ingress, type: text }
+      - { name: oppdatert, label: Sist oppdatert (dato), type: string }
+      - name: seksjoner
+        label: Avsnitt
+        type: object
+        list: true
+        fields:
+          - { name: tittel, label: Overskrift, type: string }
+          - { name: tekst, label: Tekst, type: text }

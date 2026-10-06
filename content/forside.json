@@ -1,0 +1,119 @@
+{
+  "seo_tittel": "STØLE – visuell identitet for lokale bedrifter",
+  "seo_beskrivelse": "Du vet hvem bedriften din er. Men vet kundene dine det? STØLE lager visuell identitet for lokale bedrifter i Tønsberg og omegn – med forståelse før design.",
+  "helt": {
+    "bilde_alt": "Fjellvidde i tåke med en gammel tømmerhytte nederst i bildet.",
+    "tittel_a": "Du vet hvem bedriften din er,",
+    "tittel_b": "men gjør kundene dine det?",
+    "ingress": "Dere gjør jobben godt, og resultatene viser det. Likevel går kundene forbi. Det de ser, holder ikke følge med det dere faktisk leverer. Gode varer selger seg selv, sier man. Det stemmer bare hvis noen får øye på dem.\n\nFor meg er visuell identitet mer enn det som er pent. Det er historien og folkene bak. Det er relasjonene dere har bygget. Det er alt det som gjør dere til akkurat dere.",
+    "knapp": "Gratis konsultasjon",
+    "lenke": "Se arbeidet"
+  },
+  "kjenner": {
+    "etikett": "Kjenner du deg igjen?",
+    "sitater": [
+      {
+        "ikon": "vokst",
+        "a": "«Vi har vokst.",
+        "b": "Uttrykket vårt har ikke vokst med oss.»"
+      },
+      {
+        "ikon": "like",
+        "a": "«Vi ser ut som alle andre i bransjen.»",
+        "b": ""
+      },
+      {
+        "ikon": "logo",
+        "a": "«Vi har en logo.",
+        "b": "Men egentlig ikke en identitet.»"
+      }
+    ]
+  },
+  "hvorfor": {
+    "etikett": "Hvorfor det betyr noe",
+    "tittel": "Når alt ser likt ut, er det vanskelig å bli lagt merke til.",
+    "stor": "Derfor er det viktigste å finne ut hvem dere egentlig er, og hva som gjør dere til akkurat dere.",
+    "liten": "",
+    "merknad": "«deg»"
+  },
+  "arbeid": {
+    "etikett": "Utvalgt arbeid",
+    "tittel": "Hvert prosjekt starter med identiteten til bedriften, ikke med logoen.",
+    "prosjekter": [
+      {
+        "merke": "Egeninitiert prosjekt",
+        "navn": "Nordhagen",
+        "tekst": "Identitet for et tenkt norsk firma innen uteromsdesign og landskap. Én kompassrose av blader bærer hele uttrykket, fra visittkort til varebil.",
+        "fagfelt": "Landskap, hage og utemiljø",
+        "leveranse": "Logo, sekundærlogo, palett, typografi og designmanual",
+        "bilde": "nordhagen",
+        "bilde_alt": "Varebil med Nordhagen-logoen, en kompassrose av blader, på mørkegrønn bakgrunn."
+      },
+      {
+        "merke": "Egeninitiert prosjekt",
+        "navn": "Bauta",
+        "tekst": "Identitet for et tenkt norsk byggfirma innen nybygg, rehabilitering og tilbygg. Én B, med den ru kanten til en bautastein, bærer hele uttrykket.",
+        "fagfelt": "Bygg og håndverk",
+        "leveranse": "Logo, sekundærlogo, palett, typografi og designmanual",
+        "bilde": "bauta",
+        "bilde_alt": "Bauta-merket: en bokstav B med en ru kant som minner om en bautastein, i mørk blått."
+      }
+    ]
+  },
+  "prosess": {
+    "etikett": "Slik jobber vi sammen",
+    "tittel": "Forstå behovet bak først. Designe etterpå.",
+    "steg": [
+      {
+        "navn": "Bli kjent",
+        "tekst": "Først setter jeg meg inn i bedriften, folkene og kundene, og finner ut hvem dere er."
+      },
+      {
+        "navn": "Finne retningen",
+        "tekst": "Vi finner det grunnleggende behovet, og hvorfor. Hva som skiller dere ut, og hva vi vil vise fram."
+      },
+      {
+        "navn": "Utvikle",
+        "tekst": "Forståelsen blir visuell, og vi bygger et system rundt identiteten."
+      },
+      {
+        "navn": "Justere",
+        "tekst": "Vi tester, justerer og reflekterer, og finner sammen ut hva som fungerer."
+      },
+      {
+        "navn": "Levere",
+        "tekst": "Du får en systematisk identitet som sikrer helhet, og som viser hvem dere er, gang på gang."
+      }
+    ]
+  },
+  "tjenester": {
+    "etikett": "Måter å jobbe sammen på",
+    "tittel": "Noen trenger ett grep. Andre trenger mer.",
+    "ingress": "Hva du og bedriften din trenger, er ikke alltid lett å vite. Noen ganger er det ikke bare en «ny logo» som trengs.\n\nDet som er viktig å forstå, er hvorfor dere trenger noe nytt, og hva dere vil oppnå med det. Det er slik jeg jobber.",
+    "usikker": "Er du usikker på akkurat hva du og bedriften din trenger? Book en gratis konsultasjon på 15 minutter, så finner vi ut av det sammen.",
+    "knapp": "Utforsk",
+    "alle": "Se alle måter å jobbe sammen på"
+  },
+  "fast": {
+    "etikett": "Fast designer",
+    "tittel": "En designer som kjenner bedriften din.",
+    "sporsmal": "Hva med et fast samarbeid?",
+    "tekst": "Du slipper å forklare bedriften fra bunnen av hver gang noe skal lages. Ikke et abonnement på billig design, men et fast samarbeid som blir bedre jo lenger det varer. Du kan komme med det du trenger, når du trenger det.",
+    "knapp": "Utforsk mer",
+    "rad_a": "Ny designer hver gang",
+    "rad_b": "Fast designer",
+    "bli_kjent": "Bli kjent",
+    "design": "Design",
+    "spart": "Spart tid",
+    "oppdrag": "Oppdrag"
+  },
+  "om": {
+    "etikett": "Personen bak",
+    "tittel": "Jeg har alltid lagt merke til hvordan ting ser ut. Jeg liker når ting henger sammen, *og når ingenting virker tilfeldig.*",
+    "tekst": "Jeg er nysgjerrig av natur, og liker å rydde i visuelt rot: finne ut hva som hører sammen, hva som kan bort, og hva som fortjener mer plass.",
+    "hvem": "Jeg heter Simen Støle Skjelland og holder til i Norges eldste by, *Tønsberg*.",
+    "verktoy": "Jeg er godt kjent med flere programmer, og du finner meg oftest i Illustrator, InDesign, Photoshop og Figma. AI er en del av verktøykassa, ikke en erstatning for vurderingene.",
+    "illustrasjon_alt": "Tre skisser av hvordan en logo ryddes: 1. Fire flater, fire uttrykk. 2. Hva hører sammen? 3. Ett system.",
+    "illustrasjon_tekst": "Slik jeg rydder i visuelt rot. «Bedriften» er et eksempel."
+  }
+}
