@@ -18,7 +18,7 @@
     },
     {
       "tittel": "Få et tydelig forslag",
-      "tekst": "Du vet hva som skal lages, og hva det koster, før noe settes i gang."
+      "tekst": "Du får vite hva som skal lages, og et prisestimat, før noe settes i gang."
     }
   ],
   "situasjoner_etikett": "Hva kan jeg hjelpe med?",
@@ -262,7 +262,7 @@
     },
     {
       "navn": "Du får et forslag",
-      "tekst": "Hva som skal lages, hvordan vi jobber, og hva det koster. Du bestemmer."
+      "tekst": "Hva som skal lages, hvordan vi jobber, og et prisestimat. Så bestemmer du."
     },
     {
       "navn": "Vi setter i gang",
