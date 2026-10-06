@@ -213,9 +213,9 @@ export const forside = (ctx, c) => {
 
     <section class="s-intro" aria-labelledby="intro-tittel">
       ${edge('wave')}
-      <div class="s-intro__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
-      <div class="s-intro__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>
       <div class="wrap s-intro__grid">
+        <div class="s-intro__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
+        <div class="s-intro__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>
         <h2 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h2>
         <hr class="rule">
         <div class="s-intro__body">${paras(c.helt.ingress)}</div>
@@ -344,11 +344,13 @@ export const forside = (ctx, c) => {
           <p>${inline(c.om.verktoy)}</p>
         </div>
       </div>
+      <div class="wrap">
+        <figure class="s-om__fig">
+          <figcaption class="s-om__figcap">${esc(c.om.illustrasjon_tekst)}</figcaption>
+          <img src="/i/rydde.svg" alt="${esc(c.om.illustrasjon_alt)}" width="358" height="141" loading="lazy">
+        </figure>
+      </div>
       <div class="s-om__glow" aria-hidden="true"></div>
-      <figure class="s-om__fig">
-        <img src="/i/rydde.svg" alt="${esc(c.om.illustrasjon_alt)}" width="358" height="141" loading="lazy">
-        <figcaption>${esc(c.om.illustrasjon_tekst)}</figcaption>
-      </figure>
     </section>
 
     ${kontakt(ctx)}`;
@@ -365,7 +367,6 @@ export const tjenesteoversikt = (ctx, t) => {
   const navn = (slug) => (t.pakker.find((p) => p.slug === slug) || {}).navn || '';
   const body = `
     <section class="s-pagehero s-svc-hero" aria-labelledby="side-tittel">
-      <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
       <div class="wrap s-pagehero__grid">
         <div class="s-pagehero__text">
           <p class="label label--caps label--blue">${esc(t.etikett)}</p>
@@ -377,7 +378,8 @@ export const tjenesteoversikt = (ctx, t) => {
             <a class="textlink" href="#kontakt">${esc(t.lenke)}</a>
           </div>
         </div>
-        <aside class="kort" aria-labelledby="kort-tittel">
+        <aside class="kort s-pagehero__side" aria-labelledby="kort-tittel">
+          <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
           <h2 class="kort__title" id="kort-tittel">${esc(t.kortfortalt_tittel)}</h2>
           <ol class="kort__list">${t.kortfortalt.map((k, i) => `<li><span class="kort__num">0${i + 1}</span><span><strong>${esc(k.tittel)}</strong> ${esc(k.tekst)}</span></li>`).join('')}</ol>
         </aside>
@@ -491,7 +493,6 @@ export const pakke = (ctx, t, p) => {
   const f = JSON.parse(fs.readFileSync(path.join(root, 'content/forside.json'), 'utf8')).fast;
   const body = `
     <section class="s-pagehero s-pagehero--pakke" aria-labelledby="side-tittel">
-      <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
       <div class="wrap s-pagehero__grid">
         <div class="s-pagehero__text">
           <nav class="crumbs" aria-label="Brødsmuler"><ol><li><a href="/">Forside</a></li><li><a href="/tjenester/">Tjenester</a></li><li><span aria-current="page">${esc(p.navn)}</span></li></ol></nav>
@@ -503,7 +504,8 @@ export const pakke = (ctx, t, p) => {
             <a class="textlink" href="#prosess">Slik foregår det</a>
           </div>
         </div>
-        <div class="s-pagehero__art">
+        <div class="s-pagehero__art s-pagehero__side">
+          <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
           ${p.nivaa > 0
             ? `${dybdeIkon(p.nivaa, 'dybde--xl dybde--wine')}<p class="s-pagehero__caption"><strong>Hvor dypt:</strong> ${esc(p.dybde)}</p>`
             : `<div class="s-pagehero__tl">${tidslinje(f)}</div>`}
