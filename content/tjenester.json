@@ -2,33 +2,51 @@
   "seo_tittel": "Måter å jobbe sammen på – STØLE",
   "seo_beskrivelse": "Friskt pust, Grunnmuren, Total eller en fast designer. Se hva som skiller pakkene, hvem de passer for, og hva du får.",
   "etikett": "Måter å jobbe sammen på",
-  "tittel": "Noen trenger ett grep. Andre trenger mer.",
-  "ingress": "Det er ikke størrelsen på bedriften som avgjør hva dere trenger, men hvor dypt problemet sitter. Halvsirklene viser hvor langt inn i bedriften vi går. Jo mer som er fylt, jo dypere graver vi.",
-  "skala_tittel": "Hvor dypt går vi?",
-  "skala": [
-    "Uttrykket",
-    "Identiteten",
-    "Markedet",
-    "Menneskene",
-    "Bedriften"
-  ],
-  "felles_tittel": "Uansett hvor vi starter",
-  "felles": [
+  "tittel": "Noen trenger ett grep. *Andre trenger mer.*",
+  "ingress": "Det er ikke størrelsen på bedriften som avgjør hva dere trenger, men hvor dypt problemet sitter. Her ser du de fire måtene vi kan jobbe sammen på, og hvordan du kommer i gang.",
+  "knapp": "Finn riktig nivå",
+  "lenke": "Ta en gratis prat",
+  "kortfortalt_tittel": "Kort fortalt",
+  "kortfortalt": [
     {
-      "tittel": "Forståelse før design",
-      "tekst": "Selv det minste oppdraget starter med at jeg setter meg inn i bedriften. Ellers blir det bare pynt."
+      "tittel": "Send en e-post",
+      "tekst": "Fortell kort om bedriften og hva som skurrer."
     },
     {
-      "tittel": "Begrunnede valg",
-      "tekst": "Du får vite hvorfor ting ser ut som de gjør, ikke bare at det ser bra ut."
+      "tittel": "Ta en prat på 15 minutter",
+      "tekst": "Gratis og uforpliktende. Vi finner ut hva dere egentlig trenger."
     },
     {
-      "tittel": "Filer du faktisk kan bruke",
-      "tekst": "Alt leveres ryddig og i formatene du trenger, til skjerm, trykk og skilt."
+      "tittel": "Få et tydelig forslag",
+      "tekst": "Du vet hva som skal lages, og hva det koster, før noe settes i gang."
     }
   ],
-  "usikker_tittel": "Usikker på hva som passer?",
-  "usikker_tekst": "Det er helt vanlig. Mange vet at noe skurrer, men ikke hva. Ta en gratis prat på 15 minutter, så finner vi ut av det sammen. Er det ikke meg du trenger, sier jeg det.",
+  "situasjoner_etikett": "Hva kan jeg hjelpe med?",
+  "situasjoner": [
+    {
+      "sitat": "«Vi trenger en oppfriskning.»",
+      "tekst": "En logo, meny, et skilt eller en presentasjon som har gått ut på dato.",
+      "pakke": "friskt-pust"
+    },
+    {
+      "sitat": "«Vi starter noe nytt.»",
+      "tekst": "Ny bedrift eller nytt tilbud som skal se riktig ut fra første dag.",
+      "pakke": "grunnmuren"
+    },
+    {
+      "sitat": "«Kundene forstår oss ikke.»",
+      "tekst": "Dere vil tenke nytt om hvem dere er, og hvordan det merkes, også på nett.",
+      "pakke": "total"
+    },
+    {
+      "sitat": "«Vi trenger design hele tiden.»",
+      "tekst": "Plakater, innlegg og trykksaker, uten å forklare bedriften på nytt hver gang.",
+      "pakke": "fast-designer"
+    }
+  ],
+  "velger_etikett": "Tre nivåer",
+  "velger_tittel": "Hvor dypt skal vi gå?",
+  "velger_ingress": "Halvsirkelen viser hvor langt inn i bedriften vi går. Jo mer som er fylt, jo dypere graver vi. Velg et nivå for å se hva det innebærer.",
   "pakker": [
     {
       "slug": "friskt-pust",
@@ -230,5 +248,28 @@
       "forvent": "Ikke et abonnement på billig design, men et fast samarbeid med en som kjenner bedriften. Du får jevn kvalitet, kortere vei fra idé til ferdig resultat, og en profil som holder seg samlet over tid.",
       "neste": "Fortell meg kort hva slags oppdrag dere har i løpet av et år. Så finner vi ut om et fast samarbeid lønner seg for dere."
     }
-  ]
+  ],
+  "reise_etikett": "Slik kommer vi i gang",
+  "reise_tittel": "Fra første e-post til ferdig resultat.",
+  "reise": [
+    {
+      "navn": "Du skriver til meg",
+      "tekst": "Noen få setninger holder. Hvem dere er, og hva som skurrer."
+    },
+    {
+      "navn": "Vi tar en prat",
+      "tekst": "15 minutter, gratis. Jeg spør mye og sier ærlig hva jeg tror dere trenger."
+    },
+    {
+      "navn": "Du får et forslag",
+      "tekst": "Hva som skal lages, hvordan vi jobber, og hva det koster. Du bestemmer."
+    },
+    {
+      "navn": "Vi setter i gang",
+      "tekst": "Vi starter med å bli kjent. Først forstå, så designe."
+    }
+  ],
+  "usikker_tekst": "Første steg er en kort e-post. Er du usikker på hvilket nivå som passer, er det helt greit. Det finner vi ut av sammen, og er det ikke meg du trenger, sier jeg det.",
+  "kontakt_tittel": "Klar for første steg?",
+  "kontakt_undertittel": "Send en kort e-post."
 }

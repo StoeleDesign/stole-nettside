@@ -13,8 +13,8 @@ const inline = (s = '') => esc(s).replace(/\*(.+?)\*/g, '<em>$1</em>').replace(/
 const paras = (s = '', cls = '') => String(s).split(/\n\s*\n/).filter(Boolean)
   .map((p) => `<p${cls ? ` class="${cls}"` : ''}>${inline(p.trim())}</p>`).join('');
 const svg = (name) => fs.readFileSync(path.join(root, 'src/i', name), 'utf8');
-const mailto = (site, body) => {
-  const q = [`subject=${encodeURIComponent(site.kontakt.emne)}`];
+const mailto = (site, body, subject) => {
+  const q = [`subject=${encodeURIComponent(subject || site.kontakt.emne)}`];
   if (body) q.push(`body=${encodeURIComponent(body)}`);
   return `mailto:${site.epost_teknisk}?${q.join('&')}`;
 };
@@ -145,14 +145,14 @@ const footer = ({ site }) => `<footer class="site-footer">
   </footer>`;
 
 /* ---------- Delte komponenter ---------- */
-const kontakt = ({ site }, { lead, id = 'kontakt' } = {}) => {
+const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt' } = {}) => {
   const k = site.kontakt;
   return `<section class="s-kontakt" id="${id}" aria-labelledby="${id}-tittel">
     <div class="s-kontakt__mark" aria-hidden="true"><img src="/i/mark-deep.svg" alt="" width="499" height="937" loading="lazy"></div>
     <div class="wrap s-kontakt__grid">
       <div class="s-kontakt__head">
-        <h2 class="display display--xl" id="${id}-tittel">${inline(k.tittel)}</h2>
-        <p class="s-kontakt__sub">${esc(k.undertittel)}</p>
+        <h2 class="display display--xl" id="${id}-tittel">${inline(tittel || k.tittel)}</h2>
+        <p class="s-kontakt__sub">${esc(undertittel || k.undertittel)}</p>
         <p class="lead">${inline(lead || k.ingress)}</p>
       </div>
       <div class="s-kontakt__ways">
@@ -253,7 +253,7 @@ export const forside = (ctx, c) => {
         <div class="distill" aria-hidden="true">
           <div class="distill__grid">${Array.from({ length: 52 }, (_, i) => `<span${i === 21 ? ' class="is-deg"' : ''}></span>`).join('')}</div>
           <p class="distill__note">${esc(c.hvorfor.merknad)}</p>
-          <img class="distill__arrow" src="/i/pil-deg.svg" alt="" width="263" height="152" loading="lazy">
+          <svg class="distill__arrow" width="263" height="152" viewBox="0 0 263.057 152.425" fill="none" aria-hidden="true" focusable="false"><path class="distill__arrow-path" pathLength="1" d="M263 0.496C263 0.496 174.064 10.91 125 37.474C74.819 64.642 26.715 119.328 7.994 142.32" stroke="#5A1A26"/><g class="distill__arrow-head"><path d="M7.994 142.32C4.243 146.926 1.672 150.26 0.5 151.846L16.5 149.496Z M0.5 135.996V151.846C1.672 150.26 4.243 146.926 7.994 142.32Z" fill="#5A1A26"/><path d="M7.994 142.32L16.5 149.496L0.5 151.846V135.996Z" stroke="#5A1A26"/></g></svg>
         </div>
       </div>
     </section>
@@ -344,6 +344,7 @@ export const forside = (ctx, c) => {
           <p>${inline(c.om.verktoy)}</p>
         </div>
       </div>
+      <div class="s-om__glow" aria-hidden="true"></div>
       <figure class="s-om__fig">
         <img src="/i/rydde.svg" alt="${esc(c.om.illustrasjon_alt)}" width="358" height="141" loading="lazy">
         <figcaption>${esc(c.om.illustrasjon_tekst)}</figcaption>
@@ -356,72 +357,132 @@ export const forside = (ctx, c) => {
 
 /* ---------- Tjenester: oversikt ---------- */
 export const tjenesteoversikt = (ctx, t) => {
+  const { site } = ctx;
   const pakker = t.pakker.filter((p) => p.nivaa > 0);
   const fast = t.pakker.find((p) => p.slug === 'fast-designer');
   const f = JSON.parse(fs.readFileSync(path.join(root, 'content/forside.json'), 'utf8')).fast;
+  const anker = (slug) => (slug === 'fast-designer' ? '#fast-designer' : `#valg-${slug}`);
+  const navn = (slug) => (t.pakker.find((p) => p.slug === slug) || {}).navn || '';
   const body = `
-    <section class="s-pagehero" aria-labelledby="side-tittel">
+    <section class="s-pagehero s-svc-hero" aria-labelledby="side-tittel">
       <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
       <div class="wrap s-pagehero__grid">
         <div class="s-pagehero__text">
           <p class="label label--caps label--blue">${esc(t.etikett)}</p>
-          <h1 class="display display--hero" id="side-tittel">${inline(t.tittel)}</h1>
+          <h1 class="display display--hero s-svc-hero__title" id="side-tittel">${inline(t.tittel)}</h1>
           <hr class="rule">
           <p class="s-pagehero__lead">${inline(t.ingress)}</p>
+          <div class="s-intro__actions">
+            <a class="pill" href="#nivaa">${esc(t.knapp)}</a>
+            <a class="textlink" href="#kontakt">${esc(t.lenke)}</a>
+          </div>
         </div>
-        <nav class="depth-index" aria-label="Pakkene">
-          <p class="depth-index__title">${esc(t.skala_tittel)}</p>
-          <ol>${pakker.map((p) => `<li><a href="#${p.slug}">${dybdeIkon(p.nivaa)}<span class="depth-index__name">${esc(p.navn)}</span><span class="depth-index__depth">${esc(p.dybde)}</span></a></li>`).join('')}</ol>
-        </nav>
+        <aside class="kort" aria-labelledby="kort-tittel">
+          <h2 class="kort__title" id="kort-tittel">${esc(t.kortfortalt_tittel)}</h2>
+          <ol class="kort__list">${t.kortfortalt.map((k, i) => `<li><span class="kort__num">0${i + 1}</span><span><strong>${esc(k.tittel)}</strong> ${esc(k.tekst)}</span></li>`).join('')}</ol>
+        </aside>
       </div>
     </section>
 
-    <section class="s-pakker" aria-label="Pakkene">
-      ${edge('soft')}
+    <section class="s-sit" aria-labelledby="sit-tittel">
+      ${edge('sag')}
       <div class="wrap">
-        <ol class="pakkeliste">
-          ${pakker.map((p, i) => `<li class="pakkerad" id="${p.slug}">
-            <span class="step__num">0${i + 1}</span>
-            <div class="pakkerad__head">
-              ${dybdeIkon(p.nivaa, 'dybde--wine')}
-              <h2 class="pakkerad__name">${esc(p.navn)}</h2>
-              <p class="pakkerad__depth">Hvor dypt: ${esc(p.dybde)}</p>
-            </div>
-            <div class="pakkerad__body">
-              <p class="pakkerad__when">${esc(p.naar)}</p>
-              <p>${esc(p.ingress)}</p>
-              <p class="pakkerad__ex">${esc(p.eksempler)}</p>
-            </div>
-            <a class="pill pill--wine-solid" href="/tjenester/${p.slug}/" aria-label="Les mer om ${esc(p.navn)}">Les mer ${chevron}</a>
-          </li>`).join('')}
-        </ol>
+        <h2 class="label label--caps label--center label--blue" id="sit-tittel">${esc(t.situasjoner_etikett)}</h2>
+        <ul class="sit">
+          ${t.situasjoner.map((x) => `<li><a class="sit__item" href="${anker(x.pakke)}" data-open="${esc(x.pakke)}">
+            <span class="sit__quote">${esc(x.sitat)}</span>
+            <span class="sit__text">${esc(x.tekst)}</span>
+            <span class="sit__go">${esc(navn(x.pakke))} ${chevron}</span>
+          </a></li>`).join('')}
+        </ul>
       </div>
     </section>
 
-    <section class="s-fast s-fast--page" aria-labelledby="fast-tittel">
+    <section class="s-velger" id="nivaa" aria-labelledby="velger-tittel">
+      ${edge('peak')}
+      <div class="wrap">
+        <div class="s-velger__head">
+          <div>
+            <p class="label">${esc(t.velger_etikett)}</p>
+            <h2 class="display" id="velger-tittel">${inline(t.velger_tittel)}</h2>
+          </div>
+          <p class="s-velger__intro">${inline(t.velger_ingress)}</p>
+        </div>
+        <div class="velger" data-velger>
+          ${pakker.map((p, i) => `<div class="velger__item" data-slug="${esc(p.slug)}">
+            <h3 class="velger__h">
+              <button class="velger__btn" type="button" id="vb-${esc(p.slug)}" aria-expanded="${i === 1 ? 'true' : 'false'}" aria-controls="valg-${esc(p.slug)}">
+                <span class="velger__num">0${i + 1}</span>
+                <span class="velger__name">${esc(p.navn)}</span>
+                <span class="velger__when">${esc(p.naar)}</span>
+                <img class="velger__mini" src="/i/dybde-${Math.min(3, p.nivaa)}.svg" alt="" width="176" height="88">
+                <span class="velger__plus" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="velger__panel" id="valg-${esc(p.slug)}" role="region" aria-labelledby="vb-${esc(p.slug)}">
+              <div class="velger__art">
+                <img class="dybde dybde--xl" src="/i/dybde-${Math.min(3, p.nivaa)}.svg" alt="" width="176" height="88">
+                <p class="velger__depth"><strong>Hvor dypt:</strong> ${esc(p.dybde)}</p>
+              </div>
+              <div class="velger__body">
+                <p class="velger__lead">${inline(p.ingress)}</p>
+                <div class="velger__cols">
+                  <div>
+                    <h4 class="velger__h4">${esc(p.passer_tittel)}</h4>
+                    <ul class="dots">${(p.passer || []).map((x) => `<li>${inline(x)}</li>`).join('')}</ul>
+                  </div>
+                  <div>
+                    <h4 class="velger__h4">${esc(p.leveranser_tittel)}</h4>
+                    <ul class="dots">${(p.leveranser || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+                  </div>
+                </div>
+                <h4 class="velger__h4">${esc(p.prosess_tittel)}</h4>
+                <ol class="mini-steps">${(p.prosess || []).map((x) => `<li>${esc(x.navn)}</li>`).join('')}</ol>
+                <div class="velger__actions">
+                  <a class="pill pill--wine-solid" href="/tjenester/${esc(p.slug)}/">Les mer om ${esc(p.navn)} ${chevron}</a>
+                  <a class="textlink" href="${mailto(site, '', `Spørsmål om ${p.navn}`)}">Spør om ${esc(p.navn)}</a>
+                </div>
+              </div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="s-fast s-fast--page" id="fast-designer" aria-labelledby="fast-tittel">
       <div class="wrap s-fast__grid">
         <div>
-          <p class="label label--caps label--wine">${esc(fast.navn)}</p>
+          <p class="label label--caps label--wine">Eller: ${esc(fast.navn.toLowerCase())}</p>
           <h2 class="display" id="fast-tittel">${esc(f.tittel)}</h2>
           <p class="s-fast__q">${esc(fast.naar)}</p>
           <p class="s-fast__text">${esc(fast.ingress)}</p>
-          <a class="pill pill--wine" href="/tjenester/${fast.slug}/">Utforsk mer</a>
+          <div class="s-intro__actions s-fast__actions">
+            <a class="pill pill--wine" href="/tjenester/${fast.slug}/">Les mer om fast designer</a>
+            <a class="textlink" href="${mailto(site, '', 'Spørsmål om fast designer')}">Spør om et fast samarbeid</a>
+          </div>
         </div>
         ${tidslinje(f)}
       </div>
     </section>
 
-    <section class="s-felles" aria-labelledby="felles-tittel">
+    <section class="s-reise" aria-labelledby="reise-tittel">
       <div class="wrap">
-        <h2 class="label label--caps label--center label--blue" id="felles-tittel">${esc(t.felles_tittel)}</h2>
-        <ul class="moments moments--text">
-          ${t.felles.map((x) => `<li class="moment"><h3>${esc(x.tittel)}</h3><p>${inline(x.tekst)}</p></li>`).join('')}
-        </ul>
+        <p class="label label--caps label--blue">${esc(t.reise_etikett)}</p>
+        <h2 class="display" id="reise-tittel">${inline(t.reise_tittel)}</h2>
+        <ol class="reise" data-draw>
+          ${t.reise.map((r, i) => `<li class="reise__step">
+            <span class="reise__dot" aria-hidden="true"></span>
+            <span class="step__num">0${i + 1}</span>
+            <h3 class="step__title">${esc(r.navn)}</h3>
+            <p class="step__text">${inline(r.tekst)}</p>
+            ${i === 0 ? `<a class="textlink reise__go" href="#kontakt">Til e-postadressen</a>` : ''}
+          </li>`).join('')}
+        </ol>
       </div>
     </section>
 
-    ${kontakt(ctx, { lead: t.usikker_tekst })}`;
-  return layout(ctx, { title: t.seo_tittel, description: t.seo_beskrivelse, path: '/tjenester/', body, bodyClass: 'page-sub' });
+    ${kontakt(ctx, { lead: t.usikker_tekst, tittel: t.kontakt_tittel, undertittel: t.kontakt_undertittel })}`;
+  return layout(ctx, { title: t.seo_tittel, description: t.seo_beskrivelse, path: '/tjenester/', body, bodyClass: 'page-sub page-svc' });
 };
 
 /* ---------- Tjenester: enkeltpakke ---------- */

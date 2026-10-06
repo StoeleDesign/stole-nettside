@@ -76,17 +76,78 @@
     });
   });
 
-  /* ---------- Diskré inntoning når seksjoner kommer til syne ---------- */
+  /* ---------- Dybde-velgeren på tjenestesiden (faner på desktop, trekkspill på mobil) ---------- */
+  const velger = document.querySelector('[data-velger]');
+  if (velger) {
+    const items = [...velger.querySelectorAll('.velger__item')];
+    const btns = items.map((it) => it.querySelector('.velger__btn'));
+    const panels = items.map((it) => it.querySelector('.velger__panel'));
+    const desktop = window.matchMedia('(min-width: 901px)');
+    const isOpen = (i) => btns[i].getAttribute('aria-expanded') === 'true';
+    const setOpen = (idx, { animate = true, toggle = false } = {}) => {
+      items.forEach((_, i) => {
+        const was = isOpen(i);
+        const next = i === idx ? (toggle && !desktop.matches ? !was : true) : false;
+        btns[i].setAttribute('aria-expanded', String(next));
+        panels[i].hidden = !next;
+        if (next && !was && animate && !reduce.matches) {
+          panels[i].classList.remove('is-entering');
+          void panels[i].offsetWidth; // start animasjonen på nytt
+          panels[i].classList.add('is-entering');
+        }
+      });
+    };
+    velger.classList.add('is-enhanced');
+    const start = Math.max(0, btns.findIndex((b) => b.getAttribute('aria-expanded') === 'true'));
+    setOpen(start, { animate: false });
+    btns.forEach((b, i) => b.addEventListener('click', () => setOpen(i, { toggle: true })));
+    // Piltaster mellom nivåene (desktop)
+    velger.addEventListener('keydown', (e) => {
+      const i = btns.indexOf(document.activeElement);
+      if (i < 0 || !['ArrowDown', 'ArrowUp'].includes(e.key)) return;
+      e.preventDefault();
+      const n = (i + (e.key === 'ArrowDown' ? 1 : btns.length - 1)) % btns.length;
+      btns[n].focus();
+      if (desktop.matches) setOpen(n);
+    });
+    desktop.addEventListener('change', () => { if (desktop.matches && !btns.some((_, i) => isOpen(i))) setOpen(start, { animate: false }); });
+
+    const openSlug = (slug) => {
+      const i = items.findIndex((it) => it.dataset.slug === slug);
+      if (i < 0) return false;
+      setOpen(i);
+      const target = desktop.matches ? velger : btns[i];
+      target.scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+      btns[i].focus({ preventScroll: true });
+      return true;
+    };
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#valg-"]');
+      if (!a) return;
+      const slug = a.getAttribute('href').slice(6);
+      if (openSlug(slug)) { e.preventDefault(); history.replaceState(null, '', `#valg-${slug}`); }
+    });
+    if (location.hash.startsWith('#valg-')) openSlug(location.hash.slice(6));
+    window.addEventListener('hashchange', () => { if (location.hash.startsWith('#valg-')) openSlug(location.hash.slice(6)); });
+  }
+
+  /* ---------- Diskré inntoning når innhold kommer til syne ---------- */
   if (!reduce.matches && 'IntersectionObserver' in window) {
-    const targets = document.querySelectorAll('main .wrap > *, .case, .s-om__fig');
+    const groupSel = '.moments, .steps, .tiers, .sit, .kort__list, .reise';
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-    targets.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top > window.innerHeight) { el.classList.add('reveal'); io.observe(el); }
+    const below = (el) => el.getBoundingClientRect().top > window.innerHeight;
+    const watch = (el, cls = 'reveal') => { if (below(el)) { el.classList.add(cls); io.observe(el); } };
+    document.querySelectorAll(groupSel).forEach((g) => {
+      watch(g, 'reveal-group');
+      [...g.children].forEach((child, i) => { child.style.setProperty('--i', String(i)); watch(child); });
     });
+    document.querySelectorAll('main .wrap > *, .case, .s-om__fig').forEach((el) => {
+      if (!el.matches(groupSel) && !el.closest('.velger')) watch(el);
+    });
+    document.querySelectorAll('.velger__item').forEach((el) => watch(el.querySelector('.velger__h')));
   }
 })();
