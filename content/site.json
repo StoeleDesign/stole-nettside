@@ -9,25 +9,39 @@
   "foretaksform": "enkeltpersonforetak",
   "orgnr": "938 558 000",
   "adresse": "Husvikveien 101B, 3113 Tønsberg",
+  "instagram": "bystoleskjelland",
   "meny": [
-    { "tekst": "Arbeid", "lenke": "/#arbeid" },
-    { "tekst": "Prosess", "lenke": "/#prosess" },
-    { "tekst": "Tjenester", "lenke": "/tjenester/" },
-    { "tekst": "Om", "lenke": "/#om" }
+    {
+      "tekst": "Arbeid",
+      "lenke": "/#arbeid"
+    },
+    {
+      "tekst": "Prosess",
+      "lenke": "/#prosess"
+    },
+    {
+      "tekst": "Tjenester",
+      "lenke": "/tjenester/"
+    },
+    {
+      "tekst": "Om",
+      "lenke": "/#om"
+    }
   ],
-  "knapp_meny": "Gratis konsultasjon",
-  "knapp_meny_kort": "15 minutter",
+  "knapp_meny": "Gratis prat (15 min)",
+  "knapp_meny_kort": "Gratis prat",
   "bunntekst_personvern": "Ingen sporing, ingen informasjonskapsler.",
   "kontakt": {
-    "etikett": "15 minutter",
+    "etikett": "Gratis prat",
     "tittel": "Ikke helt sikker på\nhva du trenger?",
     "undertittel": "Da starter vi der.",
     "ingress": "En kort prat, gratis og uforpliktende. Jeg sier ærlig hva jeg tror kan hjelpe, og om jeg er riktig person til jobben.",
     "epost_tittel": "Send en e-post",
     "epost_tekst": "Så finner vi et tidspunkt som passer deg.",
-    "emne": "Gratis konsultasjon",
+    "emne": "Gratis prat",
     "mal_tittel": "Vet ikke hva du skal skrive?",
     "mal_forklaring": "Kopier teksten under, fyll inn det som passer, og send den. Kortfattet er helt greit.",
-    "mal": "Hei Simen!\n\nJeg heter [navn] og driver [bedrift].\n\nVi trenger hjelp med [kort om hva dere trenger].\n\nDet viktigste for oss er [det dere vil oppnå].\n\nNår passer det med en prat på 15 minutter?\n\nHilsen\n[navn]\n[telefonnummer]"
+    "mal": "Hei Simen!\n\nJeg heter [navn] og driver [bedrift].\n\nVi trenger hjelp med [kort om hva dere trenger].\n\nDet viktigste for oss er [det dere vil oppnå].\n\nNår passer det med en prat på 15 minutter?\n\nHilsen\n[navn]\n[telefonnummer]",
+    "reserve": "Åpnes ikke e-posten? Kopier adressen og lim den inn i e-postprogrammet ditt."
   }
 }

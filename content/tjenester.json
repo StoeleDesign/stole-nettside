@@ -5,7 +5,7 @@
   "tittel": "Noen trenger ett grep. *Andre trenger mer.*",
   "ingress": "Det er ikke størrelsen på bedriften som avgjør hva dere trenger, men hvor dypt problemet sitter. Her ser du de fire måtene vi kan jobbe sammen på, og hvordan du kommer i gang.",
   "knapp": "Finn riktig nivå",
-  "lenke": "Ta en gratis prat",
+  "lenke": "Gratis prat (15 min)",
   "kortfortalt_tittel": "Kort fortalt",
   "kortfortalt": [
     {
@@ -54,7 +54,7 @@
       "nivaa": 1,
       "dybde": "uttrykket",
       "naar": "Når én ting skal bli riktig.",
-      "eksempler": "Ny logo, en oppfriskning, illustrasjoner, meny, skilt eller presentasjon.",
+      "eksempler": "En ny eller oppfrisket logo, illustrasjoner, en meny, et skilt eller en presentasjon.",
       "seo_beskrivelse": "Friskt pust er for bedrifter som trenger én ting gjort riktig: en logo, en meny, et skilt eller en presentasjon som passer resten av bedriften.",
       "ingress": "Noen ganger er det ikke hele identiteten som skurrer, men én ting. En logo som har gått ut på dato, en meny som ikke ligner resten av stedet, eller et skilt som ikke gjør jobben. Friskt pust er for de oppdragene.",
       "passer_tittel": "Passer for deg som",
@@ -65,6 +65,7 @@
         "vil teste et samarbeid med et avgrenset oppdrag først"
       ],
       "prosess_tittel": "Slik foregår det",
+      "prosess_overskrift": "Ett tydelig oppdrag, fra prat til ferdige filer.",
       "prosess": [
         {
           "navn": "Kort samtale",
@@ -113,6 +114,7 @@
         "vil at ansatte og samarbeidspartnere skal kunne bruke profilen riktig"
       ],
       "prosess_tittel": "Slik foregår det",
+      "prosess_overskrift": "Først retningen, så systemet.",
       "prosess": [
         {
           "navn": "Bli kjent",
@@ -152,7 +154,7 @@
       "slug": "total",
       "navn": "Total",
       "nivaa": 3,
-      "dybde": "hele veien fra bedriften",
+      "dybde": "helt inn til kjernen av bedriften",
       "naar": "Når dere vil tenke nytt om hvordan dere fremstår.",
       "eksempler": "Posisjonering, identitet, nettside og en struktur fra bunnen av.",
       "seo_beskrivelse": "Total er for bedrifter som vil tenke helt nytt: posisjonering, identitet, nettside og tone, bygget fra bunnen av.",
@@ -165,6 +167,7 @@
         "ønsker en sparringspartner som tenker strategi, ikke bare utseende"
       ],
       "prosess_tittel": "Slik foregår det",
+      "prosess_overskrift": "Fra innsikt til en identitet som holder.",
       "prosess": [
         {
           "navn": "Innsikt",
@@ -217,6 +220,7 @@
         "vil ha én person å spørre når noe visuelt dukker opp"
       ],
       "prosess_tittel": "Slik foregår det",
+      "prosess_overskrift": "Bli kjent én gang. Jobb sammen lenge.",
       "prosess": [
         {
           "navn": "Bli kjent én gang",

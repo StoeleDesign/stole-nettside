@@ -136,6 +136,12 @@ section, footer { position: relative; }
 .menu-btn[aria-expanded="true"] .menu-btn__icon::before { transform: translateY(6px) rotate(45deg); }
 .menu-btn[aria-expanded="true"] .menu-btn__icon::after { transform: translateY(-6px) rotate(-45deg); }
 .mobile-menu { border-top: 1px solid var(--line); padding: 8px var(--gutter) 28px; background: var(--wine-nav); }
+/* Menyen kan alltid rulles, også i liggende mobil og ved stor zoom */
+.mobile-menu { max-height: calc(100vh - var(--header-h)); max-height: calc(100dvh - var(--header-h)); overflow-y: auto; overscroll-behavior: contain; }
+html.menu-open { overflow: hidden; }
+/* Uten JavaScript kan menyen ikke åpnes – da vises ikke knappen (navigasjonen finnes i bunnen) */
+@media (scripting: none) { .menu-btn { display: none !important; } }
+html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40; background: rgba(20, 6, 9, .55); }
 .mobile-menu ul { list-style: none; margin: 0; padding: 0; }
 .mobile-menu li + li { border-top: 1px solid rgba(122, 55, 67, .6); }
 .mobile-menu a:not(.pill) { position: relative; display: block; padding: 14px 2px; font-family: var(--serif); font-size: 1.75rem; line-height: 1.2; text-decoration: none; }
@@ -278,6 +284,7 @@ section, footer { position: relative; }
 .s-kontakt .lead { margin-top: 26px; max-width: 27em; }
 .s-kontakt__h3 { font-size: 1.0625rem; font-weight: 600; }
 .s-kontakt__muted { color: var(--rose); font-size: 1rem; margin-top: 4px; }
+.s-kontakt__reserve { font-size: .875rem; margin-top: 14px; max-width: 34em; }
 .s-kontakt__addr { margin: 14px 0 20px; font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 1.5rem + 1.6vw, 2.88rem); line-height: 1.05; letter-spacing: -0.01em; overflow-wrap: anywhere; }
 .s-kontakt__addr a { text-decoration: none; }
 .s-kontakt__addr a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
@@ -297,7 +304,7 @@ section, footer { position: relative; }
 .site-footer__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto; gap: 40px clamp(32px, 5vw, 72px); align-items: start; }
 .site-footer__logo { display: block; max-width: 420px; }
 .facts--footer { margin-top: 6px; font-size: .9375rem; }
-.facts--footer a { text-decoration: none; }
+.facts--footer a { text-decoration: none; display: inline-block; padding-block: 4px; margin-block: -4px; }
 .facts--footer a:hover { text-decoration: underline; }
 .site-footer__nav ul { list-style: none; margin: 6px 0 0; padding: 0; }
 .site-footer__nav a { display: inline-block; padding: 4px 0; text-decoration: none; }
@@ -315,7 +322,7 @@ section, footer { position: relative; }
 
 .crumbs ol { display: flex; flex-wrap: wrap; gap: 4px 0; list-style: none; margin: 0 0 22px; padding: 0; font-family: var(--serif); font-size: var(--fs-label); }
 .crumbs li + li::before { content: "/"; margin: 0 10px; opacity: .55; }
-.crumbs a { color: var(--blue); text-decoration: none; }
+.crumbs a { color: var(--blue); text-decoration: none; display: inline-block; padding-block: 5px; margin-block: -5px; }
 .crumbs a:hover { text-decoration: underline; }
 .dybde--xl { width: min(100%, 300px); background: var(--wine); padding: 18px 18px 0; border-radius: 160px 160px 0 0; }
 .s-pagehero__caption { margin-top: 14px; font-size: .9375rem; color: var(--ink-muted); }
@@ -378,6 +385,11 @@ section, footer { position: relative; }
   .nav__list { gap: 22px; }
   .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .steps--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Tre pakkenavn side om side: mindre titler så «Grunnmuren» og «Total» ikke møtes */
+@media (min-width: 901px) and (max-width: 1080px) {
+  .tier__name { font-size: clamp(2rem, 1rem + 2.9vw, 3.25rem); }
 }
 
 @media (max-width: 900px) {
@@ -477,8 +489,26 @@ section, footer { position: relative; }
 
 /* ---------- Utskrift ---------- */
 @media print {
-  .site-header, .skip, .s-hero__img, .edge, .s-kontakt__mark, .s-intro__mark, .s-intro__panel { display: none !important; }
-  body, section, footer { background: #fff !important; color: #000 !important; }
+  @page { margin: 16mm 14mm; }
+  .site-header, .skip, .s-hero__img, .edge, .s-kontakt__mark, .s-intro__mark, .s-intro__panel, .s-om__glow, .s-pagehero__panel,
+  .distill, .site-footer__logo, .site-footer__nav, .btn-row, .s-kontakt__ways .btn, .tmpl, .pill, .menu-btn, .mobile-menu,
+  .s-prosess__band, .velger__plus, [data-copy-status] { display: none !important; }
+  *, *::before, *::after { background: transparent !important; color: #000 !important; box-shadow: none !important; text-shadow: none !important;
+    filter: none !important; animation: none !important; transition: none !important; border-color: #b9b9b9 !important; }
+  html, body { font-size: 11pt; }
+  .reveal, .reveal-group, .js .reveal, .reveal *, .is-in { opacity: 1 !important; transform: none !important; }
+  .s-kontakt { -webkit-mask: none !important; mask: none !important; }
+  section, .s-kontakt, .site-footer, [class*="s-pagehero"] { padding-top: 14pt !important; padding-bottom: 14pt !important; margin: 0 !important; min-height: 0 !important; }
+  .s-hero { min-height: 0 !important; height: auto !important; padding: 0 0 10pt !important; }
+  .s-hero__logo img { width: 60mm !important; height: auto !important; }
+  .s-hero__logo { position: static !important; margin: 0 !important; }
+  .wrap { max-width: none !important; padding: 0 !important; }
+  .velger__panel[hidden] { display: block !important; }
+  .tier, .case, .step, .moment, .kort li, .reise li, .sit li, figure, .tl { break-inside: avoid; }
+  h1, h2, h3, .label { break-after: avoid; }
+  img, svg { max-width: 100% !important; }
+  .case__pic img { max-height: 70mm; width: auto !important; }
+  a[href^="mailto:"]::after { content: none; }
 }
 
 /* Leveranser: vanlig tekst i rammer (ikke versaler – lettere å lese) */
@@ -651,6 +681,7 @@ section, footer { position: relative; }
   .s-hero__img img { animation: heroSettle 2s var(--ease) both; }
   .s-hero__logo { animation: rise 1.2s var(--ease) .25s both; }
   .s-om__glow { animation: drift 16s ease-in-out infinite alternate; }
+  .js .s-om:not(.is-visible) .s-om__glow { animation-play-state: paused; }
   @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; animation-timing-function: var(--ease); }
   .site-header { view-transition-name: topptekst; }

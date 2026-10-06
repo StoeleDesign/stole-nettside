@@ -30,20 +30,32 @@
   }, { passive: true });
   header?.addEventListener('focusin', () => header.classList.remove('is-hidden'));
 
-  /* ---------- Mobilmeny ---------- */
+  /* ---------- Mobilmeny (modal: innholdet bak er utilgjengelig mens den er åpen) ---------- */
+  const behind = [...document.querySelectorAll('.skip, main, .site-footer')];
   const setMenu = (open, { focusBtn = false } = {}) => {
     if (!menuBtn || !menu) return;
     menuBtn.setAttribute('aria-expanded', String(open));
     menu.hidden = !open;
-    if (open) menu.querySelector('a')?.focus();
+    doc.classList.toggle('menu-open', open);
+    behind.forEach((el) => { el.inert = open; });
+    if (open) { header?.classList.remove('is-hidden'); menu.scrollTop = 0; menu.querySelector('a')?.focus(); }
     else if (focusBtn) menuBtn.focus();
   };
   menuBtn?.addEventListener('click', () => setMenu(!menuOpen()));
   menu?.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+  // Klikk utenfor topptekst og meny lukker menyen
+  document.addEventListener('click', (e) => {
+    if (menuOpen() && header && !header.contains(e.target)) setMenu(false, { focusBtn: true });
+  });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && menuOpen()) setMenu(false, { focusBtn: true });
   });
   window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
+
+  /* ---------- Utskrift: hent bilder som ennå ikke er lastet ---------- */
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll('img[loading="lazy"]').forEach((img) => { img.loading = 'eager'; });
+  });
 
   /* ---------- Kopier e-postadresse / malen ---------- */
   const status = document.querySelector('[data-copy-status]');
@@ -98,7 +110,7 @@
       });
     };
     velger.classList.add('is-enhanced');
-    const start = Math.max(0, btns.findIndex((b) => b.getAttribute('aria-expanded') === 'true'));
+    const start = Math.min(btns.length - 1, Number(velger.dataset.default) || 0);
     setOpen(start, { animate: false });
     btns.forEach((b, i) => b.addEventListener('click', () => setOpen(i, { toggle: true })));
     // Piltaster mellom nivåene (desktop)
@@ -125,10 +137,17 @@
       const a = e.target.closest('a[href^="#valg-"]');
       if (!a) return;
       const slug = a.getAttribute('href').slice(6);
-      if (openSlug(slug)) { e.preventDefault(); history.replaceState(null, '', `#valg-${slug}`); }
+      if (openSlug(slug)) { e.preventDefault(); if (location.hash !== `#valg-${slug}`) history.pushState(null, '', `#valg-${slug}`); }
     });
     if (location.hash.startsWith('#valg-')) openSlug(location.hash.slice(6));
-    window.addEventListener('hashchange', () => { if (location.hash.startsWith('#valg-')) openSlug(location.hash.slice(6)); });
+    const fromHash = () => { if (location.hash.startsWith('#valg-')) openSlug(location.hash.slice(6)); };
+    window.addEventListener('hashchange', fromHash);
+  }
+
+  /* ---------- Glorien i «Personen bak» beveger seg bare når den er synlig ---------- */
+  const om = document.querySelector('.s-om');
+  if (om && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([en]) => om.classList.toggle('is-visible', en.isIntersecting)).observe(om);
   }
 
   /* ---------- Diskré inntoning når innhold kommer til syne ---------- */

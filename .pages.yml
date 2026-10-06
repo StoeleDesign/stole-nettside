@@ -139,7 +139,7 @@ content:
         list: true
         fields:
           - { name: navn, label: Navn, type: string, required: true }
-          - { name: slug, label: Adresse (støle.com/tjenester/…), type: string, required: true, pattern: { regex: "^[a-z0-9-]+$", message: "Bare små bokstaver, tall og bindestrek. Ikke æ, ø, å." } }
+          - { name: slug, label: Adresse (lages automatisk fra navnet), type: string, hidden: true }
           - { name: nivaa, label: Dybde (1–3, 0 = fast designer), type: number }
           - { name: dybde, label: Hvor dypt (tekst), type: string }
           - { name: naar, label: Når passer den?, type: string }
@@ -149,6 +149,7 @@ content:
           - { name: passer_tittel, label: «Passer for» – tittel, type: string }
           - { name: passer, label: «Passer for» – punkter, type: string, list: true }
           - { name: prosess_tittel, label: Prosess – tittel, type: string }
+          - { name: prosess_overskrift, label: «Slik foregår det» – overskrift, type: string }
           - name: prosess
             label: Prosess – steg
             type: object
@@ -176,6 +177,7 @@ content:
       - { name: foretaksform, label: Foretaksform, type: string }
       - { name: orgnr, label: Org.nr., type: string }
       - { name: adresse, label: Adresse, type: string }
+      - { name: instagram, label: Instagram-brukernavn (uten @), type: string }
       - name: meny
         label: Meny
         type: object
@@ -197,6 +199,7 @@ content:
           - { name: epost_tittel, label: «Send en e-post», type: string }
           - { name: epost_tekst, label: Tekst under, type: string }
           - { name: emne, label: Emnefelt i e-posten, type: string }
+          - { name: reserve, label: Hjelpetekst under knappene, type: string }
           - { name: mal_tittel, label: Mal – tittel, type: string }
           - { name: mal_forklaring, label: Mal – forklaring, type: text }
           - { name: mal, label: Mal – tekst, type: text }

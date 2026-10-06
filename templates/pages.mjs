@@ -45,20 +45,31 @@ const picture = ({ name, widths, sizes, alt, cls = '', w, h, eager = false }) =>
   </picture>`;
 };
 
+/* ---------- Strukturerte data og delingsbilder ---------- */
+const brodsmuler = (site, sti) => ({
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: sti.map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: x.navn, item: site.url + x.url })),
+});
+// Eget delingsbilde hvis src/img/og-<navn>.jpg finnes, ellers det felles
+const ogFor = (navn) => (fs.existsSync(path.join(root, 'src/img', `og-${navn}.jpg`)) ? `og-${navn}.jpg` : 'og.jpg');
+
 /* ---------- Ramme ---------- */
-const layout = (ctx, { title, description, path: p, body, bodyClass = '', noindex = false, preloadHero = false }) => {
+const layout = (ctx, { title, description, path: p, body, bodyClass = '', noindex = false, preloadHero = false, ld: ekstraLd = [], ogImage = 'og.jpg', ogAlt = 'STØLE-logoen over en tåkete fjellvidde.' }) => {
   const { site, hashed } = ctx;
   const url = site.url + p;
   const fonts = ['Newsreader-normal', 'SchibstedGrotesk-normal']
-    .map((f) => `<link rel="preload" href="/fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`).join('\n  ');
-  const ld = p === '/' ? `<script type="application/ld+json">${JSON.stringify({
-    '@context': 'https://schema.org', '@type': 'ProfessionalService', name: site.navn,
+    .map((f) => `<link rel="preload" href="${hashed[`fonts/${f}.woff2`] || `/fonts/${f}.woff2`}" as="font" type="font/woff2" crossorigin>`).join('\n  ');
+  const virksomhet = {
+    '@context': 'https://schema.org', '@type': 'ProfessionalService', '@id': `${site.url}/#virksomhet`, name: site.navn,
     legalName: site.virksomhet, url: site.url, email: site.epost_teknisk, description: site.beskrivelse,
     image: `${site.url}/img/og.jpg`,
     address: { '@type': 'PostalAddress', streetAddress: 'Husvikveien 101B', postalCode: '3113', addressLocality: 'Tønsberg', addressCountry: 'NO' },
     areaServed: 'Norge', founder: { '@type': 'Person', name: 'Simen Støle Skjelland' },
     identifier: { '@type': 'PropertyValue', propertyID: 'Organisasjonsnummer', value: site.orgnr.replace(/\s/g, '') },
-  })}</script>` : '';
+    ...(site.instagram ? { sameAs: [`https://www.instagram.com/${site.instagram}/`] } : {}),
+  };
+  const ldList = [...(p === '/' ? [virksomhet] : []), ...ekstraLd];
+  const ld = ldList.map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`).join('\n  ');
   return `<!doctype html>
 <html lang="nb">
 <head>
@@ -74,10 +85,10 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${url}">
-  <meta property="og:image" content="${site.url}/img/og.jpg">
+  <meta property="og:image" content="${site.url}/img/${ogImage}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="STØLE-logoen over en tåkete fjellvidde.">
+  <meta property="og:image:alt" content="${esc(ogAlt)}">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
@@ -131,6 +142,7 @@ const footer = ({ site }) => `<footer class="site-footer">
         <dt>Org.nr.</dt><dd>${esc(site.orgnr)}</dd>
         <dt>Adresse</dt><dd>${esc(site.adresse)}</dd>
         <dt>E-post</dt><dd><a href="mailto:${site.epost_teknisk}">${esc(site.epost)}</a></dd>
+        ${site.instagram ? `<dt>Instagram</dt><dd><a href="https://www.instagram.com/${esc(site.instagram)}/" rel="me">@${esc(site.instagram)}</a></dd>` : ''}
       </dl>
       <nav class="site-footer__nav" aria-label="Bunnmeny">
         <ul>
@@ -140,7 +152,7 @@ const footer = ({ site }) => `<footer class="site-footer">
           <li><a href="/personvern/">Personvern</a></li>
         </ul>
       </nav>
-      <p class="site-footer__fine">${esc(site.bunntekst_personvern)} <a href="/personvern/">Personvern</a><br>© ${new Date().getFullYear()} STØLE</p>
+      <p class="site-footer__fine">${esc(site.bunntekst_personvern)}<br>© ${new Date().getFullYear()} STØLE</p>
     </div>
   </footer>`;
 
@@ -163,6 +175,7 @@ const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt' } = {}) =
           <a class="btn btn--solid" href="${mailto(site)}">Skriv e-post ${chevron}</a>
           <button class="btn btn--ghost" type="button" data-copy="${esc(site.epost)}" data-copied="Adressen er kopiert">Kopier adressen</button>
         </div>
+        ${k.reserve ? `<p class="s-kontakt__muted s-kontakt__reserve">${esc(k.reserve)}</p>` : ''}
         <details class="tmpl">
           <summary><span>${esc(k.mal_tittel)}</span><span class="tmpl__plus" aria-hidden="true"></span></summary>
           <div class="tmpl__body">
@@ -208,7 +221,7 @@ export const forside = (ctx, c) => {
   const body = `
     <section class="s-hero" aria-label="Velkommen">
       ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-hero__img', w: 2320, h: 1490, eager: true })}
-      <h1 class="s-hero__logo"><img src="/i/logo-wine.svg" alt="STØLE" width="934" height="270"></h1>
+      <div class="s-hero__logo"><img src="/i/logo-wine.svg" alt="STØLE" width="934" height="270"></div>
     </section>
 
     <section class="s-intro" aria-labelledby="intro-tittel">
@@ -216,7 +229,7 @@ export const forside = (ctx, c) => {
       <div class="wrap s-intro__grid">
         <div class="s-intro__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
         <div class="s-intro__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>
-        <h2 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h2>
+        <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
         <hr class="rule">
         <div class="s-intro__body">${paras(c.helt.ingress)}</div>
         <div class="s-intro__actions">
@@ -326,7 +339,7 @@ export const forside = (ctx, c) => {
           <h2 class="display" id="fast-tittel">${inline(c.fast.tittel)}</h2>
           <p class="s-fast__q">${esc(c.fast.sporsmal)}</p>
           <p class="s-fast__text">${inline(c.fast.tekst)}</p>
-          <a class="pill pill--wine" href="/tjenester/fast-designer/">${esc(c.fast.knapp)}</a>
+          <a class="pill pill--wine" href="/tjenester/${esc((tjenester.pakker.find((p) => p.nivaa === 0) || {}).slug || '')}/">${esc(c.fast.knapp)}</a>
         </div>
         ${tidslinje(c.fast)}
       </div>
@@ -342,6 +355,7 @@ export const forside = (ctx, c) => {
           <p>${inline(c.om.tekst)}</p>
           <p>${inline(c.om.hvem)}</p>
           <p>${inline(c.om.verktoy)}</p>
+          ${site.instagram ? `<p><a class="textlink" href="https://www.instagram.com/${esc(site.instagram)}/" rel="me">${esc(c.om.instagram || 'Følg arbeidet på Instagram')}&nbsp;<span class="muted">@${esc(site.instagram)}</span></a></p>` : ''}
         </div>
         <figure class="s-om__fig">
           <div class="s-om__sheet"><img src="/i/rydde.svg" alt="${esc(c.om.illustrasjon_alt)}" width="358" height="141" loading="lazy"></div>
@@ -359,9 +373,9 @@ export const forside = (ctx, c) => {
 export const tjenesteoversikt = (ctx, t) => {
   const { site } = ctx;
   const pakker = t.pakker.filter((p) => p.nivaa > 0);
-  const fast = t.pakker.find((p) => p.slug === 'fast-designer');
-  const f = JSON.parse(fs.readFileSync(path.join(root, 'content/forside.json'), 'utf8')).fast;
-  const anker = (slug) => (slug === 'fast-designer' ? '#fast-designer' : `#valg-${slug}`);
+  const fast = t.pakker.find((p) => p.nivaa === 0);
+  const f = ctx.forside.fast;
+  const anker = (slug) => (fast && slug === fast.slug ? '#fast-designer' : `#valg-${slug}`);
   const navn = (slug) => (t.pakker.find((p) => p.slug === slug) || {}).navn || '';
   const body = `
     <section class="s-pagehero s-svc-hero" aria-labelledby="side-tittel">
@@ -376,11 +390,11 @@ export const tjenesteoversikt = (ctx, t) => {
             <a class="textlink" href="#kontakt">${esc(t.lenke)}</a>
           </div>
         </div>
-        <aside class="kort s-pagehero__side" aria-labelledby="kort-tittel">
+        <div class="kort s-pagehero__side" role="group" aria-labelledby="kort-tittel">
           <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
           <h2 class="kort__title" id="kort-tittel">${esc(t.kortfortalt_tittel)}</h2>
           <ol class="kort__list">${t.kortfortalt.map((k, i) => `<li><span class="kort__num">0${i + 1}</span><span><strong>${esc(k.tittel)}</strong> ${esc(k.tekst)}</span></li>`).join('')}</ol>
-        </aside>
+        </div>
       </div>
     </section>
 
@@ -408,11 +422,11 @@ export const tjenesteoversikt = (ctx, t) => {
           </div>
           <p class="s-velger__intro">${inline(t.velger_ingress)}</p>
         </div>
-        <div class="velger" data-velger>
+        <div class="velger" data-velger data-default="1">
           ${pakker.map((p, i) => `<div class="velger__item" data-slug="${esc(p.slug)}">
             <h3 class="velger__h">
-              <button class="velger__btn" type="button" id="vb-${esc(p.slug)}" aria-expanded="${i === 1 ? 'true' : 'false'}" aria-controls="valg-${esc(p.slug)}">
-                <span class="velger__num">0${i + 1}</span>
+              <button class="velger__btn" type="button" id="vb-${esc(p.slug)}" aria-expanded="true" aria-controls="valg-${esc(p.slug)}">
+                <span class="velger__num" aria-hidden="true">0${i + 1}</span>
                 <span class="velger__name">${esc(p.navn)}</span>
                 <span class="velger__when">${esc(p.naar)}</span>
                 <img class="velger__mini" src="/i/dybde-${Math.min(3, p.nivaa)}.svg" alt="" width="176" height="88">
@@ -482,13 +496,15 @@ export const tjenesteoversikt = (ctx, t) => {
     </section>
 
     ${kontakt(ctx, { lead: t.usikker_tekst, tittel: t.kontakt_tittel, undertittel: t.kontakt_undertittel })}`;
-  return layout(ctx, { title: t.seo_tittel, description: t.seo_beskrivelse, path: '/tjenester/', body, bodyClass: 'page-sub page-svc' });
+  const sti = [{ navn: 'Forside', url: '/' }, { navn: 'Tjenester', url: '/tjenester/' }];
+  return layout(ctx, { title: t.seo_tittel, description: t.seo_beskrivelse, path: '/tjenester/', body, bodyClass: 'page-sub page-svc',
+    ld: [brodsmuler(ctx.site, sti)], ogImage: ogFor('tjenester'), ogAlt: 'Måter å jobbe sammen på – STØLE' });
 };
 
 /* ---------- Tjenester: enkeltpakke ---------- */
 export const pakke = (ctx, t, p) => {
   const andre = t.pakker.filter((x) => x.slug !== p.slug);
-  const f = JSON.parse(fs.readFileSync(path.join(root, 'content/forside.json'), 'utf8')).fast;
+  const f = ctx.forside.fast;
   const body = `
     <section class="s-pagehero s-pagehero--pakke" aria-labelledby="side-tittel">
       <div class="wrap s-pagehero__grid">
@@ -498,7 +514,7 @@ export const pakke = (ctx, t, p) => {
           <hr class="rule">
           <p class="s-pagehero__lead">${inline(p.ingress)}</p>
           <div class="s-intro__actions">
-            <a class="pill" href="#kontakt">Gratis konsultasjon</a>
+            <a class="pill" href="#kontakt">${esc(ctx.site.knapp_meny)}</a>
             <a class="textlink" href="#prosess">Slik foregår det</a>
           </div>
         </div>
@@ -524,7 +540,7 @@ export const pakke = (ctx, t, p) => {
         ${edge('peak')}
         <div class="wrap">
           <p class="label">${esc(p.prosess_tittel)}</p>
-          <h2 class="display" id="prosess-tittel">Forstå behovet bak først. Designe etterpå.</h2>
+          <h2 class="display" id="prosess-tittel">${esc(p.prosess_overskrift || 'Forstå behovet bak først. Designe etterpå.')}</h2>
           <ol class="steps steps--${(p.prosess || []).length}">
             ${(p.prosess || []).map((s, i) => `<li class="step">
               <span class="step__num">0${i + 1}</span>
@@ -565,7 +581,16 @@ export const pakke = (ctx, t, p) => {
     </section>
 
     ${kontakt(ctx, { lead: p.neste })}`;
-  return layout(ctx, { title: `${p.navn} – STØLE`, description: p.seo_beskrivelse, path: `/tjenester/${p.slug}/`, body, bodyClass: 'page-sub' });
+  const { site } = ctx;
+  const sti = [{ navn: 'Forside', url: '/' }, { navn: 'Tjenester', url: '/tjenester/' }, { navn: p.navn, url: `/tjenester/${p.slug}/` }];
+  const tjeneste = {
+    '@context': 'https://schema.org', '@type': 'Service', name: p.navn, description: p.seo_beskrivelse,
+    serviceType: 'Visuell identitet og grafisk design', url: `${site.url}/tjenester/${p.slug}/`,
+    provider: { '@type': 'ProfessionalService', '@id': `${site.url}/#virksomhet`, name: site.navn, url: site.url },
+    areaServed: 'Norge',
+  };
+  return layout(ctx, { title: `${p.navn} – STØLE`, description: p.seo_beskrivelse, path: `/tjenester/${p.slug}/`, body, bodyClass: 'page-sub',
+    ld: [tjeneste, brodsmuler(site, sti)], ogImage: ogFor(p.slug), ogAlt: `${p.navn} – ${p.naar}` });
 };
 
 /* ---------- Personvern ---------- */
