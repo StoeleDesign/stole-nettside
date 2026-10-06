@@ -41,7 +41,7 @@
     "tittel": "Hvert prosjekt starter med identiteten til bedriften, ikke med logoen.",
     "prosjekter": [
       {
-        "merke": "Egeninitiert prosjekt",
+        "merke": "Prosjekt 0020",
         "navn": "Nordhagen",
         "tekst": "Identitet for et tenkt norsk firma innen uteromsdesign og landskap. Én kompassrose av blader bærer hele uttrykket, fra visittkort til varebil.",
         "fagfelt": "Landskap, hage og utemiljø",
@@ -50,7 +50,7 @@
         "bilde_alt": "Varebil med Nordhagen-logoen, en kompassrose av blader, på mørkegrønn bakgrunn."
       },
       {
-        "merke": "Egeninitiert prosjekt",
+        "merke": "Prosjekt 0018",
         "navn": "Bauta",
         "tekst": "Identitet for et tenkt norsk byggfirma innen nybygg, rehabilitering og tilbygg. Én B, med den ru kanten til en bautastein, bærer hele uttrykket.",
         "fagfelt": "Bygg og håndverk",
