@@ -243,6 +243,7 @@ export const forside = (ctx, c) => {
 
     <section class="s-intro" aria-labelledby="intro-tittel">
       ${edge('wave')}
+      ${edge('wave', 'edge--wave-panel')}
       <div class="wrap s-intro__grid">
         <div class="s-intro__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
         <div class="s-intro__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>

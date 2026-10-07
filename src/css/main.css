@@ -158,7 +158,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .s-intro { --bg: var(--wine); background: var(--wine); padding: clamp(36px, 8vw, 120px) 0 clamp(80px, 9vw, 120px); margin-top: -1px; }
 .s-intro .edge--wave { bottom: calc(100% - 2px); }
 .edge--panel { --edge: var(--sand); width: calc(100% + 2px); }
-.s-intro__grid { position: relative; }
+.s-intro__grid { position: relative; display: flow-root; } /* hindrer at etikettens negative marg drar griden opp */
 .s-intro .display--hero { max-width: 8.4em; }
 .s-intro__body { max-width: 640px; margin-top: clamp(48px, 8vw, 128px); font-style: italic; line-height: 1.98; }
 .s-intro__body p + p { margin-top: 1.95em; }
@@ -707,6 +707,17 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .s-intro__grid { --split: 67.7%; --mark-w: clamp(150px, 20.6vw, 264px); }
 .s-intro__panel { position: absolute; z-index: 0; left: var(--split); right: var(--to-edge); top: -65px; bottom: calc(-1 * clamp(80px, 9vw, 120px) - 4px); background: var(--sand); }
 .s-intro__mark { position: absolute; z-index: 1; left: calc(var(--split) - var(--mark-w) / 2); top: 62px; width: var(--mark-w); }
+/* Sandflaten får samme bølge som kanten over, forskjøvet nedover, så vinbåndet mellom dem er like tykt hele veien */
+.s-intro { --pt: clamp(36px, 8vw, 120px); --band: clamp(32px, 3.5vw, 56px); }
+.s-intro .edge--wave-panel { display: none; }
+@media (min-width: 760px) {
+  .s-intro .edge--wave-panel {
+    display: block; z-index: 0; --edge: var(--sand); bottom: calc(100% - 2px - var(--band));
+    clip-path: inset(0 0 0 calc(max(0px, (100% - var(--max)) / 2) + 0.677 * min(100%, var(--max))));
+  }
+  .s-intro__panel { top: calc(var(--band) - var(--pt)); }
+  .s-intro__panel .edge--panel { display: none; }
+}
 .s-intro__grid > :not(.s-intro__panel):not(.s-intro__mark) { position: relative; z-index: 2; }
 
 /* Undersider: sandflaten ligger i høyre kolonne, teksten står alltid på sand */
