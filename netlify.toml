@@ -12,3 +12,10 @@
   to = "https://xn--stle-hra.com/:splat"
   status = 301
   force = true
+
+# Netlify-adressen sendes også til støle.com, så Google bare ser én versjon
+[[redirects]]
+  from = "https://stoleskjelland.netlify.app/*"
+  to = "https://xn--stle-hra.com/:splat"
+  status = 301
+  force = true
