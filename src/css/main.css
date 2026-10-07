@@ -789,3 +789,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 
 /* Intro-tittelen: tynnere og luftigere, som i Figma */
 .s-intro .display--hero { font-weight: 400; line-height: 1.24; letter-spacing: -0.005em; }
+
+/* Dekorative Ø-merker som bakgrunn, ikke <img>: da velger ikke Google dem som miniatyrbilde i søkeresultatet */
+.s-intro__mark { aspect-ratio: 264 / 496; background: url(/i/mark-split.svg) center / contain no-repeat; }
+.s-kontakt__mark { aspect-ratio: 499 / 937; background: url(/i/mark-deep.svg) center / contain no-repeat; }

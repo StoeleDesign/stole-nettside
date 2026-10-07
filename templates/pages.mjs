@@ -91,7 +91,12 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
     } } : {}),
     ...(site.instagram ? { sameAs: [`https://www.instagram.com/${site.instagram}/`] } : {}),
   };
-  const ldList = [...(p === '/' ? [nettsted, virksomhet] : []), ...ekstraLd];
+  const forsiden = {
+    '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${site.url}/#forsiden`, url: `${site.url}/`, name: title,
+    isPartOf: { '@id': `${site.url}/#nettsted` }, about: { '@id': `${site.url}/#virksomhet` },
+    primaryImageOfPage: { '@type': 'ImageObject', url: `${site.url}/img/og.jpg`, width: 1200, height: 630 },
+  };
+  const ldList = [...(p === '/' ? [nettsted, virksomhet, forsiden] : []), ...ekstraLd];
   const ld = ldList.map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`).join('\n  ');
   return `<!doctype html>
 <html lang="nb">
@@ -188,7 +193,7 @@ const footer = ({ site }) => `<footer class="site-footer">
 const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt' } = {}) => {
   const k = site.kontakt;
   return `<section class="s-kontakt" id="${id}" aria-labelledby="${id}-tittel">
-    <div class="s-kontakt__mark" aria-hidden="true"><img src="/i/mark-deep.svg" alt="" width="499" height="937" loading="lazy"></div>
+    <div class="s-kontakt__mark" aria-hidden="true"></div>
     <div class="wrap s-kontakt__grid">
       <div class="s-kontakt__head">
         <h2 class="display display--xl" id="${id}-tittel">${inline(tittel || k.tittel)}</h2>
@@ -257,7 +262,7 @@ export const forside = (ctx, c) => {
       ${edge('wave', 'edge--wave-panel')}
       <div class="wrap s-intro__grid">
         <div class="s-intro__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
-        <div class="s-intro__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>
+        <div class="s-intro__mark" aria-hidden="true"></div>
         <h1 class="display display--hero" id="intro-tittel">${c.helt.etikett ? `<span class="label label--caps label--blue s-intro__eyebrow">${esc(c.helt.etikett)}</span><span class="sr-only">: </span>` : ''}${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
         <hr class="rule">
         <div class="s-intro__body">${paras(c.helt.ingress)}</div>
