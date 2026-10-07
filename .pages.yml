@@ -15,8 +15,9 @@ content:
         type: object
         fields:
           - { name: bilde_alt, label: Beskrivelse av bildet (for skjermlesere), type: string }
+          - { name: etikett, label: Etikett over tittelen, type: string, description: "Små bokstaver over den store tittelen. Er en del av hovedoverskriften, så Google leser den. Tomt felt skjuler den." }
           - { name: tittel_a, label: Tittel (første del), type: string }
-          - { name: tittel_b, label: Tittel (andre del, i blått), type: string }
+          - { name: tittel_b, label: "Tittel (andre del, i blått)", type: string }
           - { name: ingress, label: Tekst, type: text, description: "Tom linje gir nytt avsnitt." }
           - { name: knapp, label: Knappetekst, type: string }
           - { name: lenke, label: Lenketekst, type: string }
@@ -121,18 +122,28 @@ content:
       - { name: etikett, label: Etikett, type: string }
       - { name: tittel, label: Tittel, type: text }
       - { name: ingress, label: Ingress, type: text }
-      - { name: skala_tittel, label: Tittel over pakkeoversikten, type: string }
-      - { name: skala, label: Skala, type: string, list: true, hidden: true }
-      - { name: felles_tittel, label: «Uansett hvor vi starter» – tittel, type: string }
-      - name: felles
-        label: «Uansett hvor vi starter» – punkter
+      - { name: knapp, label: Knappetekst, type: string }
+      - { name: lenke, label: Lenketekst, type: string }
+      - { name: kortfortalt_tittel, label: «Kort fortalt» – tittel, type: string }
+      - name: kortfortalt
+        label: «Kort fortalt» – punkter
         type: object
-        list: { min: 3, max: 3 }
+        list: true
         fields:
           - { name: tittel, label: Tittel, type: string }
+          - { name: tekst, label: Tekst, type: string }
+      - { name: situasjoner_etikett, label: Situasjoner – etikett, type: string }
+      - name: situasjoner
+        label: Situasjoner
+        type: object
+        list: true
+        fields:
+          - { name: sitat, label: Sitat, type: string }
           - { name: tekst, label: Tekst, type: text }
-      - { name: usikker_tittel, label: Usikker – tittel, type: string, hidden: true }
-      - { name: usikker_tekst, label: Tekst i kontaktfeltet nederst, type: text }
+          - { name: pakke, label: Lenker til pakken, type: string, description: "Adressen til pakken: friskt-pust, grunnmuren, total eller fast-designer." }
+      - { name: velger_etikett, label: Nivåvelger – etikett, type: string }
+      - { name: velger_tittel, label: Nivåvelger – tittel, type: string }
+      - { name: velger_ingress, label: Nivåvelger – tekst, type: text }
       - name: pakker
         label: Pakker
         type: object
@@ -140,10 +151,11 @@ content:
         fields:
           - { name: navn, label: Navn, type: string, required: true }
           - { name: slug, label: Adresse (lages automatisk fra navnet), type: string, hidden: true }
-          - { name: nivaa, label: Dybde (1–3, 0 = fast designer), type: number }
+          - { name: nivaa, label: "Dybde (1–3, 0 = fast designer)", type: number }
           - { name: dybde, label: Hvor dypt (tekst), type: string }
-          - { name: naar, label: Når passer den?, type: string }
+          - { name: naar, label: "Når passer den?", type: string }
           - { name: eksempler, label: Eksempler (kort), type: text }
+          - { name: seo_tittel, label: Tittel i Google, type: string, description: "Helst under 60 tegn. Tomt felt gir «Navn – STØLE»." }
           - { name: seo_beskrivelse, label: Beskrivelse i Google, type: text }
           - { name: ingress, label: Ingress på pakkesiden, type: text }
           - { name: passer_tittel, label: «Passer for» – tittel, type: string }
@@ -162,6 +174,18 @@ content:
           - { name: forvent_tittel, label: «Dette kan du forvente» – tittel, type: string }
           - { name: forvent, label: «Dette kan du forvente» – tekst, type: text }
           - { name: neste, label: Tekst i kontaktfeltet nederst, type: text }
+      - { name: reise_etikett, label: «Slik kommer vi i gang» – etikett, type: string }
+      - { name: reise_tittel, label: «Slik kommer vi i gang» – tittel, type: string }
+      - name: reise
+        label: «Slik kommer vi i gang» – steg
+        type: object
+        list: true
+        fields:
+          - { name: navn, label: Navn, type: string }
+          - { name: tekst, label: Tekst, type: text }
+      - { name: usikker_tekst, label: Tekst i kontaktfeltet nederst, type: text }
+      - { name: kontakt_tittel, label: Kontaktfeltet – tittel, type: string }
+      - { name: kontakt_undertittel, label: Kontaktfeltet – undertittel, type: string }
 
   - name: site
     label: Kontaktinfo og meny
@@ -172,12 +196,14 @@ content:
       - { name: navn, label: Navn, type: string }
       - { name: beskrivelse, label: Kort beskrivelse (Google), type: text }
       - { name: epost, label: E-post (som vist), type: string }
-      - { name: epost_teknisk, label: E-post (teknisk form, xn--), type: string, description: "Samme adresse med xn--stle-hra.com. Brukes i lenker, så alle e-postprogram forstår den." }
+      - { name: epost_teknisk, label: "E-post (teknisk form, xn--)", type: string, description: "Samme adresse med xn--stle-hra.com. Brukes i lenker, så alle e-postprogram forstår den." }
       - { name: virksomhet, label: Virksomhetsnavn, type: string }
       - { name: foretaksform, label: Foretaksform, type: string }
       - { name: orgnr, label: Org.nr., type: string }
       - { name: adresse, label: Adresse, type: string }
       - { name: instagram, label: Instagram-brukernavn (uten @), type: string }
+      - { name: tjenesteomrade, label: Tjenesteområde (for Google), type: string, list: true, description: "Kommuner og byer du tar oppdrag i. Vises ikke på siden, men forteller Google og KI-assistenter hvor du jobber." }
+      - { name: omrade, label: Område i bunnteksten, type: string, description: "For eksempel «Vestfold og Oslo». Tomt felt skjuler linjen." }
       - name: meny
         label: Meny
         type: object
@@ -205,6 +231,16 @@ content:
           - { name: mal, label: Mal – tekst, type: text }
       - { name: url, type: string, hidden: true }
       - { name: visningsdomene, type: string, hidden: true }
+
+  - name: ki
+    label: KI-assistenter (llms.txt)
+    type: file
+    path: content/ki.json
+    format: json
+    fields:
+      - { name: sammendrag, label: Kort om STØLE, type: text, description: "Vises ikke på nettsiden. Leses av KI-assistenter som ChatGPT, og av alle som åpner støle.com/llms.txt. Skriv bare det som er sant. Tjenestene og kontaktinfo legges til automatisk." }
+      - { name: passer_for, label: Hvem STØLE passer for, type: string, list: true }
+      - { name: slik_jobber, label: Slik jobber STØLE, type: string, list: true }
 
   - name: personvern
     label: Personvern

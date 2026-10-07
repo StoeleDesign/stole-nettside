@@ -95,4 +95,27 @@ fs.writeFileSync(path.join(out, 'sitemap.xml'),
   `\n</urlset>\n`);
 fs.writeFileSync(path.join(out, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`);
 
+// llms.txt: kort, offentlig oppsummering for KI-assistenter (lenkes ikke fra sidene). Tekst i content/ki.json.
+if (fs.existsSync(path.join(root, 'content', 'ki.json'))) {
+  const ki = read('ki.json');
+  const liste = (xs = []) => xs.filter(Boolean).map((x) => `- ${String(x).trim()}`).join('\n');
+  const deler = [
+    `# ${site.navn}`,
+    ki.sammendrag && `> ${String(ki.sammendrag).replace(/\s*\n\s*/g, ' ').trim()}`,
+    ki.passer_for?.length && `## Hvem ${site.navn} passer for\n\n${liste(ki.passer_for)}`,
+    ki.slik_jobber?.length && `## Slik jobber ${site.navn}\n\n${liste(ki.slik_jobber)}`,
+    `## Tjenester\n\n${liste([
+      ...tjenester.pakker.map((p) => `[${p.navn}](${site.url}/tjenester/${p.slug}/): ${p.seo_beskrivelse}`),
+      `[Alle tjenester](${site.url}/tjenester/): ${tjenester.seo_beskrivelse}`,
+    ])}`,
+    `## Kontakt\n\n${liste([
+      `E-post: ${site.epost} (${site.epost_teknisk})`,
+      `Nettside: https://${site.visningsdomene}/ (${site.url}/)`,
+      site.instagram && `Instagram: https://www.instagram.com/${site.instagram}/`,
+      `Virksomhet: ${site.virksomhet} (${site.foretaksform}), org.nr. ${site.orgnr}, ${site.adresse}`,
+    ])}`,
+  ];
+  fs.writeFileSync(path.join(out, 'llms.txt'), deler.filter(Boolean).join('\n\n') + '\n');
+}
+
 console.log(`Bygget ${pages.length + 1} sider til dist/`);

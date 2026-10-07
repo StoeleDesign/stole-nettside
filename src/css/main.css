@@ -166,6 +166,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .s-intro__body, .s-intro .display { max-width: min(640px, 52%); }
 .s-intro .display--hero { max-width: min(8.2em, 52%); text-wrap: wrap; }
 .s-intro .display--hero em { display: block; }
+.s-intro__eyebrow { display: block; margin-bottom: clamp(18px, 2.2vw, 30px); font-style: normal; text-wrap: balance; }
 
 /* ---------- Forside: kjenner du deg igjen ---------- */
 .s-kjenner { --bg: var(--wine-850); background: var(--wine-850); padding: clamp(64px, 8vw, 112px) 0 clamp(96px, 12vw, 168px); }

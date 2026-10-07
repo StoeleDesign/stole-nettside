@@ -2,7 +2,7 @@
   "navn": "STØLE",
   "url": "https://xn--stle-hra.com",
   "visningsdomene": "støle.com",
-  "beskrivelse": "STØLE er et lite designstudio i Tønsberg. Jeg hjelper lokale bedrifter med visuell identitet som viser hvem de faktisk er.",
+  "beskrivelse": "STØLE er et lite designstudio for grafisk design og visuell identitet. Jeg hjelper bedrifter i Vestfold og Oslo med en visuell identitet som viser hvem de faktisk er.",
   "epost": "hei@støle.com",
   "epost_teknisk": "hei@xn--stle-hra.com",
   "virksomhet": "STØLE SKJELLAND",
@@ -10,6 +10,16 @@
   "orgnr": "938 558 000",
   "adresse": "Husvikveien 101B, 3113 Tønsberg",
   "instagram": "bystoleskjelland",
+  "tjenesteomrade": [
+    "Tønsberg",
+    "Færder",
+    "Sandefjord",
+    "Horten",
+    "Larvik",
+    "Holmestrand",
+    "Oslo"
+  ],
+  "omrade": "Vestfold og Oslo",
   "meny": [
     {
       "tekst": "Arbeid",

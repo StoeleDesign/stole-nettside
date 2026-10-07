@@ -52,23 +52,37 @@ const brodsmuler = (site, sti) => ({
 });
 // Eget delingsbilde hvis src/img/og-<navn>.jpg finnes, ellers det felles
 const ogFor = (navn) => (fs.existsSync(path.join(root, 'src/img', `og-${navn}.jpg`)) ? `og-${navn}.jpg` : 'og.jpg');
+// Tjenesteområdet (kommuner/byer i site.json) som strukturerte data
+const omrader = (site) => (site.tjenesteomrade || []).filter(Boolean).map((name) => ({ '@type': 'AdministrativeArea', name }));
+const FAGOMRADER = ['Grafisk design', 'Visuell identitet', 'Logodesign', 'Visuell profil', 'Designmanual', 'Merkevarebygging'];
 
 /* ---------- Ramme ---------- */
 const layout = (ctx, { title, description, path: p, body, bodyClass = '', noindex = false, preloadHero = false, ld: ekstraLd = [], ogImage = 'og.jpg', ogAlt = 'STØLE-logoen over en tåkete fjellvidde.' }) => {
-  const { site, hashed } = ctx;
+  const { site, hashed, tjenester } = ctx;
   const url = site.url + p;
   const fonts = ['Newsreader-normal', 'SchibstedGrotesk-normal']
     .map((f) => `<link rel="preload" href="${hashed[`fonts/${f}.woff2`] || `/fonts/${f}.woff2`}" as="font" type="font/woff2" crossorigin>`).join('\n  ');
+  const nettsted = {
+    '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${site.url}/#nettsted`, name: site.navn,
+    alternateName: ['Støle', site.visningsdomene].filter(Boolean), url: `${site.url}/`, inLanguage: 'nb-NO',
+    publisher: { '@id': `${site.url}/#virksomhet` },
+  };
   const virksomhet = {
     '@context': 'https://schema.org', '@type': 'ProfessionalService', '@id': `${site.url}/#virksomhet`, name: site.navn,
-    legalName: site.virksomhet, url: site.url, email: site.epost_teknisk, description: site.beskrivelse,
-    image: `${site.url}/img/og.jpg`,
+    legalName: site.virksomhet, url: `${site.url}/`, email: site.epost_teknisk, description: site.beskrivelse,
+    image: `${site.url}/img/og.jpg`, logo: `${site.url}/img/logo-512.png`,
     address: { '@type': 'PostalAddress', streetAddress: 'Husvikveien 101B', postalCode: '3113', addressLocality: 'Tønsberg', addressCountry: 'NO' },
-    areaServed: 'Norge', founder: { '@type': 'Person', name: 'Simen Støle Skjelland' },
+    areaServed: omrader(site), knowsAbout: FAGOMRADER,
+    founder: { '@type': 'Person', name: 'Simen Støle Skjelland', jobTitle: 'Grafisk designer' },
     identifier: { '@type': 'PropertyValue', propertyID: 'Organisasjonsnummer', value: site.orgnr.replace(/\s/g, '') },
+    ...(tjenester ? { hasOfferCatalog: {
+      '@type': 'OfferCatalog', name: 'Tjenester',
+      itemListElement: tjenester.pakker.map((x) => ({ '@type': 'Offer', itemOffered: {
+        '@type': 'Service', name: x.navn, description: x.seo_beskrivelse, url: `${site.url}/tjenester/${x.slug}/` } })),
+    } } : {}),
     ...(site.instagram ? { sameAs: [`https://www.instagram.com/${site.instagram}/`] } : {}),
   };
-  const ldList = [...(p === '/' ? [virksomhet] : []), ...ekstraLd];
+  const ldList = [...(p === '/' ? [nettsted, virksomhet] : []), ...ekstraLd];
   const ld = ldList.map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`).join('\n  ');
   return `<!doctype html>
 <html lang="nb">
@@ -141,6 +155,7 @@ const footer = ({ site }) => `<footer class="site-footer">
         <dt>Virksomhet</dt><dd>${esc(site.virksomhet)} <span class="muted">(${esc(site.foretaksform)})</span></dd>
         <dt>Org.nr.</dt><dd>${esc(site.orgnr)}</dd>
         <dt>Adresse</dt><dd>${esc(site.adresse)}</dd>
+        ${site.omrade ? `<dt>Område</dt><dd>${esc(site.omrade)}</dd>` : ''}
         <dt>E-post</dt><dd><a href="mailto:${site.epost_teknisk}">${esc(site.epost)}</a></dd>
         ${site.instagram ? `<dt>Instagram</dt><dd><a href="https://www.instagram.com/${esc(site.instagram)}/" rel="me">@${esc(site.instagram)}</a></dd>` : ''}
       </dl>
@@ -229,7 +244,7 @@ export const forside = (ctx, c) => {
       <div class="wrap s-intro__grid">
         <div class="s-intro__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
         <div class="s-intro__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>
-        <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
+        <h1 class="display display--hero" id="intro-tittel">${c.helt.etikett ? `<span class="label label--caps label--blue s-intro__eyebrow">${esc(c.helt.etikett)}</span><span class="sr-only">: </span>` : ''}${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
         <hr class="rule">
         <div class="s-intro__body">${paras(c.helt.ingress)}</div>
         <div class="s-intro__actions">
@@ -585,11 +600,11 @@ export const pakke = (ctx, t, p) => {
   const sti = [{ navn: 'Forside', url: '/' }, { navn: 'Tjenester', url: '/tjenester/' }, { navn: p.navn, url: `/tjenester/${p.slug}/` }];
   const tjeneste = {
     '@context': 'https://schema.org', '@type': 'Service', name: p.navn, description: p.seo_beskrivelse,
-    serviceType: 'Visuell identitet og grafisk design', url: `${site.url}/tjenester/${p.slug}/`,
-    provider: { '@type': 'ProfessionalService', '@id': `${site.url}/#virksomhet`, name: site.navn, url: site.url },
-    areaServed: 'Norge',
+    serviceType: 'Grafisk design og visuell identitet', url: `${site.url}/tjenester/${p.slug}/`,
+    provider: { '@type': 'ProfessionalService', '@id': `${site.url}/#virksomhet`, name: site.navn, url: `${site.url}/` },
+    areaServed: omrader(site),
   };
-  return layout(ctx, { title: `${p.navn} – STØLE`, description: p.seo_beskrivelse, path: `/tjenester/${p.slug}/`, body, bodyClass: 'page-sub',
+  return layout(ctx, { title: p.seo_tittel || `${p.navn} – STØLE`, description: p.seo_beskrivelse, path: `/tjenester/${p.slug}/`, body, bodyClass: 'page-sub',
     ld: [tjeneste, brodsmuler(site, sti)], ogImage: ogFor(p.slug), ogAlt: `${p.navn} – ${p.naar}` });
 };
 
