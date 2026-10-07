@@ -165,7 +165,7 @@
       [...g.children].forEach((child, i) => { child.style.setProperty('--i', String(i)); watch(child); });
     });
     document.querySelectorAll('main .wrap > *, .case, .s-om__fig').forEach((el) => {
-      if (!el.matches(groupSel) && !el.closest('.velger')) watch(el);
+      if (!el.matches(groupSel) && !el.closest('.velger') && !el.matches('.s-intro__panel')) watch(el);
     });
     document.querySelectorAll('.velger__item').forEach((el) => watch(el.querySelector('.velger__h')));
   }
