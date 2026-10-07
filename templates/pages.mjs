@@ -98,6 +98,8 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${url}">`}

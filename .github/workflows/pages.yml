@@ -1,0 +1,46 @@
+# Bygger nettsiden og publiserer den på GitHub Pages (støle.com) ved hver endring på main.
+name: Publiser nettsiden
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Minst mulig rettigheter: lese koden, publisere til Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Bare én publisering om gangen; en ny endring avbryter ikke en som er i gang
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bygg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # full historikk, så «sist endret» i sitemap blir riktig
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node build.mjs
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publiser:
+    needs: bygg
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,3 +1,6 @@
+/* Siden skal ikke kunne vises inni en annen side (vern mot klikkfelle) */
+if (window.top !== window.self) { try { window.top.location = window.self.location.href; } catch (e) { document.documentElement.style.display = 'none'; } }
+
 // STØLE – liten, avhengighetsfri JavaScript. Siden fungerer også uten.
 (() => {
   const doc = document.documentElement;
