@@ -51,6 +51,8 @@ const brodsmuler = (site, sti) => ({
   itemListElement: sti.map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: x.navn, item: site.url + x.url })),
 });
 // Eget delingsbilde hvis src/img/og-<navn>.jpg finnes, ellers det felles
+// Prosjekttavle (collage fra designmanualen) hvis src/img/case-<navn>-1200.jpg finnes
+const harTavle = (navn) => fs.existsSync(path.join(root, 'src/img', `case-${navn}-1200.jpg`));
 const ogFor = (navn) => (fs.existsSync(path.join(root, 'src/img', `og-${navn}.jpg`)) ? `og-${navn}.jpg` : 'og.jpg');
 // Tjenesteområdet (kommuner/byer i site.json) som strukturerte data
 const omrader = (site) => (site.tjenesteomrade || []).filter(Boolean).map((name) => ({ '@type': 'AdministrativeArea', name }));
@@ -293,10 +295,12 @@ export const forside = (ctx, c) => {
       <div class="s-arbeid__band"><div class="wrap"><p class="label">${esc(c.arbeid.etikett)}</p></div></div>
       <div class="wrap"><h2 class="display" id="arbeid-tittel">${inline(c.arbeid.tittel)}</h2></div>
       ${c.arbeid.prosjekter.map((p, i) => `<article class="case${i % 2 ? ' case--flip' : ''}" aria-labelledby="case-${i}">
-        <div class="case__pic case__pic--${esc(p.bilde)}">
-          ${p.bilde === 'nordhagen'
-            ? picture({ name: 'nordhagen', widths: [800, 1200, 1600], sizes: '(min-width: 760px) 48vw, 100vw', alt: p.bilde_alt, w: 1600, h: 1200 })
-            : `<img src="/i/bauta.svg" alt="${esc(p.bilde_alt)}" width="624" height="624" loading="lazy">`}
+        <div class="case__pic${harTavle(p.bilde) ? ' case__pic--tavle' : ` case__pic--${esc(p.bilde)}`}">
+          ${harTavle(p.bilde)
+            ? picture({ name: `case-${p.bilde}`, widths: [800, 1200, 1600], sizes: '(min-width: 760px) 48vw, 100vw', alt: p.bilde_alt, w: 1600, h: 1534 })
+            : p.bilde === 'nordhagen'
+              ? picture({ name: 'nordhagen', widths: [800, 1200, 1600], sizes: '(min-width: 760px) 48vw, 100vw', alt: p.bilde_alt, w: 1600, h: 1200 })
+              : `<img src="/i/bauta.svg" alt="${esc(p.bilde_alt)}" width="624" height="624" loading="lazy">`}
         </div>
         <div class="case__meta">
           <p class="tag">${esc(p.merke)}</p>
