@@ -1,5 +1,6 @@
 // Maler for alle sidene. Ren JavaScript (template literals), ingen rammeverk.
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -36,12 +37,18 @@ const edge = (name, cls = '') => {
 };
 
 /* ---------- Bilder ---------- */
+// Versjon fra innholdet i bildet, så nettlesere henter nytt bilde når det endres (bildene caches i 30 dager)
+const bildeVersjon = (name, x) => {
+  try { return crypto.createHash('sha1').update(fs.readFileSync(path.join(root, 'src/img', `${name}-${x}.jpg`))).digest('hex').slice(0, 8); } catch { return ''; }
+};
 const picture = ({ name, widths, sizes, alt, cls = '', w, h, eager = false }) => {
-  const set = (ext) => widths.map((x) => `/img/${name}-${x}.${ext} ${x}w`).join(', ');
+  const v = bildeVersjon(name, widths[1]);
+  const q = v ? `?v=${v}` : '';
+  const set = (ext) => widths.map((x) => `/img/${name}-${x}.${ext}${q} ${x}w`).join(', ');
   return `<picture class="${cls}">
     <source type="image/avif" srcset="${set('avif')}" sizes="${sizes}">
     <source type="image/webp" srcset="${set('webp')}" sizes="${sizes}">
-    <img src="/img/${name}-${widths[1]}.jpg" alt="${esc(alt)}" width="${w}" height="${h}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+    <img src="/img/${name}-${widths[1]}.jpg${q}" alt="${esc(alt)}" width="${w}" height="${h}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
   </picture>`;
 };
 
