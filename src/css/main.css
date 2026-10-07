@@ -206,7 +206,12 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .case__pic--tavle img, .case__pic--tavle picture { object-position: 50% 50%; }
 .case__meta { padding: clamp(40px, 9vw, 118px) var(--gutter) 0 clamp(32px, 6.7vw, 86px); max-width: 560px; box-sizing: content-box; }
 .case__title { font-family: var(--serif); font-weight: 500; font-size: clamp(2.125rem, 1.7rem + 1.4vw, 2.75rem); line-height: 1.05; margin: 14px 0 22px; }
-.case__text { color: var(--rose); font-size: clamp(1.0625rem, 1rem + .2vw, 1.125rem); line-height: 1.65; }
+.case__text { color: var(--cream); font-size: clamp(1.0625rem, 1rem + .2vw, 1.125rem); line-height: 1.65; max-width: 34em; }
+/* Fakta under teksten: små etiketter over verdiene, tydelig underordnet brødteksten */
+.facts.case__facts { display: block; max-width: 34em; margin-top: clamp(28px, 3vw, 36px); padding-top: 20px; border-top: 1px solid rgba(243, 235, 226, .16); }
+.case__facts dt { font-family: var(--sans); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mist); }
+.case__facts dd { margin: 3px 0 16px; color: var(--rose); font-size: .9375rem; line-height: 1.55; }
+.case__facts dd:last-child { margin-bottom: 0; }
 .facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 30px; margin-top: 30px; font-size: .9375rem; line-height: 1.65; }
 .facts dt { color: var(--rose); }
 .case--flip { grid-template-columns: minmax(0, 1fr) 48.5%; }

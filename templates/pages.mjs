@@ -306,7 +306,7 @@ export const forside = (ctx, c) => {
           <p class="tag">${esc(p.merke)}</p>
           <h3 class="case__title" id="case-${i}">${esc(p.navn)}</h3>
           <p class="case__text">${inline(p.tekst)}</p>
-          <dl class="facts"><dt>Fagfelt</dt><dd>${esc(p.fagfelt)}</dd><dt>Leveranse</dt><dd>${esc(p.leveranse)}</dd></dl>
+          <dl class="facts case__facts"><dt>Fagfelt</dt><dd>${esc(p.fagfelt)}</dd><dt>Leveranse</dt><dd>${esc(p.leveranse)}</dd></dl>
         </div>
       </article>`).join('')}
     </section>
