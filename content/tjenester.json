@@ -3,8 +3,8 @@
   "seo_beskrivelse": "Logo, visuell profil, ny identitet eller fast designer for bedrifter i Vestfold og Oslo. Se hva som skiller de fire måtene å jobbe sammen på.",
   "etikett": "Måter å jobbe sammen på",
   "tittel": "Noen trenger ett grep. *Andre trenger mer.*",
-  "ingress": "Det er ikke størrelsen på bedriften som avgjør hva dere trenger, men hvor dypt problemet sitter. Her ser du de fire måtene vi kan jobbe sammen på, og hvordan du kommer i gang.",
-  "knapp": "Finn riktig nivå",
+  "ingress": "Det er ikke størrelsen på bedriften som avgjør hva dere trenger, men hva dere vil oppnå. Her ser du de fire måtene vi kan jobbe sammen på, og hvordan du kommer i gang.",
+  "knapp": "Finn det som passer",
   "lenke": "Gratis prat (15 min)",
   "kortfortalt_tittel": "Kort fortalt",
   "kortfortalt": [
@@ -44,15 +44,15 @@
       "pakke": "fast-designer"
     }
   ],
-  "velger_etikett": "Tre nivåer",
-  "velger_tittel": "Hvor dypt skal vi gå?",
-  "velger_ingress": "Halvsirkelen viser hvor langt inn i bedriften vi går. Jo mer som er fylt, jo dypere graver vi. Velg et nivå for å se hva det innebærer.",
+  "velger_etikett": "Enkelt å velge",
+  "velger_tittel": "Start smått, eller ta alt på én gang.",
+  "velger_ingress": "Halvsirkelen viser hvor mye som er med. Du trenger ikke vite svaret selv: velg det som ligner mest på situasjonen din, eller ta en gratis prat, så finner vi det ut sammen.",
   "pakker": [
     {
       "slug": "friskt-pust",
       "navn": "Friskt pust",
       "nivaa": 1,
-      "dybde": "uttrykket",
+      "dybde": "én ting, gjort riktig",
       "naar": "Når én ting skal bli riktig.",
       "eksempler": "En ny eller oppfrisket logo, illustrasjoner, en meny, et skilt eller en presentasjon.",
       "seo_tittel": "Ny logo eller oppfriskning – Friskt pust | STØLE",
@@ -102,7 +102,7 @@
       "slug": "grunnmuren",
       "navn": "Grunnmuren",
       "nivaa": 2,
-      "dybde": "identiteten og uttrykket",
+      "dybde": "hele den visuelle profilen",
       "naar": "Når dere trenger en helhet i den visuelle profilen.",
       "eksempler": "Logo, typografi, farger, maler og retningslinjer som henger sammen.",
       "seo_tittel": "Visuell profil og designmanual – Grunnmuren | STØLE",
@@ -150,13 +150,13 @@
       ],
       "forvent_tittel": "Dette kan du forvente",
       "forvent": "Et grundigere løp der du er med underveis. Du får se retningen før detaljene, og hvert valg er begrunnet. Målet er et system dere kan bruke selv i mange år, ikke bare en ny logo.",
-      "neste": "Send en e-post med litt om bedriften og hva som skurrer i dag. Så tar vi en prat og ser om Grunnmuren er riktig nivå."
+      "neste": "Send en e-post med litt om bedriften og hva som skurrer i dag. Så tar vi en prat og ser om Grunnmuren passer for dere."
     },
     {
       "slug": "total",
       "navn": "Total",
       "nivaa": 3,
-      "dybde": "helt inn til kjernen av bedriften",
+      "dybde": "alt, fra hvem dere er til hvordan dere ser ut",
       "naar": "Når dere vil tenke nytt om hvordan dere fremstår.",
       "eksempler": "Posisjonering, identitet, nettside og en struktur fra bunnen av.",
       "seo_tittel": "Ny merkevare og identitet fra bunnen av – Total | STØLE",
@@ -210,7 +210,7 @@
       "slug": "fast-designer",
       "navn": "Fast designer",
       "nivaa": 0,
-      "dybde": "bygger seg opp over tid",
+      "dybde": "det dere trenger, når dere trenger det",
       "naar": "Når dere trenger design jevnlig.",
       "eksempler": "En designer som kjenner bedriften din, og som alltid er der når noe skal lages.",
       "seo_tittel": "Fast grafisk designer for bedrifter | STØLE",
@@ -277,7 +277,7 @@
       "tekst": "Vi starter med å bli kjent. Først forstå, så designe."
     }
   ],
-  "usikker_tekst": "Første steg er en kort e-post. Er du usikker på hvilket nivå som passer, er det helt greit. Det finner vi ut av sammen, og er det ikke meg du trenger, sier jeg det.",
+  "usikker_tekst": "Første steg er en kort e-post. Er du usikker på hva som passer, er det helt greit. Det finner vi ut av sammen, og er det ikke meg du trenger, sier jeg det.",
   "kontakt_tittel": "Klar for første steg?",
   "kontakt_undertittel": "Send en kort e-post."
 }

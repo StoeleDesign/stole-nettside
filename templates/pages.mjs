@@ -451,7 +451,7 @@ export const tjenesteoversikt = (ctx, t) => {
             <div class="velger__panel" id="valg-${esc(p.slug)}" role="region" aria-labelledby="vb-${esc(p.slug)}">
               <div class="velger__art">
                 <img class="dybde dybde--xl" src="/i/dybde-${Math.min(3, p.nivaa)}.svg" alt="" width="176" height="88">
-                <p class="velger__depth"><strong>Hvor dypt:</strong> ${esc(p.dybde)}</p>
+                <p class="velger__depth"><strong>Omfang:</strong> ${esc(p.dybde)}</p>
               </div>
               <div class="velger__body">
                 <p class="velger__lead">${inline(p.ingress)}</p>
@@ -536,7 +536,7 @@ export const pakke = (ctx, t, p) => {
         <div class="s-pagehero__art s-pagehero__side">
           <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
           ${p.nivaa > 0
-            ? `${dybdeIkon(p.nivaa, 'dybde--xl dybde--wine')}<p class="s-pagehero__caption"><strong>Hvor dypt:</strong> ${esc(p.dybde)}</p>`
+            ? `${dybdeIkon(p.nivaa, 'dybde--xl dybde--wine')}<p class="s-pagehero__caption"><strong>Omfang:</strong> ${esc(p.dybde)}</p>`
             : `<div class="s-pagehero__tl">${tidslinje(f)}</div>`}
         </div>
       </div>

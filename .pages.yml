@@ -152,7 +152,7 @@ content:
           - { name: navn, label: Navn, type: string, required: true }
           - { name: slug, label: Adresse (lages automatisk fra navnet), type: string, hidden: true }
           - { name: nivaa, label: "Dybde (1–3, 0 = fast designer)", type: number }
-          - { name: dybde, label: Hvor dypt (tekst), type: string }
+          - { name: dybde, label: Omfang (tekst), type: string }
           - { name: naar, label: "Når passer den?", type: string }
           - { name: eksempler, label: Eksempler (kort), type: text }
           - { name: seo_tittel, label: Tittel i Google, type: string, description: "Helst under 60 tegn. Tomt felt gir «Navn – STØLE»." }
