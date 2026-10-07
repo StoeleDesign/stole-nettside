@@ -125,7 +125,7 @@ section, footer { position: relative; }
 .nav__list a { position: relative; display: inline-block; padding: 8px 2px; font-size: 1.0625rem; text-decoration: none; }
 .nav__list a::after, .mobile-menu a::after { content: ""; position: absolute; left: 2px; right: 2px; bottom: 4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
 .nav__list a:hover::after, .nav__list a[aria-current]::after { transform: scaleX(1); }
-.pill--nav { font-style: normal; min-height: 37px; padding: 4px 16px; border-radius: 15px; font-size: 1rem; }
+.pill--nav { font-style: normal; min-height: 37px; padding: 4px 16px; border-radius: 15px; font-size: 1rem; white-space: nowrap; flex-shrink: 0; }
 .pill--nav__short { display: none; }
 .menu-btn { display: none; align-items: center; gap: 10px; min-height: 44px; padding: 0 2px 0 8px; background: none; border: 0; font-weight: 600; cursor: pointer; }
 .menu-btn__icon { position: relative; width: 18px; height: 2px; background: var(--cream); transition: background-color .2s; }
@@ -416,7 +416,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 @media (max-width: 759px) {
   :root { --header-h: 64px; --fs-display: clamp(2.05rem, 1.5rem + 2.6vw, 2.5rem); }
   .brand img { width: 118px; }
-  .pill--nav { min-height: 40px; padding: 4px 14px; font-size: .9375rem; }
+  .pill--nav { min-height: 36px; padding: 2px 12px; font-size: .875rem; border-radius: 999px; }
 
   .s-hero { height: auto; aspect-ratio: 4 / 4.4; }
   .s-hero__img img { object-position: 78% 55%; }
