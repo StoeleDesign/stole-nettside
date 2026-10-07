@@ -119,7 +119,7 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   ${fonts}
-  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="/img/hero-1100.avif 1100w, /img/hero-1600.avif 1600w, /img/hero-2320.avif 2320w" imagesizes="100vw" fetchpriority="high">` : ''}
+  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="${[1100, 1600, 2320].map((x) => `/img/hero-${x}.avif?v=${bildeVersjon('hero', 1600)} ${x}w`).join(', ')}" imagesizes="100vw" fetchpriority="high">` : ''}
   <link rel="stylesheet" href="${hashed['css/main.css']}">
   <script src="${hashed['js/main.js']}" defer></script>
   ${ld}
