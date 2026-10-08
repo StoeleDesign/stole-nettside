@@ -173,3 +173,21 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
     document.querySelectorAll('.velger__item').forEach((el) => watch(el.querySelector('.velger__h')));
   }
 })();
+
+/* Kontaktskjema: sendes uten å forlate siden */
+document.querySelectorAll('[data-skjema]').forEach((form) => {
+  const status = form.querySelector('[data-skjema-status]');
+  const knapp = form.querySelector('button[type="submit"]');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    knapp.disabled = true; status.className = 'skjema__status'; status.textContent = 'Sender …';
+    try {
+      const svar = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      if (!svar.ok) throw new Error(String(svar.status));
+      form.reset(); status.textContent = form.dataset.takk;
+    } catch {
+      status.classList.add('is-feil'); status.textContent = form.dataset.feil;
+    } finally { knapp.disabled = false; status.focus(); }
+  });
+});

@@ -793,3 +793,24 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 /* Dekorative Ø-merker som bakgrunn, ikke <img>: da velger ikke Google dem som miniatyrbilde i søkeresultatet */
 .s-intro__mark { aspect-ratio: 264 / 496; background: url(/i/mark-split.svg) center / contain no-repeat; }
 .s-kontakt__mark { aspect-ratio: 499 / 937; background: url(/i/mark-deep.svg) center / contain no-repeat; }
+
+/* Kontaktskjema */
+.skjema { display: grid; gap: 16px; margin-bottom: 56px; }
+.skjema .s-kontakt__muted { margin-top: -8px; }
+.skjema__felt { display: grid; gap: 6px; }
+.skjema__felt label { font-size: .9375rem; font-weight: 600; }
+.skjema__valgfritt { font-weight: 400; color: var(--rose); }
+.skjema input, .skjema select, .skjema textarea { width: 100%; font: inherit; font-size: 1rem; color: var(--cream); background: rgba(243, 235, 226, .06); border: 1px solid var(--rose); border-radius: 3px; padding: 12px 14px; min-height: 48px; }
+.skjema textarea { resize: vertical; min-height: 130px; line-height: 1.5; }
+.skjema select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--cream) 50%), linear-gradient(135deg, var(--cream) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 40px; }
+.skjema select option { color: var(--ink); }
+.skjema input::placeholder, .skjema textarea::placeholder { color: var(--rose); opacity: .8; }
+.skjema input:focus-visible, .skjema select:focus-visible, .skjema textarea:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-color: var(--cream); }
+.skjema__felle { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.skjema__info { font-size: .875rem; color: var(--rose); }
+.skjema__info a { color: inherit; }
+.skjema .btn { justify-self: start; }
+.skjema__status:empty { display: none; }
+.skjema__status { font-weight: 600; padding: 12px 14px; border-left: 3px solid var(--blue); background: rgba(243, 235, 226, .06); }
+.skjema__status.is-feil { border-left-color: var(--rose); }
+.s-kontakt__h3--alt { padding-top: 40px; border-top: 1px solid var(--line); }

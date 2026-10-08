@@ -214,6 +214,16 @@ content:
       - { name: knapp_meny, label: Knapp i menyen, type: string }
       - { name: knapp_meny_kort, label: Knapp i menyen (mobil), type: string }
       - { name: bunntekst_personvern, label: Personverntekst i bunnen, type: string }
+      - name: skjema
+        label: Kontaktskjema
+        type: object
+        fields:
+          - { name: adresse, label: Formspree-adresse, type: string, hidden: true }
+          - { name: tittel, label: Tittel, type: string }
+          - { name: tekst, label: Tekst under tittelen, type: string }
+          - { name: takk, label: Melding når det er sendt, type: string }
+          - { name: feil, label: Melding hvis det feiler, type: string }
+          - { name: epost_alternativ, label: Overskrift over e-postknappene, type: string }
       - name: kontakt
         label: Kontaktfeltet
         type: object

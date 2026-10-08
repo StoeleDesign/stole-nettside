@@ -103,7 +103,7 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self' https://formspree.io; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
@@ -190,6 +190,25 @@ const footer = ({ site }) => `<footer class="site-footer">
   </footer>`;
 
 /* ---------- Delte komponenter ---------- */
+const skjema = (site, id) => {
+  const f = site.skjema;
+  const valg = ['Ny logo eller oppfriskning', 'Visuell profil', 'Ny identitet fra bunnen av', 'Fast designer', 'Usikker, vil gjerne prate'];
+  return `<form class="skjema" action="${esc(f.adresse)}" method="POST" data-skjema data-takk="${esc(f.takk)}" data-feil="${esc(f.feil)}">
+          <h3 class="s-kontakt__h3">${esc(f.tittel)}</h3>
+          <p class="s-kontakt__muted">${esc(f.tekst)}</p>
+          <div class="skjema__felt"><label for="${id}-navn">Navn</label><input id="${id}-navn" name="navn" autocomplete="name" required maxlength="120"></div>
+          <div class="skjema__felt"><label for="${id}-epost">E-post</label><input id="${id}-epost" name="email" type="email" autocomplete="email" required maxlength="200"></div>
+          <div class="skjema__felt"><label for="${id}-bedrift">Bedrift <span class="skjema__valgfritt">(valgfritt)</span></label><input id="${id}-bedrift" name="bedrift" autocomplete="organization" maxlength="160"></div>
+          <div class="skjema__felt"><label for="${id}-gjelder">Hva gjelder det?</label><select id="${id}-gjelder" name="gjelder">${valg.map((v) => `<option>${esc(v)}</option>`).join('')}</select></div>
+          <div class="skjema__felt"><label for="${id}-melding">Melding</label><textarea id="${id}-melding" name="melding" rows="5" required maxlength="5000" placeholder="Kort om bedriften og hva som skurrer i dag."></textarea></div>
+          <div class="skjema__felle" aria-hidden="true"><label for="${id}-felle">La stå tomt</label><input id="${id}-felle" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+          <input type="hidden" name="_subject" value="Ny henvendelse fra støle.com">
+          <p class="skjema__info">Meldingen sendes via Formspree. <a href="/personvern/">Slik behandler jeg opplysningene</a>.</p>
+          <button class="btn btn--solid" type="submit">Send meldingen ${chevron}</button>
+          <p class="skjema__status" role="status" aria-live="polite" tabindex="-1" data-skjema-status></p>
+        </form>`;
+};
+
 const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt' } = {}) => {
   const k = site.kontakt;
   return `<section class="s-kontakt" id="${id}" aria-labelledby="${id}-tittel">
@@ -201,7 +220,8 @@ const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt' } = {}) =
         <p class="lead">${inline(lead || k.ingress)}</p>
       </div>
       <div class="s-kontakt__ways">
-        <h3 class="s-kontakt__h3">${esc(k.epost_tittel)}</h3>
+        ${site.skjema ? skjema(site, id) : ''}
+        <h3 class="s-kontakt__h3${site.skjema ? ' s-kontakt__h3--alt' : ''}">${esc(site.skjema ? site.skjema.epost_alternativ : k.epost_tittel)}</h3>
         <p class="s-kontakt__muted">${esc(k.epost_tekst)}</p>
         <p class="s-kontakt__addr"><a href="mailto:${site.epost_teknisk}">${esc(site.epost)}</a></p>
         <div class="btn-row">

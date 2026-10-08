@@ -53,5 +53,13 @@
     "mal_forklaring": "Kopier teksten under, fyll inn det som passer, og send den. Kortfattet er helt greit.",
     "mal": "Hei Simen!\n\nJeg heter [navn] og driver [bedrift].\n\nVi trenger hjelp med [kort om hva dere trenger].\n\nDet viktigste for oss er [det dere vil oppnå].\n\nNår passer det med en prat på 15 minutter?\n\nHilsen\n[navn]\n[telefonnummer]",
     "reserve": "Åpnes ikke e-posten? Kopier adressen og lim den inn i e-postprogrammet ditt."
+  },
+  "skjema": {
+    "adresse": "https://formspree.io/f/meaegkkg",
+    "tittel": "Skriv til meg her",
+    "tekst": "Fyll inn det du vet. Jeg svarer så fort jeg kan, som regel innen en arbeidsdag.",
+    "takk": "Takk! Meldingen er sendt, og jeg svarer så fort jeg kan.",
+    "feil": "Noe gikk galt, og meldingen ble ikke sendt. Prøv igjen, eller send en e-post til hei@støle.com.",
+    "epost_alternativ": "Eller send en e-post"
   }
 }
