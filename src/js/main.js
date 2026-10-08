@@ -386,4 +386,6 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
   let navn = '';
   try { navn = sessionStorage.getItem('stole-brief-navn') || ''; } catch {}
   if (navn) takk.textContent = `Takk, ${navn}. Forespørselen er sendt.`;
+  const hero = document.querySelector('.s-videre-hero');
+  if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-inne')));
 })();

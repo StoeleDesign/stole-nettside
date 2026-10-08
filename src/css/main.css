@@ -907,25 +907,39 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 @media (max-width: 759px) { .reise--fem { grid-template-columns: minmax(0, 1fr); } }
 .s-videre__mens .step__text { color: var(--rose); }
 
-/* Veien videre: kvittering øverst, stegene rett under i samme flate */
-.s-videre { --bg: var(--wine); background: var(--wine); padding: clamp(64px, 7vw, 104px) 0 clamp(110px, 11vw, 150px); }
-.s-videre__topp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 30%); gap: 40px clamp(40px, 6vw, 96px); align-items: start; }
-.s-videre__topp .kvittering { margin-top: 6px; }
-.s-videre__topp .s-pagehero__lead { margin-top: 28px; }
-.kvittering { margin: 0; border-top: 1px solid var(--rose); }
-.kvittering__rad { display: grid; gap: 4px; padding: 14px 0 15px; border-bottom: 1px solid var(--line); }
+/* Veien videre: stort bilde med tittelen, så kvittering og steg */
+.s-videre-hero { position: relative; display: flex; align-items: flex-end; min-height: clamp(440px, 64vh, 700px); overflow: hidden; background: #2b3540; color: var(--cream); }
+.s-videre-hero__bilde, .s-videre-hero__bilde img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.s-videre-hero__bilde img { object-fit: cover; object-position: 60% 42%; }
+.js .s-videre-hero__bilde img { transform: scale(1.06); transition: transform 6s cubic-bezier(.2, .6, .2, 1); }
+.js .s-videre-hero.is-inne .s-videre-hero__bilde img { transform: scale(1); }
+.s-videre-hero::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, var(--wine) 0%, rgba(90, 26, 38, .82) 22%, rgba(90, 26, 38, .35) 52%, rgba(30, 20, 26, .1) 78%, rgba(30, 20, 26, .25) 100%); }
+.s-videre-hero__tekst { position: relative; z-index: 1; width: 100%; padding-top: 120px; padding-bottom: clamp(40px, 5vw, 64px); }
+.s-videre-hero__tekst .display--hero { text-shadow: 0 1px 24px rgba(40, 10, 16, .35); }
+.s-videre-hero__tekst .s-pagehero__lead { margin-top: 20px; max-width: 30em; }
+.s-videre-hero .label--blue { color: #c3d8f1; }
+.s-videre { --bg: var(--wine); background: var(--wine); padding: 8px 0 clamp(110px, 11vw, 150px); }
+.kvittering { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--rose); border-bottom: 1px solid var(--line); }
+.kvittering__rad { display: grid; gap: 6px; padding: 18px 24px 20px 0; }
+.kvittering__rad + .kvittering__rad { padding-left: 24px; border-left: 1px solid var(--line); }
 .kvittering dt { font-size: .8125rem; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); }
 .kvittering dd { margin: 0; display: flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
 .kvittering__ok { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--rose) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.4l2.6 2.6L13 6.6' fill='none' stroke='%235A1A26' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 18px no-repeat; }
-.s-videre__steg { margin-top: clamp(56px, 6vw, 88px); padding-top: clamp(28px, 3vw, 40px); border-top: 1px solid var(--line); }
+.s-videre__steg { margin-top: clamp(48px, 5vw, 72px); }
 .s-videre__h { margin: 0; }
 .s-videre .reise { margin-top: 36px; }
 .s-videre .reise__dot { background: var(--wine); }
 .s-videre__mens { margin-top: clamp(64px, 8vw, 104px); }
 .s-videre__mens .s-kontakt__addr a { color: var(--cream); }
-@media (max-width: 900px) {
-  .s-videre__topp { grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (max-width: 759px) {
+  .s-videre-hero { min-height: 72vh; }
+  .s-videre-hero__bilde img { object-position: 62% 40%; }
+  .kvittering { grid-template-columns: minmax(0, 1fr); }
+  .kvittering__rad, .kvittering__rad + .kvittering__rad { padding: 14px 0 15px; border-left: 0; }
+  .kvittering__rad + .kvittering__rad { border-top: 1px solid var(--line); }
 }
+@media (prefers-reduced-motion: reduce) { .js .s-videre-hero__bilde img { transform: none; transition: none; } }
 /* Beskjed nederst på skjermen */
 .toast { position: fixed; left: 50%; bottom: 20px; z-index: 60; width: min(560px, calc(100% - 32px)); margin: 0; padding: 14px 18px; border-radius: 3px; background: var(--cream); color: var(--wine); font-size: .9375rem; line-height: 1.5; box-shadow: 0 10px 30px rgba(40, 10, 16, .25); transform: translate(-50%, 16px); opacity: 0; pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease); }
 .toast.is-vist { opacity: 1; transform: translate(-50%, 0); }

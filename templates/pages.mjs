@@ -782,21 +782,22 @@ export const veienVidere = (ctx, c) => {
   const v = c.videre;
   const epost = ctx.site.epost;
   const body = `
-    <section class="s-videre" aria-labelledby="side-tittel">
+    <section class="s-videre-hero" aria-labelledby="side-tittel">
+      ${picture({ name: 'videre', widths: [800, 1200, 1600, 2400], sizes: '100vw', alt: '', cls: 's-videre-hero__bilde', w: 2400, h: 1350, eager: true })}
+      <div class="wrap s-videre-hero__tekst">
+        <p class="label label--caps label--blue" data-takk>${esc(v.etikett)}</p>
+        <h1 class="display display--hero" id="side-tittel">${inline(v.tittel)}</h1>
+        <p class="s-pagehero__lead">${inline(v.ingress)}</p>
+      </div>
+    </section>
+    <section class="s-videre" aria-label="Status og neste steg">
       <div class="wrap">
-        <div class="s-videre__topp">
-          <div>
-            <p class="label label--caps label--blue" data-takk>${esc(v.etikett)}</p>
-            <h1 class="display display--hero" id="side-tittel">${inline(v.tittel)}</h1>
-            <p class="s-pagehero__lead">${inline(v.ingress)}</p>
-          </div>
-          ${v.kvittering?.length ? `<dl class="kvittering">
-            ${v.kvittering.map((k, i) => `<div class="kvittering__rad">
-              <dt>${esc(k.navn)}</dt>
-              <dd>${i === 0 ? '<span class="kvittering__ok" aria-hidden="true"></span>' : ''}${esc(k.tekst)}</dd>
-            </div>`).join('')}
-          </dl>` : ''}
-        </div>
+        ${v.kvittering?.length ? `<dl class="kvittering">
+          ${v.kvittering.map((k, i) => `<div class="kvittering__rad">
+            <dt>${esc(k.navn)}</dt>
+            <dd>${i === 0 ? '<span class="kvittering__ok" aria-hidden="true"></span>' : ''}${esc(k.tekst)}</dd>
+          </div>`).join('')}
+        </dl>` : ''}
         <div class="s-videre__steg" id="steg">
           <h2 class="label label--caps label--blue s-videre__h">${esc(v.steg_tittel || 'Slik går vi frem')}</h2>
           <ol class="reise reise--fem">
