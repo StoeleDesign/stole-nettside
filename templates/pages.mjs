@@ -311,7 +311,7 @@ export const forside = (ctx, c) => {
       ${c.arbeid.prosjekter.map((p, i) => `<article class="case${i % 2 ? ' case--flip' : ''}" aria-labelledby="case-${i}">
         <div class="case__pic${harTavle(p.bilde) ? ' case__pic--tavle' : ` case__pic--${esc(p.bilde)}`}">
           ${harTavle(p.bilde)
-            ? picture({ name: `case-${p.bilde}`, widths: [800, 1200, 1600], sizes: '(min-width: 760px) 48vw, 100vw', alt: p.bilde_alt, w: 1600, h: 1534 })
+            ? picture({ name: `case-${p.bilde}`, widths: [800, 1200, 1600, 2400], sizes: '(min-width: 760px) 48vw, 100vw', alt: p.bilde_alt, w: 1600, h: 1534 })
             : p.bilde === 'nordhagen'
               ? picture({ name: 'nordhagen', widths: [800, 1200, 1600], sizes: '(min-width: 760px) 48vw, 100vw', alt: p.bilde_alt, w: 1600, h: 1200 })
               : `<img src="/i/bauta.svg" alt="${esc(p.bilde_alt)}" width="624" height="624" loading="lazy">`}
