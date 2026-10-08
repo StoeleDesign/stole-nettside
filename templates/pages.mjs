@@ -133,7 +133,7 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
 </head>
 <body class="${bodyClass}">
   <a class="skip" href="#innhold">Hopp til innholdet</a>
-  ${header(ctx, p, body.includes('id="kontakt"') ? '#kontakt' : '/#kontakt')}
+  ${header(ctx, p, '/start/')}
   <main id="innhold" tabindex="-1">
 ${body}
   </main>
@@ -190,26 +190,16 @@ const footer = ({ site }) => `<footer class="site-footer">
   </footer>`;
 
 /* ---------- Delte komponenter ---------- */
-const skjema = (site, id) => {
+const prosjektCta = (site, pakke) => {
   const f = site.skjema;
-  const valg = ['Ny logo eller oppfriskning', 'Visuell profil', 'Ny identitet fra bunnen av', 'Fast designer', 'Usikker, vil gjerne prate'];
-  return `<form class="skjema" action="${esc(f.adresse)}" method="POST" data-skjema data-takk="${esc(f.takk)}" data-feil="${esc(f.feil)}">
-          <h3 class="s-kontakt__h3">${esc(f.tittel)}</h3>
-          <p class="s-kontakt__muted">${esc(f.tekst)}</p>
-          <div class="skjema__felt"><label for="${id}-navn">Navn</label><input id="${id}-navn" name="navn" autocomplete="name" required maxlength="120"></div>
-          <div class="skjema__felt"><label for="${id}-epost">E-post</label><input id="${id}-epost" name="email" type="email" autocomplete="email" required maxlength="200"></div>
-          <div class="skjema__felt"><label for="${id}-bedrift">Bedrift <span class="skjema__valgfritt">(valgfritt)</span></label><input id="${id}-bedrift" name="bedrift" autocomplete="organization" maxlength="160"></div>
-          <div class="skjema__felt"><label for="${id}-gjelder">Hva gjelder det?</label><select id="${id}-gjelder" name="gjelder">${valg.map((v) => `<option>${esc(v)}</option>`).join('')}</select></div>
-          <div class="skjema__felt"><label for="${id}-melding">Melding</label><textarea id="${id}-melding" name="melding" rows="5" required maxlength="5000" placeholder="Kort om bedriften og hva som skurrer i dag."></textarea></div>
-          <div class="skjema__felle" aria-hidden="true"><label for="${id}-felle">La stå tomt</label><input id="${id}-felle" name="_gotcha" tabindex="-1" autocomplete="off"></div>
-          <input type="hidden" name="_subject" value="Ny henvendelse fra støle.com">
-          <p class="skjema__info">Meldingen sendes via Formspree. <a href="/personvern/">Slik behandler jeg opplysningene</a>.</p>
-          <button class="btn btn--solid" type="submit">Send meldingen ${chevron}</button>
-          <p class="skjema__status" role="status" aria-live="polite" tabindex="-1" data-skjema-status></p>
-        </form>`;
+  return `<div class="kontakt-cta">
+          <h3 class="s-kontakt__h3">${esc(f.cta_tittel)}</h3>
+          <p class="s-kontakt__muted">${esc(f.cta_tekst)}</p>
+          <a class="btn btn--solid" href="/start/${pakke ? `?pakke=${encodeURIComponent(pakke)}` : ''}">${esc(f.cta_knapp)} ${chevron}</a>
+        </div>`;
 };
 
-const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt' } = {}) => {
+const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt', pakke } = {}) => {
   const k = site.kontakt;
   return `<section class="s-kontakt" id="${id}" aria-labelledby="${id}-tittel">
     <div class="s-kontakt__mark" aria-hidden="true"></div>
@@ -220,7 +210,7 @@ const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt' } = {}) =
         <p class="lead">${inline(lead || k.ingress)}</p>
       </div>
       <div class="s-kontakt__ways">
-        ${site.skjema ? skjema(site, id) : ''}
+        ${site.skjema ? prosjektCta(site, pakke) : ''}
         <h3 class="s-kontakt__h3${site.skjema ? ' s-kontakt__h3--alt' : ''}">${esc(site.skjema ? site.skjema.epost_alternativ : k.epost_tittel)}</h3>
         <p class="s-kontakt__muted">${esc(k.epost_tekst)}</p>
         <p class="s-kontakt__addr"><a href="mailto:${site.epost_teknisk}">${esc(site.epost)}</a></p>
@@ -287,7 +277,7 @@ export const forside = (ctx, c) => {
         <hr class="rule">
         <div class="s-intro__body">${paras(c.helt.ingress)}</div>
         <div class="s-intro__actions">
-          <a class="pill" href="#kontakt">${esc(c.helt.knapp)}</a>
+          <a class="pill" href="/start/">${esc(c.helt.knapp)}</a>
           <a class="textlink" href="#arbeid">${esc(c.helt.lenke)}</a>
         </div>
       </div>
@@ -570,7 +560,7 @@ export const pakke = (ctx, t, p) => {
           <hr class="rule">
           <p class="s-pagehero__lead">${inline(p.ingress)}</p>
           <div class="s-intro__actions">
-            <a class="pill" href="#kontakt">${esc(ctx.site.knapp_meny)}</a>
+            <a class="pill" href="/start/?pakke=${esc(p.slug)}">${esc(ctx.site.knapp_meny)}</a>
             <a class="textlink" href="#prosess">Slik foregår det</a>
           </div>
         </div>
@@ -636,7 +626,7 @@ export const pakke = (ctx, t, p) => {
       </div>
     </section>
 
-    ${kontakt(ctx, { lead: p.neste })}`;
+    ${kontakt(ctx, { lead: p.neste, pakke: p.slug })}`;
   const { site } = ctx;
   const sti = [{ navn: 'Forside', url: '/' }, { navn: 'Tjenester', url: '/tjenester/' }, { navn: p.navn, url: `/tjenester/${p.slug}/` }];
   const tjeneste = {
@@ -670,6 +660,159 @@ export const personvern = (ctx, c) => {
       </div>
     </section>`;
   return layout(ctx, { title: c.seo_tittel, description: c.seo_beskrivelse, path: '/personvern/', body, bodyClass: 'page-sub page-legal' });
+};
+
+/* ---------- Start et prosjekt (brief i fem steg) ---------- */
+const valg = (type, name, items, { hint = false } = {}) => items.map((v) => {
+  const verdi = typeof v === 'string' ? v : v.verdi;
+  const tekst = typeof v === 'string' ? v : v.tekst;
+  return `<label class="valg${hint ? ' valg--hint' : ''}"><input type="${type}" name="${name}" value="${esc(type === 'radio' ? tekst : verdi)}" data-label="${esc(tekst)}"><span class="valg__tekst">${esc(tekst)}${hint && v.hint ? `<small>${esc(v.hint)}</small>` : ''}</span></label>`;
+}).join('');
+const felt = ({ id, navn, label, type = 'text', valgfri = true, hjelp, auto, rader, maks = 2000, plassholder }) => `<div class="brief__felt">
+  <label for="${id}">${esc(label)}${valgfri ? ' <span class="brief__valgfritt">(valgfritt)</span>' : ''}</label>
+  ${hjelp ? `<p class="brief__hjelp" id="${id}-hjelp">${esc(hjelp)}</p>` : ''}
+  ${rader ? `<textarea id="${id}" name="${navn}" rows="${rader}" maxlength="${maks}"${hjelp ? ` aria-describedby="${id}-hjelp"` : ''}${plassholder ? ` placeholder="${esc(plassholder)}"` : ''}></textarea>`
+    : `<input id="${id}" name="${navn}" type="${type}" maxlength="${Math.min(maks, 300)}"${auto ? ` autocomplete="${auto}"` : ''}${valgfri ? '' : ' required'}${hjelp ? ` aria-describedby="${id}-hjelp"` : ''}${plassholder ? ` placeholder="${esc(plassholder)}"` : ''}>`}
+  <p class="brief__feil" id="${id}-feil" hidden></p>
+</div>`;
+
+export const startside = (ctx, c) => {
+  const { site } = ctx;
+  const pakker = { 'friskt-pust': ['logo'], grunnmuren: ['identitet'], total: ['identitet', 'nettside'], 'fast-designer': ['fast-designer'] };
+  const nav = (n) => `<div class="brief__knapper">
+      ${n > 1 ? '<button class="btn btn--ghost" type="button" data-tilbake>Tilbake</button>' : ''}
+      ${n < 5 ? `<button class="btn btn--solid" type="button" data-neste>Neste: ${esc(c.steg[n])} ${chevron}</button>` : ''}
+    </div>`;
+  const body = `
+    <section class="s-pagehero s-pagehero--short s-pagehero--brief" aria-labelledby="side-tittel">
+      <div class="wrap">
+        <p class="label label--caps label--blue">${esc(c.etikett)}</p>
+        <h1 class="display display--hero" id="side-tittel">${inline(c.tittel)}</h1>
+        <p class="s-pagehero__lead">${inline(c.ingress)}</p>
+      </div>
+    </section>
+    <noscript><link rel="stylesheet" href="/css/uten-js.css"></noscript>
+    <section class="s-brief" aria-label="Prosjektskjema">
+      ${edge('peak')}
+      <div class="wrap s-brief__grid">
+        <nav class="brief__fremdrift" aria-label="Steg i skjemaet">
+          <p class="brief__teller" aria-live="polite" data-teller>Steg 1 av 5</p>
+          <ol>${c.steg.map((s, i) => `<li data-fremdrift="${i + 1}"><span class="brief__nr">0${i + 1}</span><span class="brief__navn">${esc(s)}</span></li>`).join('')}</ol>
+          <span class="brief__linje" aria-hidden="true"><span data-linje></span></span>
+        </nav>
+
+        <form class="brief" action="${esc(site.skjema.adresse)}" method="POST" novalidate data-brief data-pakker='${esc(JSON.stringify(pakker))}'>
+          <fieldset class="brief__steg is-naa" data-steg="1">
+            <legend class="brief__tittel">La oss starte enkelt.</legend>
+            ${felt({ id: 'b-navn', navn: 'navn', label: 'Navn', valgfri: false, auto: 'name' })}
+            ${felt({ id: 'b-epost', navn: 'email', label: 'E-post', type: 'email', valgfri: false, auto: 'email' })}
+            ${felt({ id: 'b-bedrift', navn: 'bedrift', label: 'Bedrift', auto: 'organization' })}
+            ${felt({ id: 'b-telefon', navn: 'telefon', label: 'Telefon', type: 'tel', auto: 'tel' })}
+            ${felt({ id: 'b-lenke', navn: 'lenke', label: 'Nettside eller Instagram', plassholder: 'For eksempel bedrift.no eller @bedrift', hjelp: 'Så kan jeg se hvordan dere fremstår i dag.' })}
+            ${nav(1)}
+          </fieldset>
+
+          <fieldset class="brief__steg" data-steg="2">
+            <legend class="brief__tittel">Hva trenger du hjelp med?</legend>
+            <p class="brief__hjelp">Velg så mange du vil.</p>
+            <div class="brief__valg brief__valg--behov">${valg('checkbox', 'behov', c.behov, { hint: true })}</div>
+            <div class="brief__felt brief__vilkaar" data-vis-hvis="annet" hidden>
+              <label for="b-annet">Hva annet tenker du på?</label>
+              <input id="b-annet" name="behov_annet" maxlength="300">
+            </div>
+            <fieldset class="brief__felt brief__vilkaar" data-vis-hvis="logo identitet" hidden>
+              <legend>Har dere en logo eller visuell profil i dag?</legend>
+              <div class="brief__valg brief__valg--rad">${valg('radio', 'eksisterende_profil', ['Ja', 'Litt, men den henger ikke sammen', 'Nei, vi starter fra null'])}</div>
+            </fieldset>
+            <fieldset class="brief__felt brief__vilkaar" data-vis-hvis="nettside" hidden>
+              <legend>Gjelder det en ny eller en eksisterende nettside?</legend>
+              <div class="brief__valg brief__valg--rad">${valg('radio', 'nettside', ['Helt ny', 'Fornye den vi har'])}</div>
+            </fieldset>
+            ${felt({ id: 'b-beskrivelse', navn: 'beskrivelse', label: 'Fortell litt om hva du ser for deg', rader: 4, hjelp: 'Stikkord holder. Det gjør ingenting om du ikke vet alt ennå.' })}
+            ${nav(2)}
+          </fieldset>
+
+          <fieldset class="brief__steg" data-steg="3">
+            <legend class="brief__tittel">Om bedriften</legend>
+            ${felt({ id: 'b-gjor', navn: 'om_bedriften', label: 'Hva gjør bedriften?', rader: 2, maks: 600 })}
+            ${felt({ id: 'b-kunder', navn: 'kundene', label: 'Hvem er kundene deres?', rader: 2, maks: 600 })}
+            ${felt({ id: 'b-maal', navn: 'maal', label: 'Hva ønsker dere å oppnå?', rader: 3, hjelp: c.mal_hjelp })}
+            ${nav(3)}
+          </fieldset>
+
+          <fieldset class="brief__steg" data-steg="4">
+            <legend class="brief__tittel">Rammer og inspirasjon</legend>
+            <fieldset class="brief__felt">
+              <legend>Når trenger dere det? <span class="brief__valgfritt">(valgfritt)</span></legend>
+              <div class="brief__valg brief__valg--rad">${valg('radio', 'tidsramme', c.tidsramme)}</div>
+            </fieldset>
+            <fieldset class="brief__felt">
+              <legend>Har dere et budsjett i tankene? <span class="brief__valgfritt">(valgfritt)</span></legend>
+              <p class="brief__hjelp">${esc(c.budsjett_hjelp)}</p>
+              <div class="brief__valg brief__valg--rad">${valg('radio', 'budsjett', c.budsjett)}</div>
+            </fieldset>
+            ${felt({ id: 'b-inspirasjon', navn: 'inspirasjon', label: 'Er det noe du liker spesielt godt?', rader: 3, hjelp: 'Lim inn lenker til nettsider, Instagram-profiler eller design du liker. Bilder og filer kan du sende på e-post etterpå.' })}
+            ${nav(4)}
+          </fieldset>
+
+          <fieldset class="brief__steg" data-steg="5">
+            <legend class="brief__tittel">Er det noe annet jeg bør vite?</legend>
+            ${felt({ id: 'b-annet-info', navn: 'annet', label: 'Noe annet', rader: 4 })}
+            <div class="brief__oppsummering" data-oppsummering hidden>
+              <h2 class="brief__h">Dette sender du</h2>
+              <dl data-oppsummering-liste></dl>
+            </div>
+            <div class="brief__felle" aria-hidden="true"><label for="b-felle">La stå tomt</label><input id="b-felle" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+            <div class="brief__knapper">
+              <button class="btn btn--ghost" type="button" data-tilbake>Tilbake</button>
+              <button class="btn btn--solid brief__send" type="submit">Send forespørsel ${chevron}</button>
+            </div>
+            <p class="brief__trygg">${esc(c.trygghet)}</p>
+            <p class="brief__status" role="alert" data-brief-status hidden></p>
+            <p class="brief__info">Skjemaet sendes via Formspree. <a href="/personvern/">Slik behandler jeg opplysningene</a>.</p>
+          </fieldset>
+        </form>
+      </div>
+    </section>`;
+  return layout(ctx, { title: c.seo_tittel, description: c.seo_beskrivelse, path: '/start/', body, bodyClass: 'page-sub page-brief' });
+};
+
+/* ---------- Veien videre (etter innsending) ---------- */
+export const veienVidere = (ctx, c) => {
+  const v = c.videre;
+  const body = `
+    <section class="s-pagehero s-pagehero--short s-pagehero--videre" aria-labelledby="side-tittel">
+      <div class="wrap">
+        <p class="label label--caps label--blue" data-takk>${esc(v.etikett)}</p>
+        <h1 class="display display--hero" id="side-tittel">${inline(v.tittel)}</h1>
+        <p class="s-pagehero__lead">${inline(v.ingress)}</p>
+      </div>
+    </section>
+    <section class="s-videre-bilde" aria-hidden="true">
+      ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: '', cls: 's-videre-bilde__img', w: 2320, h: 1490 })}
+    </section>
+    <section class="s-reise s-reise--videre" aria-labelledby="videre-tittel">
+      <div class="wrap">
+        <h2 class="sr-only" id="videre-tittel">Steg for steg</h2>
+        <ol class="reise reise--fem">
+          ${v.steg.map((r, i) => `<li class="reise__step${i === 0 ? ' is-naa' : ''}">
+            <span class="reise__dot" aria-hidden="true"></span>
+            <span class="step__num">0${i + 1}${i === 0 ? ' <span class="reise__naa">Nå</span>' : ''}</span>
+            <h3 class="step__title">${esc(r.navn)}</h3>
+            <p class="step__text">${inline(r.tekst)}</p>
+          </li>`).join('')}
+        </ol>
+        <div class="s-videre__mens">
+          <h2 class="s-kontakt__h3">${esc(v.mens_tittel)}</h2>
+          <p class="step__text">${inline(v.mens_tekst)}</p>
+          <div class="btn-row">
+            <a class="btn btn--solid" href="mailto:${ctx.site.epost_teknisk}?subject=${encodeURIComponent('Inspirasjon til prosjektet')}">Send bilder på e-post ${chevron}</a>
+            <a class="btn btn--ghost" href="/#arbeid">Se arbeidet</a>
+          </div>
+        </div>
+      </div>
+    </section>`;
+  return layout(ctx, { title: v.seo_tittel, description: v.ingress, path: '/veien-videre/', body, bodyClass: 'page-sub page-videre', noindex: true });
 };
 
 /* ---------- 404 ---------- */

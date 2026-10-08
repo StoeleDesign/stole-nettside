@@ -56,10 +56,9 @@
   },
   "skjema": {
     "adresse": "https://formspree.io/f/meaegkkg",
-    "tittel": "Skriv til meg her",
-    "tekst": "Fyll inn det du vet. Jeg svarer så fort jeg kan, som regel innen en arbeidsdag.",
-    "takk": "Takk! Meldingen er sendt, og jeg svarer så fort jeg kan.",
-    "feil": "Noe gikk galt, og meldingen ble ikke sendt. Prøv igjen, eller send en e-post til hei@støle.com.",
+    "cta_tittel": "Fortell om prosjektet",
+    "cta_tekst": "Fem korte steg, rundt tre minutter. Så tar jeg kontakt for en gratis prat.",
+    "cta_knapp": "Start et prosjekt",
     "epost_alternativ": "Eller send en e-post"
   }
 }

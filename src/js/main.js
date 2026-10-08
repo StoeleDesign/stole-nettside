@@ -174,20 +174,181 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
   }
 })();
 
-/* Kontaktskjema: sendes uten å forlate siden */
-document.querySelectorAll('[data-skjema]').forEach((form) => {
-  const status = form.querySelector('[data-skjema-status]');
-  const knapp = form.querySelector('button[type="submit"]');
+/* ---------- Prosjektskjema (/start/) ---------- */
+(() => {
+  const form = document.querySelector('[data-brief]');
+  if (!form) return;
+  const steg = [...form.querySelectorAll('[data-steg]')];
+  const fremdrift = [...document.querySelectorAll('[data-fremdrift]')];
+  const teller = document.querySelector('[data-teller]');
+  const linje = document.querySelector('[data-linje]');
+  const status = form.querySelector('[data-brief-status]');
+  const lagreNokkel = 'stole-brief';
+  let naa = 1;
+
+  // Utkast i økten: ingenting forsvinner ved Tilbake, oppdatering eller nettleserens tilbakeknapp
+  const lagre = () => {
+    const data = {};
+    new FormData(form).forEach((v, k) => { if (k === '_gotcha') return; (data[k] = data[k] || []).push(v); });
+    try { sessionStorage.setItem(lagreNokkel, JSON.stringify(data)); } catch {}
+  };
+  const hent = () => {
+    let data = null;
+    try { data = JSON.parse(sessionStorage.getItem(lagreNokkel) || 'null'); } catch {}
+    if (!data) {
+      const pakke = new URLSearchParams(location.search).get('pakke');
+      const kart = JSON.parse(form.dataset.pakker || '{}');
+      if (pakke && kart[pakke]) data = { behov: kart[pakke] };
+    }
+    if (!data) return;
+    Object.entries(data).forEach(([k, verdier]) => {
+      form.querySelectorAll(`[name="${CSS.escape(k)}"]`).forEach((el) => {
+        if (el.type === 'checkbox' || el.type === 'radio') el.checked = verdier.includes(el.value);
+        else el.value = verdier[0] || '';
+      });
+    });
+  };
+
+  // Spørsmål som bare vises når de er relevante
+  const vilkaar = () => {
+    const valgt = [...form.querySelectorAll('[name="behov"]:checked')].map((el) => el.value);
+    form.querySelectorAll('[data-vis-hvis]').forEach((el) => {
+      const vis = el.dataset.visHvis.split(' ').some((v) => valgt.includes(v));
+      el.hidden = !vis;
+      el.querySelectorAll('input, textarea').forEach((i) => { i.disabled = !vis; });
+    });
+  };
+
+  const feil = (el, melding) => {
+    const boks = document.getElementById(`${el.id}-feil`);
+    if (melding) {
+      el.setAttribute('aria-invalid', 'true');
+      el.setAttribute('aria-describedby', [`${el.id}-feil`, el.getAttribute('aria-describedby')].filter(Boolean).join(' '));
+      if (boks) { boks.textContent = melding; boks.hidden = false; }
+    } else {
+      el.removeAttribute('aria-invalid');
+      if (boks) { boks.hidden = true; boks.textContent = ''; }
+    }
+  };
+  const sjekk = (el) => {
+    const v = el.value.trim();
+    if (el.required && !v) return el.type === 'email' ? 'Skriv inn e-postadressen din, så jeg kan svare deg.' : 'Skriv inn navnet ditt.';
+    if (el.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Sjekk e-postadressen. Den ser ut til å mangle noe, for eksempel @ eller .no.';
+    return '';
+  };
+  const gyldig = (n) => {
+    let forste = null;
+    steg[n - 1].querySelectorAll('input[required], input[type="email"]').forEach((el) => {
+      const m = sjekk(el); feil(el, m);
+      if (m && !forste) forste = el;
+    });
+    if (forste) forste.focus();
+    return !forste;
+  };
+
+  const oppsummer = () => {
+    const liste = form.querySelector('[data-oppsummering-liste]');
+    const rader = [];
+    const legg = (navn, verdi, tilSteg) => { if (verdi) rader.push([navn, verdi, tilSteg]); };
+    const v = (k) => (form.elements[k] && !form.elements[k].disabled ? String(form.elements[k].value || '').trim() : '');
+    legg('Navn', v('navn'), 1); legg('E-post', v('email'), 1); legg('Bedrift', v('bedrift'), 1);
+    legg('Hjelp med', [...form.querySelectorAll('[name="behov"]:checked')].map((el) => el.dataset.label).join(', '), 2);
+    legg('Tidsramme', v('tidsramme'), 4); legg('Budsjett', v('budsjett'), 4);
+    liste.textContent = '';
+    rader.forEach(([navn, verdi, tilSteg]) => {
+      const dt = document.createElement('dt'); dt.textContent = navn;
+      const dd = document.createElement('dd'); dd.textContent = verdi;
+      const knapp = document.createElement('button'); knapp.type = 'button'; knapp.className = 'brief__endre'; knapp.textContent = 'Endre';
+      knapp.setAttribute('aria-label', `Endre ${navn.toLowerCase()}`);
+      knapp.addEventListener('click', () => vis(tilSteg));
+      liste.append(dt, dd, knapp);
+    });
+    form.querySelector('[data-oppsummering]').hidden = !rader.length;
+  };
+
+  const vis = (n, { historikk = true, fokus = true } = {}) => {
+    naa = Math.min(Math.max(1, n), steg.length);
+    steg.forEach((s, i) => s.classList.toggle('is-naa', i === naa - 1));
+    fremdrift.forEach((li, i) => {
+      li.classList.toggle('is-naa', i === naa - 1);
+      li.classList.toggle('is-ferdig', i < naa - 1);
+      if (i === naa - 1) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+    });
+    if (teller) teller.textContent = `Steg ${naa} av ${steg.length}`;
+    if (linje) linje.style.setProperty('--fremdrift', `${((naa - 1) / (steg.length - 1)) * 100}%`);
+    if (naa === steg.length) oppsummer();
+    if (historikk) history.pushState({ steg: naa }, '', `?steg=${naa}`);
+    if (fokus) {
+      const tittel = steg[naa - 1].querySelector('.brief__tittel');
+      tittel.setAttribute('tabindex', '-1'); tittel.focus({ preventScroll: true });
+      const topp = form.closest('.s-brief').getBoundingClientRect().top + window.scrollY - 90;
+      if (window.scrollY > topp) window.scrollTo({ top: topp, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+  };
+
+  hent(); vilkaar();
+  const startSteg = Number(new URLSearchParams(location.search).get('steg')) || 1;
+  // Hopp aldri forbi steg 1 uten navn og e-post
+  const tillatt = startSteg > 1 && form.elements.navn.value && form.elements.email.value ? startSteg : 1;
+  history.replaceState({ steg: tillatt }, '', tillatt > 1 ? `?steg=${tillatt}` : location.pathname + location.search.replace(/[?&]steg=\d+/, ''));
+  vis(tillatt, { historikk: false, fokus: false });
+
+  form.addEventListener('input', (e) => {
+    if (e.target.getAttribute('aria-invalid') === 'true') feil(e.target, sjekk(e.target));
+    if (e.target.name === 'behov') vilkaar();
+    lagre();
+  });
+  form.addEventListener('change', lagre);
+  form.addEventListener('focusout', (e) => { if (e.target.matches('input[required], input[type="email"]') && e.target.value) feil(e.target, sjekk(e.target)); });
+  form.querySelectorAll('[data-neste]').forEach((b) => b.addEventListener('click', () => { if (gyldig(naa)) vis(naa + 1); }));
+  form.querySelectorAll('[data-tilbake]').forEach((b) => b.addEventListener('click', () => history.back()));
+  window.addEventListener('popstate', (e) => vis(e.state?.steg || 1, { historikk: false }));
+  // Enter i et tekstfelt går til neste steg i stedet for å sende hele skjemaet
+  form.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.matches('input:not([type="checkbox"]):not([type="radio"])') && naa < steg.length) {
+      e.preventDefault(); if (gyldig(naa)) vis(naa + 1);
+    }
+  });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!form.reportValidity()) return;
-    knapp.disabled = true; status.className = 'skjema__status'; status.textContent = 'Sender …';
+    if (!gyldig(1)) { vis(1); return; }
+    const knapp = form.querySelector('.brief__send');
+    knapp.disabled = true; knapp.firstChild.textContent = 'Sender … ';
+    status.hidden = true;
+    // Strukturerte data: tydelige feltnavn, lister som tekst
+    const fd = new FormData(form);
+    const behov = [...form.querySelectorAll('[name="behov"]:checked')].map((el) => el.dataset.label);
+    const data = {
+      navn: fd.get('navn'), email: fd.get('email'), bedrift: fd.get('bedrift'), telefon: fd.get('telefon'), lenke: fd.get('lenke'),
+      behov: behov.join(', '), behov_annet: fd.get('behov_annet'), eksisterende_profil: fd.get('eksisterende_profil'), nettside: fd.get('nettside'),
+      beskrivelse: fd.get('beskrivelse'), om_bedriften: fd.get('om_bedriften'), kundene: fd.get('kundene'), maal: fd.get('maal'),
+      tidsramme: fd.get('tidsramme'), budsjett: fd.get('budsjett'), inspirasjon: fd.get('inspirasjon'), annet: fd.get('annet'),
+      kilde: document.referrer ? new URL(document.referrer).pathname : '', _gotcha: fd.get('_gotcha'),
+      _subject: `Ny prosjektforespørsel: ${fd.get('bedrift') || fd.get('navn')}`,
+    };
+    Object.keys(data).forEach((k) => { if (data[k] === null || data[k] === '') delete data[k]; });
     try {
-      const svar = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      const svar = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
       if (!svar.ok) throw new Error(String(svar.status));
-      form.reset(); status.textContent = form.dataset.takk;
+      try { sessionStorage.removeItem(lagreNokkel); sessionStorage.setItem('stole-brief-navn', String(data.navn).split(' ')[0]); } catch {}
+      document.body.classList.add('is-sender');
+      setTimeout(() => { location.href = '/veien-videre/'; }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 450);
     } catch {
-      status.classList.add('is-feil'); status.textContent = form.dataset.feil;
-    } finally { knapp.disabled = false; status.focus(); }
+      knapp.disabled = false; knapp.firstChild.textContent = 'Send forespørsel ';
+      status.textContent = 'Forespørselen ble ikke sendt. Det du har skrevet er tatt vare på. Prøv igjen, eller send en e-post til hei@støle.com.';
+      status.hidden = false;
+    }
   });
-});
+})();
+
+/* ---------- Veien videre ---------- */
+(() => {
+  const takk = document.querySelector('[data-takk]');
+  if (!takk) return;
+  let navn = '';
+  try { navn = sessionStorage.getItem('stole-brief-navn') || ''; } catch {}
+  if (navn) takk.textContent = `Takk, ${navn}. Forespørselen er sendt.`;
+  const bilde = document.querySelector('.s-videre-bilde');
+  if (bilde) requestAnimationFrame(() => bilde.classList.add('is-inne'));
+})();

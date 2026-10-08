@@ -794,23 +794,120 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .s-intro__mark { aspect-ratio: 264 / 496; background: url(/i/mark-split.svg) center / contain no-repeat; }
 .s-kontakt__mark { aspect-ratio: 499 / 937; background: url(/i/mark-deep.svg) center / contain no-repeat; }
 
-/* Kontaktskjema */
-.skjema { display: grid; gap: 16px; margin-bottom: 56px; }
-.skjema .s-kontakt__muted { margin-top: -8px; }
-.skjema__felt { display: grid; gap: 6px; }
-.skjema__felt label { font-size: .9375rem; font-weight: 600; }
-.skjema__valgfritt { font-weight: 400; color: var(--rose); }
-.skjema input, .skjema select, .skjema textarea { width: 100%; font: inherit; font-size: 1rem; color: var(--cream); background: rgba(243, 235, 226, .06); border: 1px solid var(--rose); border-radius: 3px; padding: 12px 14px; min-height: 48px; }
-.skjema textarea { resize: vertical; min-height: 130px; line-height: 1.5; }
-.skjema select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--cream) 50%), linear-gradient(135deg, var(--cream) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 40px; }
-.skjema select option { color: var(--ink); }
-.skjema input::placeholder, .skjema textarea::placeholder { color: var(--rose); opacity: .8; }
-.skjema input:focus-visible, .skjema select:focus-visible, .skjema textarea:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-color: var(--cream); }
-.skjema__felle { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.skjema__info { font-size: .875rem; color: var(--rose); }
-.skjema__info a { color: inherit; }
-.skjema .btn { justify-self: start; }
-.skjema__status:empty { display: none; }
-.skjema__status { font-weight: 600; padding: 12px 14px; border-left: 3px solid var(--blue); background: rgba(243, 235, 226, .06); }
-.skjema__status.is-feil { border-left-color: var(--rose); }
 .s-kontakt__h3--alt { padding-top: 40px; border-top: 1px solid var(--line); }
+
+/* Kontaktfeltet: inngang til prosjektskjemaet */
+.kontakt-cta { display: grid; gap: 12px; justify-items: start; margin-bottom: 56px; }
+.kontakt-cta .btn { margin-top: 8px; }
+
+/* =========================================================
+   Start et prosjekt: brief i fem steg
+   ========================================================= */
+.page-brief .pill--nav, .page-videre .pill--nav { visibility: hidden; }
+.s-brief { --bg: var(--sand); --focus: var(--wine); background: var(--sand); color: var(--ink); padding: clamp(48px, 6vw, 88px) 0 clamp(110px, 12vw, 160px); }
+.s-brief .edge { --edge: var(--sand); }
+.s-brief__grid { display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 2.2fr); gap: 40px clamp(40px, 7vw, 120px); align-items: start; }
+
+/* Fremdrift: nummererte steg med en linje som fylles */
+.brief__fremdrift { position: sticky; top: 96px; }
+.brief__teller { font-size: .875rem; color: var(--ink-muted); margin-bottom: 18px; }
+.brief__fremdrift ol { list-style: none; margin: 0; padding: 0 0 0 22px; display: grid; gap: 14px; }
+.brief__fremdrift li { display: flex; gap: 14px; align-items: baseline; color: var(--ink-muted); transition: color .3s var(--ease); }
+.brief__fremdrift li.is-naa { color: var(--wine); }
+.brief__fremdrift li.is-naa .brief__navn { font-weight: 600; }
+.brief__fremdrift li.is-ferdig { color: var(--ink); }
+.brief__nr { font-family: var(--sans); font-size: .8125rem; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.brief__navn { font-family: var(--serif); font-size: 1.25rem; line-height: 1.2; }
+.brief__linje { position: absolute; left: 0; top: 38px; bottom: 4px; width: 1px; background: rgba(90, 26, 38, .2); }
+.brief__linje span { position: absolute; left: 0; top: 0; width: 1px; height: var(--fremdrift, 0%); background: var(--wine); transition: height .6s var(--ease); }
+
+/* Stegene */
+.brief { min-width: 0; }
+.brief__steg { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 26px; }
+.brief__steg:not(.is-naa) { display: none; }
+.js .brief__steg.is-naa { animation: briefInn .45s var(--ease) both; }
+@keyframes briefInn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.brief__tittel { font-family: var(--serif); font-weight: 500; font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem); line-height: 1.1; letter-spacing: -0.01em; color: var(--wine); padding: 0; margin-bottom: 4px; max-width: 18em; }
+.brief__h { font-family: var(--serif); font-weight: 500; font-size: 1.375rem; color: var(--wine); margin-bottom: 14px; }
+.brief__felt { display: grid; gap: 8px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.brief__felt > label, .brief__felt > legend { font-weight: 600; font-size: 1rem; padding: 0; margin-bottom: 0; }
+fieldset.brief__felt > legend { margin-bottom: 10px; }
+.brief__valgfritt { font-weight: 400; color: var(--ink-muted); }
+.brief__hjelp { font-size: .9375rem; line-height: 1.5; color: var(--ink-muted); max-width: 38em; margin-top: -2px; }
+.brief input:not([type="checkbox"]):not([type="radio"]), .brief textarea { width: 100%; font: inherit; font-size: 1.0625rem; color: var(--ink); background: #f3ece2; border: 1px solid rgba(90, 80, 74, .45); border-radius: 3px; padding: 13px 14px; min-height: 52px; transition: border-color .2s; }
+.brief textarea { resize: vertical; line-height: 1.55; min-height: 0; }
+.brief input::placeholder, .brief textarea::placeholder { color: #8a7f77; }
+.brief input:hover, .brief textarea:hover { border-color: var(--ink-muted); }
+.brief input:focus-visible, .brief textarea:focus-visible { outline: 2px solid var(--wine); outline-offset: 2px; border-color: var(--wine); }
+.brief [aria-invalid="true"] { border-color: var(--wine) !important; box-shadow: inset 3px 0 0 var(--wine); }
+.brief__feil { font-size: .9375rem; color: var(--wine); }
+
+/* Valg: store, tydelige flater i stedet for nedtrekksliste */
+.brief__valg { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.brief__valg--rad { grid-template-columns: repeat(auto-fill, minmax(150px, max-content)); }
+.valg { position: relative; display: block; cursor: pointer; }
+.valg input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.valg__tekst { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-height: 52px; height: 100%; padding: 12px 16px; border: 1px solid rgba(90, 80, 74, .45); border-radius: 3px; background: #f3ece2; font-weight: 600; line-height: 1.25; transition: background-color .2s, color .2s, border-color .2s; }
+.valg__tekst small { font-weight: 400; font-size: .875rem; color: var(--ink-muted); transition: color .2s; }
+.valg--hint .valg__tekst { min-height: 72px; }
+.valg:hover .valg__tekst { border-color: var(--wine); }
+.valg input:checked + .valg__tekst { background: var(--wine); border-color: var(--wine); color: var(--cream); }
+.valg input:checked + .valg__tekst small { color: var(--rose); }
+.valg input:focus-visible + .valg__tekst { outline: 2px solid var(--wine); outline-offset: 2px; }
+.brief__vilkaar { padding-left: 18px; border-left: 2px solid var(--wine); }
+
+.brief__knapper { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.brief .btn--solid, .s-brief .btn--solid { background: var(--wine); color: var(--cream); border-color: var(--wine); }
+.brief .btn--solid:hover { background: transparent; color: var(--wine); }
+.brief .btn--ghost { color: var(--ink); border-color: rgba(90, 80, 74, .45); }
+.brief .btn--ghost:hover { border-color: var(--ink); background: rgba(90, 26, 38, .05); }
+.brief .btn[disabled] { opacity: .6; cursor: progress; }
+.brief__trygg { font-size: .9375rem; color: var(--ink-muted); }
+.brief__info { font-size: .875rem; color: var(--ink-muted); }
+.brief__info a { color: inherit; }
+.brief__status { padding: 12px 14px; border-left: 3px solid var(--wine); background: #f3ece2; }
+.brief__felle { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.brief__oppsummering { padding-top: 22px; border-top: 1px solid rgba(90, 26, 38, .2); }
+.brief__oppsummering dl { display: grid; grid-template-columns: minmax(110px, auto) 1fr auto; gap: 8px 18px; font-size: .9375rem; }
+.brief__oppsummering dt { color: var(--ink-muted); }
+.brief__oppsummering dd { margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
+.brief__endre { font: inherit; font-size: .875rem; color: var(--wine); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; justify-self: end; }
+.page-brief.is-sender .s-brief .wrap { opacity: 0; transform: translateY(-6px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+
+@media (max-width: 900px) {
+  .s-brief__grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .brief__fremdrift { position: static; }
+  .brief__fremdrift ol { display: flex; gap: 6px; padding: 0; }
+  .brief__fremdrift li { flex: 1; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 3px solid rgba(90, 26, 38, .18); }
+  .brief__fremdrift li.is-naa, .brief__fremdrift li.is-ferdig { border-top-color: var(--wine); }
+  .brief__navn { font-family: var(--sans); font-size: .8125rem; }
+  .brief__fremdrift li:not(.is-naa) .brief__navn { display: none; }
+  .brief__linje { display: none; }
+  .brief__teller { margin-bottom: 12px; }
+}
+@media (max-width: 480px) {
+  .brief__valg { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .brief__valg--rad { grid-template-columns: minmax(0, 1fr); }
+  .valg__tekst { padding: 10px 12px; }
+  .brief__knapper .btn { flex: 1 1 auto; }
+  .brief__oppsummering dl { grid-template-columns: minmax(0, 1fr) auto; }
+  .brief__oppsummering dd { grid-column: 1 / -1; margin-top: -4px; padding-bottom: 6px; }
+}
+
+/* =========================================================
+   Veien videre
+   ========================================================= */
+.s-videre-bilde { position: relative; height: clamp(220px, 34vw, 460px); overflow: hidden; background: var(--wine-850); margin-top: -1px; }
+.s-videre-bilde__img, .s-videre-bilde__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.s-videre-bilde__img img { object-fit: cover; object-position: 55% 62%; opacity: .85; }
+.js .s-videre-bilde__img img { transform: scale(1.06); transition: transform 2.4s var(--ease); }
+.js .s-videre-bilde.is-inne .s-videre-bilde__img img { transform: none; }
+.s-reise--videre { padding-top: clamp(80px, 9vw, 120px); }
+.s-reise--videre::before { display: none; }
+.reise--fem { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 0; }
+.reise__step.is-naa .reise__dot { background: var(--rose); }
+.reise__naa { margin-left: 8px; font-size: .75rem; letter-spacing: .04em; color: var(--wine-850); background: var(--rose); padding: 2px 7px; border-radius: 2px; }
+.s-videre__mens { display: grid; gap: 12px; max-width: 34em; margin-top: clamp(72px, 9vw, 120px); padding-top: 32px; border-top: 1px solid var(--line); }
+.s-videre__mens .btn-row { margin-top: 10px; }
+@media (max-width: 1100px) { .reise--fem { grid-template-columns: repeat(3, minmax(0, 1fr)); } .reise--fem::before, .reise--fem::after { display: none; } }
+.s-videre__mens .step__text { color: var(--rose); }

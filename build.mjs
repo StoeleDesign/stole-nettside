@@ -17,6 +17,7 @@ const site = read('site.json');
 const forside = read('forside.json');
 const tjenester = read('tjenester.json');
 const personvern = read('personvern.json');
+const start = read('start.json');
 
 // Adressen til en pakke lages fra navnet hvis den mangler (æ/ø/å blir ae/o/a)
 const slugify = (s) => String(s).toLowerCase().replace(/æ/g, 'ae').replace(/ø/g, 'o').replace(/å/g, 'a')
@@ -85,6 +86,8 @@ const felles = ['content/site.json'];
 write('/', T.forside(ctx, forside), { kilder: [...felles, 'content/forside.json'] });
 write('/tjenester/', T.tjenesteoversikt(ctx, tjenester), { kilder: [...felles, 'content/tjenester.json', 'content/forside.json'] });
 for (const p of tjenester.pakker) write(`/tjenester/${p.slug}/`, T.pakke(ctx, tjenester, p), { kilder: [...felles, 'content/tjenester.json'] });
+write('/start/', T.startside(ctx, start), { kilder: [...felles, 'content/start.json'] });
+write('/veien-videre/', T.veienVidere(ctx, start), { noindex: true });
 write('/personvern/', T.personvern(ctx, personvern), { kilder: [...felles, 'content/personvern.json'] });
 write('/404.html', T.ikkeFunnet(ctx), { noindex: true });
 

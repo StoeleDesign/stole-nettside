@@ -215,14 +215,13 @@ content:
       - { name: knapp_meny_kort, label: Knapp i menyen (mobil), type: string }
       - { name: bunntekst_personvern, label: Personverntekst i bunnen, type: string }
       - name: skjema
-        label: Kontaktskjema
+        label: Prosjektskjema (inngang i kontaktfeltet)
         type: object
         fields:
           - { name: adresse, label: Formspree-adresse, type: string, hidden: true }
-          - { name: tittel, label: Tittel, type: string }
-          - { name: tekst, label: Tekst under tittelen, type: string }
-          - { name: takk, label: Melding når det er sendt, type: string }
-          - { name: feil, label: Melding hvis det feiler, type: string }
+          - { name: cta_tittel, label: Overskrift, type: string }
+          - { name: cta_tekst, label: Tekst, type: string }
+          - { name: cta_knapp, label: Knappetekst, type: string }
           - { name: epost_alternativ, label: Overskrift over e-postknappene, type: string }
       - name: kontakt
         label: Kontaktfeltet
@@ -251,6 +250,49 @@ content:
       - { name: sammendrag, label: Kort om STØLE, type: text, description: "Vises ikke på nettsiden. Leses av KI-assistenter som ChatGPT, og av alle som åpner støle.com/llms.txt. Skriv bare det som er sant. Tjenestene og kontaktinfo legges til automatisk." }
       - { name: passer_for, label: Hvem STØLE passer for, type: string, list: true }
       - { name: slik_jobber, label: Slik jobber STØLE, type: string, list: true }
+
+  - name: start
+    label: Start et prosjekt og Veien videre
+    type: file
+    path: content/start.json
+    format: json
+    fields:
+      - { name: seo_tittel, label: Tittel i Google, type: string }
+      - { name: seo_beskrivelse, label: Beskrivelse i Google, type: text }
+      - { name: etikett, label: Etikett, type: string }
+      - { name: tittel, label: Tittel, type: string, description: "Skriv *slik* rundt den blå, kursive delen." }
+      - { name: ingress, label: Ingress, type: text }
+      - { name: steg, label: Navn på stegene (5), type: string, list: { min: 5, max: 5 } }
+      - name: behov
+        label: Valg i «Hva trenger du hjelp med?»
+        type: object
+        list: true
+        fields:
+          - { name: verdi, label: "Kode (ikke endre for logo, identitet, nettside, annet)", type: string }
+          - { name: tekst, label: Tekst, type: string }
+          - { name: hint, label: Liten tekst, type: string }
+      - { name: tidsramme, label: Valg for tidsramme, type: string, list: true }
+      - { name: budsjett, label: Valg for budsjett, type: string, list: true }
+      - { name: budsjett_hjelp, label: Hjelpetekst budsjett, type: text }
+      - { name: mal_hjelp, label: "Hjelpetekst «Hva ønsker dere å oppnå?»", type: text }
+      - { name: trygghet, label: Tekst under Send-knappen, type: text }
+      - name: videre
+        label: Veien videre
+        type: object
+        fields:
+          - { name: seo_tittel, label: Tittel i nettleserfanen, type: string }
+          - { name: etikett, label: Etikett (vises hvis navnet mangler), type: string }
+          - { name: tittel, label: Tittel, type: string }
+          - { name: ingress, label: Ingress, type: text }
+          - name: steg
+            label: Steg
+            type: object
+            list: true
+            fields:
+              - { name: navn, label: Navn, type: string }
+              - { name: tekst, label: Tekst, type: text }
+          - { name: mens_tittel, label: «Mens du venter» – tittel, type: string }
+          - { name: mens_tekst, label: «Mens du venter» – tekst, type: text }
 
   - name: personvern
     label: Personvern
