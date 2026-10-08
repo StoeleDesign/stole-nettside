@@ -284,6 +284,14 @@ content:
           - { name: etikett, label: Etikett (vises hvis navnet mangler), type: string }
           - { name: tittel, label: Tittel, type: string }
           - { name: ingress, label: Ingress, type: text }
+          - name: kvittering
+            label: Kvittering øverst (tre korte linjer)
+            type: object
+            list: true
+            fields:
+              - { name: navn, label: Navn, type: string }
+              - { name: tekst, label: Tekst, type: string }
+          - { name: steg_tittel, label: Overskrift over stegene, type: string }
           - name: steg
             label: Steg
             type: object

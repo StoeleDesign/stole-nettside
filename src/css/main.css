@@ -897,17 +897,41 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 /* =========================================================
    Veien videre
    ========================================================= */
-.s-videre-bilde { position: relative; height: clamp(220px, 34vw, 460px); overflow: hidden; background: var(--wine-850); margin-top: -1px; }
-.s-videre-bilde__img, .s-videre-bilde__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.s-videre-bilde__img img { object-fit: cover; object-position: 55% 62%; opacity: .85; }
-.js .s-videre-bilde__img img { transform: scale(1.06); transition: transform 2.4s var(--ease); }
-.js .s-videre-bilde.is-inne .s-videre-bilde__img img { transform: none; }
-.s-reise--videre { padding-top: clamp(80px, 9vw, 120px); }
-.s-reise--videre::before { display: none; }
 .reise--fem { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 0; }
 .reise__step.is-naa .reise__dot { background: var(--rose); }
 .reise__naa { margin-left: 8px; font-size: .75rem; letter-spacing: .04em; color: var(--wine-850); background: var(--rose); padding: 2px 7px; border-radius: 2px; }
 .s-videre__mens { display: grid; gap: 12px; max-width: 34em; margin-top: clamp(72px, 9vw, 120px); padding-top: 32px; border-top: 1px solid var(--line); }
 .s-videre__mens .btn-row { margin-top: 10px; }
-@media (max-width: 1100px) { .reise--fem { grid-template-columns: repeat(3, minmax(0, 1fr)); } .reise--fem::before, .reise--fem::after { display: none; } }
+@media (min-width: 760px) and (max-width: 1100px) { .reise--fem { grid-template-columns: repeat(3, minmax(0, 1fr)); } .reise--fem::before, .reise--fem::after { display: none; } }
+@media (max-width: 759px) { .reise--fem { grid-template-columns: minmax(0, 1fr); } }
 .s-videre__mens .step__text { color: var(--rose); }
+
+/* Veien videre: kvittering øverst, stegene rett under i samme flate */
+.s-videre { --bg: var(--wine); background: var(--wine); padding: clamp(64px, 7vw, 104px) 0 clamp(110px, 11vw, 150px); }
+.s-videre__topp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 30%); gap: 40px clamp(40px, 6vw, 96px); align-items: start; }
+.s-videre__topp .kvittering { margin-top: 6px; }
+.s-videre__topp .s-pagehero__lead { margin-top: 28px; }
+.kvittering { margin: 0; border-top: 1px solid var(--rose); }
+.kvittering__rad { display: grid; gap: 4px; padding: 14px 0 15px; border-bottom: 1px solid var(--line); }
+.kvittering dt { font-size: .8125rem; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); }
+.kvittering dd { margin: 0; display: flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
+.kvittering__ok { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--rose) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.4l2.6 2.6L13 6.6' fill='none' stroke='%235A1A26' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 18px no-repeat; }
+.s-videre__steg { margin-top: clamp(56px, 6vw, 88px); padding-top: clamp(28px, 3vw, 40px); border-top: 1px solid var(--line); }
+.s-videre__h { margin: 0; }
+.s-videre .reise { margin-top: 36px; }
+.s-videre .reise__dot { background: var(--wine); }
+.s-videre__mens { margin-top: clamp(64px, 8vw, 104px); }
+.s-videre__mens .s-kontakt__addr a { color: var(--cream); }
+@media (max-width: 900px) {
+  .s-videre__topp { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+/* Beskjed nederst på skjermen */
+.toast { position: fixed; left: 50%; bottom: 20px; z-index: 60; width: min(560px, calc(100% - 32px)); margin: 0; padding: 14px 18px; border-radius: 3px; background: var(--cream); color: var(--wine); font-size: .9375rem; line-height: 1.5; box-shadow: 0 10px 30px rgba(40, 10, 16, .25); transform: translate(-50%, 16px); opacity: 0; pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease); }
+.toast.is-vist { opacity: 1; transform: translate(-50%, 0); }
+
+/* Fremdriften: fullførte steg kan klikkes for å gå tilbake */
+.brief__hopp { all: unset; display: flex; gap: 14px; align-items: baseline; width: 100%; color: inherit; font: inherit; }
+.brief__hopp:not(:disabled) { cursor: pointer; }
+.brief__hopp:not(:disabled):hover .brief__navn { text-decoration: underline; text-underline-offset: 3px; }
+.brief__hopp:focus-visible { outline: 2px solid var(--wine); outline-offset: 4px; border-radius: 2px; }
+@media (max-width: 900px) { .brief__hopp { flex-direction: column; gap: 6px; min-height: 40px; } }

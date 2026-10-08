@@ -4,20 +4,73 @@
   "etikett": "Start et prosjekt",
   "tittel": "Fortell meg om *prosjektet ditt.*",
   "ingress": "Fem korte steg, rundt tre minutter. Bare navn og e-post må fylles ut. Resten hjelper meg å forberede en god første prat.",
-  "steg": ["Deg", "Prosjektet", "Bedriften", "Rammer", "Ferdig"],
-  "behov": [
-    { "verdi": "logo", "tekst": "Logo", "hint": "Ny eller oppfrisket" },
-    { "verdi": "identitet", "tekst": "Visuell identitet", "hint": "Farger, skrift, helhet" },
-    { "verdi": "nettside", "tekst": "Nettside", "hint": "Ny eller fornyet" },
-    { "verdi": "trykksaker", "tekst": "Trykksaker", "hint": "Meny, skilt, brosjyre" },
-    { "verdi": "sosiale-medier", "tekst": "Sosiale medier", "hint": "Maler og uttrykk" },
-    { "verdi": "emballasje", "tekst": "Emballasje", "hint": "Etiketter og pakning" },
-    { "verdi": "fast-designer", "tekst": "Fast designer", "hint": "Design jevnlig" },
-    { "verdi": "annet", "tekst": "Annet", "hint": "Noe helt annet" },
-    { "verdi": "usikker", "tekst": "Vet ikke ennå", "hint": "Det finner vi ut av" }
+  "steg": [
+    "Deg",
+    "Prosjektet",
+    "Bedriften",
+    "Rammer",
+    "Ferdig"
   ],
-  "tidsramme": ["Så snart som mulig", "Innen én måned", "1–3 måneder", "Ingen bestemt dato"],
-  "budsjett": ["Under 5 000 kr", "5 000–10 000 kr", "10 000–20 000 kr", "Over 20 000 kr", "Vet ikke ennå"],
+  "behov": [
+    {
+      "verdi": "logo",
+      "tekst": "Logo",
+      "hint": "Ny eller oppfrisket"
+    },
+    {
+      "verdi": "identitet",
+      "tekst": "Visuell identitet",
+      "hint": "Farger, skrift, helhet"
+    },
+    {
+      "verdi": "nettside",
+      "tekst": "Nettside",
+      "hint": "Ny eller fornyet"
+    },
+    {
+      "verdi": "trykksaker",
+      "tekst": "Trykksaker",
+      "hint": "Meny, skilt, brosjyre"
+    },
+    {
+      "verdi": "sosiale-medier",
+      "tekst": "Sosiale medier",
+      "hint": "Maler og uttrykk"
+    },
+    {
+      "verdi": "emballasje",
+      "tekst": "Emballasje",
+      "hint": "Etiketter og pakning"
+    },
+    {
+      "verdi": "fast-designer",
+      "tekst": "Fast designer",
+      "hint": "Design jevnlig"
+    },
+    {
+      "verdi": "annet",
+      "tekst": "Annet",
+      "hint": "Noe helt annet"
+    },
+    {
+      "verdi": "usikker",
+      "tekst": "Vet ikke ennå",
+      "hint": "Det finner vi ut av"
+    }
+  ],
+  "tidsramme": [
+    "Så snart som mulig",
+    "Innen én måned",
+    "1–3 måneder",
+    "Ingen bestemt dato"
+  ],
+  "budsjett": [
+    "Under 5 000 kr",
+    "5 000–10 000 kr",
+    "10 000–20 000 kr",
+    "Over 20 000 kr",
+    "Vet ikke ennå"
+  ],
   "budsjett_hjelp": "Bare for å forstå størrelsen på prosjektet. Du får et prisestimat før noe settes i gang.",
   "mal_hjelp": "Hva skal dette gjøre for bedriften? Bli lagt merke til, fremstå mer profesjonell, nå nye kunder eller starte noe nytt?",
   "trygghet": "Dette er ikke en bindende bestilling. Jeg tar kontakt for å høre mer om prosjektet.",
@@ -25,15 +78,45 @@
     "seo_tittel": "Veien videre | STØLE",
     "etikett": "Forespørselen er sendt",
     "tittel": "Veien videre.",
-    "ingress": "Fra første melding til ferdig resultat. Slik går vi frem herfra.",
+    "ingress": "Takk for at du tok deg tid. Her er hva som skjer nå, fra første prat til ferdig resultat.",
     "steg": [
-      { "navn": "Jeg leser forespørselen", "tekst": "Jeg går gjennom alt du har skrevet, og ser på det dere har i dag." },
-      { "navn": "En gratis prat", "tekst": "Jeg tar kontakt, som regel innen én arbeidsdag, og foreslår 15 minutter. Jeg spør mye og sier ærlig hva jeg tror dere trenger." },
-      { "navn": "Forslag og prisestimat", "tekst": "Du får vite hva som skal lages, hvordan vi jobber og hva det koster. Så bestemmer du." },
-      { "navn": "Vi blir kjent", "tekst": "Før noe tegnes, setter jeg meg inn i bedriften, kundene og det som gjør dere til dere." },
-      { "navn": "Ferdig til bruk", "tekst": "Vi jobber sammen underveis. Til slutt får du alt du trenger, med filer og retningslinjer." }
+      {
+        "navn": "Jeg leser forespørselen",
+        "tekst": "Jeg går gjennom alt du har skrevet, og ser på det dere har i dag."
+      },
+      {
+        "navn": "En gratis prat",
+        "tekst": "Jeg tar kontakt, som regel innen én arbeidsdag, og foreslår 15 minutter. Jeg spør mye og sier ærlig hva jeg tror dere trenger."
+      },
+      {
+        "navn": "Forslag og prisestimat",
+        "tekst": "Du får vite hva som skal lages, hvordan vi jobber og hva det koster. Så bestemmer du."
+      },
+      {
+        "navn": "Vi blir kjent",
+        "tekst": "Før noe tegnes, setter jeg meg inn i bedriften, kundene og det som gjør dere til dere."
+      },
+      {
+        "navn": "Ferdig til bruk",
+        "tekst": "Vi jobber sammen underveis. Til slutt får du alt du trenger, med filer og retningslinjer."
+      }
     ],
     "mens_tittel": "Mens du venter",
-    "mens_tekst": "Har du bilder, en gammel logo eller noe du liker, kan du sende det til hei@støle.com. Da har jeg mer å gå på når vi snakkes."
+    "mens_tekst": "Har du bilder, en gammel logo eller noe du liker, kan du sende det til hei@støle.com. Da har jeg mer å gå på når vi snakkes.",
+    "kvittering": [
+      {
+        "navn": "Status",
+        "tekst": "Sendt og mottatt"
+      },
+      {
+        "navn": "Svar fra meg",
+        "tekst": "Som regel innen én arbeidsdag"
+      },
+      {
+        "navn": "Neste",
+        "tekst": "En gratis prat på 15 minutter"
+      }
+    ],
+    "steg_tittel": "Slik går vi frem"
   }
 }

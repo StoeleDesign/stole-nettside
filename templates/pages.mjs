@@ -697,7 +697,7 @@ export const startside = (ctx, c) => {
       <div class="wrap s-brief__grid">
         <nav class="brief__fremdrift" aria-label="Steg i skjemaet">
           <p class="brief__teller" aria-live="polite" data-teller>Steg 1 av 5</p>
-          <ol>${c.steg.map((s, i) => `<li data-fremdrift="${i + 1}"><span class="brief__nr">0${i + 1}</span><span class="brief__navn">${esc(s)}</span></li>`).join('')}</ol>
+          <ol>${c.steg.map((s, i) => `<li data-fremdrift="${i + 1}"><button type="button" class="brief__hopp" disabled><span class="brief__nr">0${i + 1}</span><span class="brief__navn">${esc(s)}</span></button></li>`).join('')}</ol>
           <span class="brief__linje" aria-hidden="true"><span data-linje></span></span>
         </nav>
 
@@ -780,35 +780,43 @@ export const startside = (ctx, c) => {
 /* ---------- Veien videre (etter innsending) ---------- */
 export const veienVidere = (ctx, c) => {
   const v = c.videre;
+  const epost = ctx.site.epost;
   const body = `
-    <section class="s-pagehero s-pagehero--short s-pagehero--videre" aria-labelledby="side-tittel">
+    <section class="s-videre" aria-labelledby="side-tittel">
       <div class="wrap">
-        <p class="label label--caps label--blue" data-takk>${esc(v.etikett)}</p>
-        <h1 class="display display--hero" id="side-tittel">${inline(v.tittel)}</h1>
-        <p class="s-pagehero__lead">${inline(v.ingress)}</p>
-      </div>
-    </section>
-    <section class="s-videre-bilde" aria-hidden="true">
-      ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: '', cls: 's-videre-bilde__img', w: 2320, h: 1490 })}
-    </section>
-    <section class="s-reise s-reise--videre" aria-labelledby="videre-tittel">
-      <div class="wrap">
-        <h2 class="sr-only" id="videre-tittel">Steg for steg</h2>
-        <ol class="reise reise--fem">
-          ${v.steg.map((r, i) => `<li class="reise__step${i === 0 ? ' is-naa' : ''}">
-            <span class="reise__dot" aria-hidden="true"></span>
-            <span class="step__num">0${i + 1}${i === 0 ? ' <span class="reise__naa">Nå</span>' : ''}</span>
-            <h3 class="step__title">${esc(r.navn)}</h3>
-            <p class="step__text">${inline(r.tekst)}</p>
-          </li>`).join('')}
-        </ol>
+        <div class="s-videre__topp">
+          <div>
+            <p class="label label--caps label--blue" data-takk>${esc(v.etikett)}</p>
+            <h1 class="display display--hero" id="side-tittel">${inline(v.tittel)}</h1>
+            <p class="s-pagehero__lead">${inline(v.ingress)}</p>
+          </div>
+          ${v.kvittering?.length ? `<dl class="kvittering">
+            ${v.kvittering.map((k, i) => `<div class="kvittering__rad">
+              <dt>${esc(k.navn)}</dt>
+              <dd>${i === 0 ? '<span class="kvittering__ok" aria-hidden="true"></span>' : ''}${esc(k.tekst)}</dd>
+            </div>`).join('')}
+          </dl>` : ''}
+        </div>
+        <div class="s-videre__steg" id="steg">
+          <h2 class="label label--caps label--blue s-videre__h">${esc(v.steg_tittel || 'Slik går vi frem')}</h2>
+          <ol class="reise reise--fem">
+            ${v.steg.map((r, i) => `<li class="reise__step${i === 0 ? ' is-naa' : ''}">
+              <span class="reise__dot" aria-hidden="true"></span>
+              <span class="step__num">0${i + 1}${i === 0 ? ' <span class="reise__naa">Nå</span>' : ''}</span>
+              <h3 class="step__title">${esc(r.navn)}</h3>
+              <p class="step__text">${inline(r.tekst)}</p>
+            </li>`).join('')}
+          </ol>
+        </div>
         <div class="s-videre__mens">
           <h2 class="s-kontakt__h3">${esc(v.mens_tittel)}</h2>
           <p class="step__text">${inline(v.mens_tekst)}</p>
+          <p class="s-kontakt__addr"><a href="mailto:${ctx.site.epost_teknisk}?subject=${encodeURIComponent('Inspirasjon til prosjektet')}">${esc(epost)}</a></p>
           <div class="btn-row">
-            <a class="btn btn--solid" href="mailto:${ctx.site.epost_teknisk}?subject=${encodeURIComponent('Inspirasjon til prosjektet')}">Send bilder på e-post ${chevron}</a>
+            <button class="btn btn--solid" type="button" data-copy="${esc(epost)}" data-copied="Adressen er kopiert">Kopier adressen</button>
             <a class="btn btn--ghost" href="/#arbeid">Se arbeidet</a>
           </div>
+          <p class="sr-only" role="status" aria-live="polite" data-copy-status></p>
         </div>
       </div>
     </section>`;

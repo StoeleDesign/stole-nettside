@@ -91,6 +91,39 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
     });
   });
 
+  /* ---------- E-postlenker: reserve når ingen e-postapp åpner seg ----------
+     Bruker man nettmail (Gmail, Uniweb o.l.) skjer det ofte ingenting når man trykker en mailto-lenke.
+     Mister ikke vinduet fokus innen kort tid, kopieres adressen og en tydelig beskjed vises. */
+  let toast;
+  const visBeskjed = (tekst) => {
+    if (!toast) {
+      toast = document.createElement('p');
+      toast.className = 'toast'; toast.setAttribute('role', 'status'); toast.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toast);
+    }
+    toast.textContent = tekst;
+    toast.classList.add('is-vist');
+    clearTimeout(toast.t);
+    toast.t = setTimeout(() => toast.classList.remove('is-vist'), 7000);
+  };
+  document.querySelectorAll('a[href^="mailto:"]').forEach((a) => {
+    a.addEventListener('click', () => {
+      const adresse = decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]).replace('xn--stle-hra.com', 'støle.com');
+      let aapnet = false;
+      const merk = () => { aapnet = true; };
+      window.addEventListener('blur', merk, { once: true });
+      document.addEventListener('visibilitychange', merk, { once: true });
+      setTimeout(async () => {
+        window.removeEventListener('blur', merk);
+        document.removeEventListener('visibilitychange', merk);
+        if (aapnet || !document.hasFocus()) return;
+        const ok = await copyText(adresse);
+        visBeskjed(ok ? `Fant ikke et e-postprogram, så jeg kopierte adressen ${adresse}. Lim den inn i e-posten din.`
+                      : `Fant ikke et e-postprogram. Send til ${adresse}.`);
+      }, 1200);
+    });
+  });
+
   /* ---------- Dybde-velgeren på tjenestesiden (faner på desktop, trekkspill på mobil) ---------- */
   const velger = document.querySelector('[data-velger]');
   if (velger) {
@@ -272,6 +305,8 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
     fremdrift.forEach((li, i) => {
       li.classList.toggle('is-naa', i === naa - 1);
       li.classList.toggle('is-ferdig', i < naa - 1);
+      const hopp = li.querySelector('.brief__hopp');
+      if (hopp) { hopp.disabled = i >= naa - 1; hopp.setAttribute('aria-label', i < naa - 1 ? `Gå tilbake til steg ${i + 1}: ${hopp.textContent.replace(/^\d+/, '').trim()}` : hopp.textContent.replace(/^\d+/, '').trim()); }
       if (i === naa - 1) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
     });
     if (teller) teller.textContent = `Steg ${naa} av ${steg.length}`;
@@ -301,7 +336,9 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
   form.addEventListener('change', lagre);
   form.addEventListener('focusout', (e) => { if (e.target.matches('input[required], input[type="email"]') && e.target.value) feil(e.target, sjekk(e.target)); });
   form.querySelectorAll('[data-neste]').forEach((b) => b.addEventListener('click', () => { if (gyldig(naa)) vis(naa + 1); }));
-  form.querySelectorAll('[data-tilbake]').forEach((b) => b.addEventListener('click', () => history.back()));
+  // Tilbake går alltid ett steg tilbake i skjemaet (ikke nettleserhistorikken, som kan føre ut av siden)
+  form.querySelectorAll('[data-tilbake]').forEach((b) => b.addEventListener('click', () => vis(naa - 1)));
+  fremdrift.forEach((li, i) => li.querySelector('.brief__hopp')?.addEventListener('click', () => { if (i < naa - 1) vis(i + 1); }));
   window.addEventListener('popstate', (e) => vis(e.state?.steg || 1, { historikk: false }));
   // Enter i et tekstfelt går til neste steg i stedet for å sende hele skjemaet
   form.addEventListener('keydown', (e) => {
@@ -349,6 +386,4 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
   let navn = '';
   try { navn = sessionStorage.getItem('stole-brief-navn') || ''; } catch {}
   if (navn) takk.textContent = `Takk, ${navn}. Forespørselen er sendt.`;
-  const bilde = document.querySelector('.s-videre-bilde');
-  if (bilde) requestAnimationFrame(() => bilde.classList.add('is-inne'));
 })();
