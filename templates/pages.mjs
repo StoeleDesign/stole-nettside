@@ -263,7 +263,7 @@ export const forside = (ctx, c) => {
   const ikon = { vokst: ['ikon-vokst.svg', 166, 100], like: ['ikon-like.svg', 166, 100], logo: ['ikon-logo.svg', 144, 87] };
   const body = `
     <section class="s-hero" aria-label="Velkommen">
-      ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-hero__img', w: 2320, h: 1490, eager: true })}
+      ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-hero__img', w: 2320, h: 1683, eager: true })}
       <div class="s-hero__logo"><img src="/i/logo-wine.svg" alt="STØLE" width="934" height="270"></div>
     </section>
 
