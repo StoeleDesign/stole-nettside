@@ -830,6 +830,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .brief__tittel { font-family: var(--serif); font-weight: 500; font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem); line-height: 1.1; letter-spacing: -0.01em; color: var(--wine); padding: 0; margin-bottom: 4px; max-width: 18em; }
 .brief__h { font-family: var(--serif); font-weight: 500; font-size: 1.375rem; color: var(--wine); margin-bottom: 14px; }
 .brief__felt { display: grid; gap: 8px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.brief [hidden] { display: none !important; }
 .brief__felt > label, .brief__felt > legend { font-weight: 600; font-size: 1rem; padding: 0; margin-bottom: 0; }
 fieldset.brief__felt > legend { margin-bottom: 10px; }
 .brief__valgfritt { font-weight: 400; color: var(--ink-muted); }

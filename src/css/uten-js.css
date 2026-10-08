@@ -1,3 +1,4 @@
 /* Uten JavaScript: vis hele prosjektskjemaet på én side */
 .brief__steg { display: grid !important; margin-bottom: 56px; }
 [data-neste], [data-tilbake], .brief__fremdrift, .brief__oppsummering { display: none !important; }
+.brief__vilkaar[hidden] { display: grid !important; }
