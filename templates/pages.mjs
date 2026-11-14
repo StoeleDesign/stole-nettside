@@ -262,15 +262,18 @@ export const forside = (ctx, c) => {
   const { site, tjenester } = ctx;
     const body = `
     <section class="s-topp" aria-labelledby="intro-tittel">
-      ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
-      <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
-      <svg class="s-topp__flate" viewBox="0 0 1440 840" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 322C180 262 440 258 640 316C836 373 874 532 968 644C1046 738 1226 792 1440 734V841H0Z"/></svg>
+      <div class="s-topp__bilde">
+        ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
+        <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
+      </div>
       <div class="s-topp__innhold">
-        ${edge('wave', 's-topp__kant')}
-        <div class="wrap">
-          <div class="s-topp__tekst">
-            ${c.helt.etikett ? `<p class="s-topp__hva">${esc(c.helt.etikett)}</p>` : ''}
+        ${edge('soft')}
+        <div class="wrap duo">
+          <div>
+            ${c.helt.etikett ? `<p class="label">${esc(c.helt.etikett)}</p>` : ''}
             <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
+          </div>
+          <div class="s-topp__side">
             ${c.helt.setning ? `<p class="s-topp__setning">${inline(c.helt.setning)}</p>` : ''}
             <div class="actions">
               <a class="pill s-topp__knapp" href="#kontakt">${esc(c.helt.knapp)}</a>
@@ -283,6 +286,7 @@ export const forside = (ctx, c) => {
 
     <section class="s-veier" id="tjenester" aria-labelledby="veier-tittel">
       <div class="wrap">
+        <p class="label">${esc(c.tjenester.etikett)}</p>
         <h2 class="display" id="veier-tittel">${esc(tjenester.situasjoner_etikett)}</h2>
         <ul class="veier">
           ${tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return `<li><a class="vei" href="/tjenester/${esc(pk.slug)}/">
@@ -304,9 +308,9 @@ export const forside = (ctx, c) => {
         <div class="s-hvorfor__grid">
           <h2 class="display" id="hvorfor-tittel">${inline(c.hvorfor.tittel)}</h2>
           <div class="s-hvorfor__prop">
+            <div class="s-hvorfor__body">${paras(c.helt.ingress)}</div>
             <p class="s-hvorfor__big">${inline(c.hvorfor.stor)}</p>
             ${c.hvorfor.liten ? `<p class="s-hvorfor__small">${inline(c.hvorfor.liten)}</p>` : ''}
-            <div class="s-hvorfor__body">${paras(c.helt.ingress)}</div>
           </div>
         </div>
         <div class="distill" aria-hidden="true">
@@ -318,6 +322,7 @@ export const forside = (ctx, c) => {
     </section>
 
     <section class="s-arbeid" id="arbeid" aria-labelledby="arbeid-tittel">
+      ${edge('soft')}
       <div class="s-arbeid__band"><div class="wrap"><p class="label">${esc(c.arbeid.etikett)}</p></div></div>
       <div class="wrap"><h2 class="display" id="arbeid-tittel">${inline(c.arbeid.tittel)}</h2></div>
       ${c.arbeid.prosjekter.map((p, i) => `<article class="case${i % 2 ? ' case--flip' : ''}" aria-labelledby="case-${i}">
@@ -356,7 +361,8 @@ export const forside = (ctx, c) => {
       </div>
     </section>
 
-    <section class="s-fast s-fast--page" aria-labelledby="fast-tittel">
+    <section class="s-fast s-fast--rolig" aria-labelledby="fast-tittel">
+      ${edge('soft')}
       <div class="wrap s-fast__grid">
         <div>
           <p class="label label--caps label--wine">${esc(c.fast.etikett)}</p>
@@ -370,6 +376,7 @@ export const forside = (ctx, c) => {
     </section>
 
     <section class="s-om" id="om" aria-labelledby="om-tittel">
+      ${edge('soft')}
       <div class="wrap s-om__grid">
         <div class="s-om__head">
           <p class="label label--caps">${esc(c.om.etikett)}</p>
@@ -386,7 +393,6 @@ export const forside = (ctx, c) => {
           <figcaption class="s-om__figcap">${esc(c.om.illustrasjon_tekst)}</figcaption>
         </figure>
       </div>
-      <div class="s-om__glow" aria-hidden="true"></div>
     </section>
 
     ${kontakt(ctx)}`;
