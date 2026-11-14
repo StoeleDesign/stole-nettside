@@ -17,7 +17,8 @@ content:
           - { name: bilde_alt, label: Beskrivelse av bildet (for skjermlesere), type: string }
           - { name: etikett, label: Etikett over tittelen, type: string, description: "Små bokstaver over den store tittelen. Er en del av hovedoverskriften, så Google leser den. Tomt felt skjuler den." }
           - { name: tittel_a, label: Tittel (første del), type: string }
-          - { name: tittel_b, label: "Tittel (andre del, i blått)", type: string }
+          - { name: tittel_b, label: "Tittel (andre del, i kursiv)", type: string }
+          - { name: setning, label: "Én setning om hva STØLE gjør (vises rett under tittelen)", type: text }
           - { name: ingress, label: Tekst, type: text, description: "Tom linje gir nytt avsnitt." }
           - { name: knapp, label: Knappetekst, type: string }
           - { name: lenke, label: Lenketekst, type: string }
@@ -155,6 +156,7 @@ content:
           - { name: dybde, label: Omfang (tekst), type: string }
           - { name: naar, label: "Når passer den?", type: string }
           - { name: eksempler, label: Eksempler (kort), type: text }
+          - { name: pris, label: "Typisk prosjekt eller prisnivå (valgfritt, vises bare når feltet er fylt ut)", type: string }
           - { name: seo_tittel, label: Tittel i Google, type: string, description: "Helst under 60 tegn. Tomt felt gir «Navn – STØLE»." }
           - { name: seo_beskrivelse, label: Beskrivelse i Google, type: text }
           - { name: ingress, label: Ingress på pakkesiden, type: text }

@@ -126,14 +126,14 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   ${fonts}
-  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="${[1100, 1600, 2320].map((x) => `/img/hero-${x}.avif?v=${bildeVersjon('hero', 1600)} ${x}w`).join(', ')}" imagesizes="100vw" fetchpriority="high">` : ''}
+  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="${[1100, 1600, 2320].map((x) => `/img/hero-${x}.avif?v=${bildeVersjon('hero', 1600)} ${x}w`).join(', ')}" imagesizes="(min-width: 900px) 50vw, 100vw" fetchpriority="high">` : ''}
   <link rel="stylesheet" href="${hashed['css/main.css']}">
   <script src="${hashed['js/main.js']}" defer></script>
   ${ld}
 </head>
 <body class="${bodyClass}">
   <a class="skip" href="#innhold">Hopp til innholdet</a>
-  ${header(ctx, p, '/start/')}
+  ${header(ctx, p, body.includes('id="kontakt"') ? '#kontakt' : '/#kontakt')}
   <main id="innhold" tabindex="-1">
 ${body}
   </main>
@@ -147,7 +147,7 @@ const header = ({ site }, current, cta = '#kontakt') => {
   const links = site.meny.map((m) => `<li><a href="${m.lenke}"${isActive(m.lenke) ? ' aria-current="page"' : ''}>${esc(m.tekst)}</a></li>`).join('');
   return `<header class="site-header" data-header>
     <div class="site-header__bar wrap">
-      <a class="brand" href="/" aria-label="STØLE – til forsiden"><img src="/i/logo-cream.svg" alt="" width="149" height="37"></a>
+      <a class="brand" href="/" aria-label="STØLE, til forsiden"><img src="/i/logo-cream.svg" alt="" width="149" height="37"></a>
       <nav class="nav" aria-label="Hovedmeny">
         <ul class="nav__list" id="meny">${links}</ul>
       </nav>
@@ -168,7 +168,7 @@ const header = ({ site }, current, cta = '#kontakt') => {
 const footer = ({ site }) => `<footer class="site-footer">
     ${edge('organic')}
     <div class="wrap site-footer__grid">
-      <a class="site-footer__logo" href="/" aria-label="STØLE – til forsiden"><img src="/i/logo-cream-lg.svg" alt="" width="934" height="270" loading="lazy"></a>
+      <a class="site-footer__logo" href="/" aria-label="STØLE, til forsiden"><img src="/i/logo-cream-lg.svg" alt="" width="934" height="270" loading="lazy"></a>
       <dl class="facts facts--footer">
         <dt>Virksomhet</dt><dd>${esc(site.virksomhet)} <span class="muted">(${esc(site.foretaksform)})</span></dd>
         <dt>Org.nr.</dt><dd>${esc(site.orgnr)}</dd>
@@ -195,7 +195,7 @@ const prosjektCta = (site, pakke) => {
   return `<div class="kontakt-cta">
           <h3 class="s-kontakt__h3">${esc(f.cta_tittel)}</h3>
           <p class="s-kontakt__muted">${esc(f.cta_tekst)}</p>
-          <a class="btn btn--solid" href="/start/${pakke ? `?pakke=${encodeURIComponent(pakke)}` : ''}">${esc(f.cta_knapp)} ${chevron}</a>
+          <a class="btn btn--ghost" href="/start/${pakke ? `?pakke=${encodeURIComponent(pakke)}` : ''}">${esc(f.cta_knapp)} ${chevron}</a>
         </div>`;
 };
 
@@ -210,8 +210,7 @@ const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt', pakke } 
         <p class="lead">${inline(lead || k.ingress)}</p>
       </div>
       <div class="s-kontakt__ways">
-        ${site.skjema ? prosjektCta(site, pakke) : ''}
-        <h3 class="s-kontakt__h3${site.skjema ? ' s-kontakt__h3--alt' : ''}">${esc(site.skjema ? site.skjema.epost_alternativ : k.epost_tittel)}</h3>
+        <h3 class="s-kontakt__h3">${esc(k.epost_tittel)}</h3>
         <p class="s-kontakt__muted">${esc(k.epost_tekst)}</p>
         <p class="s-kontakt__addr"><a href="mailto:${site.epost_teknisk}">${esc(site.epost)}</a></p>
         <div class="btn-row">
@@ -230,6 +229,7 @@ const kontakt = ({ site }, { lead, tittel, undertittel, id = 'kontakt', pakke } 
             </div>
           </div>
         </details>
+        ${site.skjema ? prosjektCta(site, pakke) : ''}
         <p class="sr-only" role="status" aria-live="polite" data-copy-status></p>
       </div>
     </div>
@@ -260,39 +260,37 @@ const dybdeIkon = (nivaa, cls = '') => nivaa > 0
 /* ---------- Forside ---------- */
 export const forside = (ctx, c) => {
   const { site, tjenester } = ctx;
-  const ikon = { vokst: ['ikon-vokst.svg', 166, 100], like: ['ikon-like.svg', 166, 100], logo: ['ikon-logo.svg', 144, 87] };
-  const body = `
-    <section class="s-hero" aria-label="Velkommen">
-      ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-hero__img', w: 2320, h: 1683, eager: true })}
-      <div class="s-hero__logo"><img src="/i/logo-wine.svg" alt="STØLE" width="934" height="270"></div>
-    </section>
-
-    <section class="s-intro" aria-labelledby="intro-tittel">
-      ${edge('wave')}
-      ${edge('wave', 'edge--wave-panel')}
-      <div class="wrap s-intro__grid">
-        <div class="s-intro__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
-        <div class="s-intro__mark" aria-hidden="true"></div>
-        <h1 class="display display--hero" id="intro-tittel">${c.helt.etikett ? `<span class="label label--caps label--blue s-intro__eyebrow">${esc(c.helt.etikett)}</span><span class="sr-only">: </span>` : ''}${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
-        <hr class="rule">
-        <div class="s-intro__body">${paras(c.helt.ingress)}</div>
-        <div class="s-intro__actions">
-          <a class="pill" href="/start/">${esc(c.helt.knapp)}</a>
-          <a class="textlink" href="#arbeid">${esc(c.helt.lenke)}</a>
+    const body = `
+    <section class="s-topp" aria-labelledby="intro-tittel">
+      <div class="wrap s-topp__grid">
+        <div class="s-topp__tekst">
+          ${c.helt.etikett ? `<p class="s-topp__hva">${esc(c.helt.etikett)}</p>` : ''}
+          <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
+          ${c.helt.setning ? `<p class="s-topp__setning">${inline(c.helt.setning)}</p>` : ''}
+          <div class="actions">
+            <a class="pill pill--wine-solid" href="#kontakt">${esc(c.helt.knapp)}</a>
+            <a class="textlink" href="/start/">${esc(site.skjema.cta_knapp)}</a>
+          </div>
+        </div>
+        <div class="s-topp__bilde">
+          ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '(min-width: 900px) 50vw, 100vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
+          <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
         </div>
       </div>
     </section>
 
-    <section class="s-kjenner" aria-labelledby="kjenner-tittel">
+    <section class="s-sit s-sit--forside" id="tjenester" aria-labelledby="sit-tittel">
       ${edge('sag')}
       <div class="wrap">
-        <h2 class="label label--caps label--center" id="kjenner-tittel">${esc(c.kjenner.etikett)}</h2>
-        <ul class="moments">
-          ${c.kjenner.sitater.map((s) => { const [f, w, h] = ikon[s.ikon] || ikon.vokst; return `<li class="moment">
-            <img src="/i/${f}" alt="" width="${w}" height="${h}" loading="lazy">
-            <blockquote><p>${esc(s.a)}${s.b ? ` <span>${esc(s.b)}</span>` : ''}</p></blockquote>
-          </li>`; }).join('')}
+        <h2 class="display" id="sit-tittel">${esc(tjenester.situasjoner_etikett)}</h2>
+        <ul class="sit">
+          ${tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return `<li><a class="sit__item" href="/tjenester/${esc(pk.slug)}/">
+            <span class="sit__quote">${esc(x.sitat)}</span>
+            <span class="sit__text">${esc(x.tekst)}</span>
+            <span class="sit__go">${esc(pk.navn)} ${chevron}</span>
+          </a></li>`; }).join('')}
         </ul>
+        <p class="s-sit__alle"><a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a></p>
       </div>
     </section>
 
@@ -305,6 +303,7 @@ export const forside = (ctx, c) => {
           <div class="s-hvorfor__prop">
             <p class="s-hvorfor__big">${inline(c.hvorfor.stor)}</p>
             ${c.hvorfor.liten ? `<p class="s-hvorfor__small">${inline(c.hvorfor.liten)}</p>` : ''}
+            <div class="s-hvorfor__body">${paras(c.helt.ingress)}</div>
           </div>
         </div>
         <div class="distill" aria-hidden="true">
@@ -354,31 +353,7 @@ export const forside = (ctx, c) => {
       </div>
     </section>
 
-    <section class="s-tjenester" id="tjenester" aria-labelledby="tjenester-tittel">
-      ${edge('double')}
-      <div class="wrap">
-        <p class="label label--caps label--blue">${esc(c.tjenester.etikett)}</p>
-        <div class="s-tjenester__intro">
-          <div>
-            <h2 class="display" id="tjenester-tittel">${inline(c.tjenester.tittel)}</h2>
-            <div class="serif-body">${paras(c.tjenester.ingress)}</div>
-          </div>
-          <p class="serif-body s-tjenester__usikker">${inline(c.tjenester.usikker)}</p>
-        </div>
-        <ul class="tiers">
-          ${tjenester.pakker.filter((p) => p.nivaa > 0).map((p) => `<li class="tier">
-            ${dybdeIkon(p.nivaa)}
-            <h3 class="tier__name">${esc(p.navn)}</h3>
-            <p class="tier__when">${esc(p.naar)}</p>
-            <p class="tier__ex">${esc(p.eksempler)}</p>
-            <a class="pill pill--sand" href="/tjenester/${p.slug}/" aria-label="${esc(c.tjenester.knapp)}: ${esc(p.navn)}">${esc(c.tjenester.knapp)}</a>
-          </li>`).join('')}
-        </ul>
-        <p class="s-tjenester__all"><a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a></p>
-      </div>
-    </section>
-
-    <section class="s-fast" aria-labelledby="fast-tittel">
+    <section class="s-fast s-fast--page" aria-labelledby="fast-tittel">
       <div class="wrap s-fast__grid">
         <div>
           <p class="label label--caps label--wine">${esc(c.fast.etikett)}</p>
@@ -544,7 +519,7 @@ export const tjenesteoversikt = (ctx, t) => {
     ${kontakt(ctx, { lead: t.usikker_tekst, tittel: t.kontakt_tittel, undertittel: t.kontakt_undertittel })}`;
   const sti = [{ navn: 'Forside', url: '/' }, { navn: 'Tjenester', url: '/tjenester/' }];
   return layout(ctx, { title: t.seo_tittel, description: t.seo_beskrivelse, path: '/tjenester/', body, bodyClass: 'page-sub page-svc',
-    ld: [brodsmuler(ctx.site, sti)], ogImage: ogFor('tjenester'), ogAlt: 'Måter å jobbe sammen på – STØLE' });
+    ld: [brodsmuler(ctx.site, sti)], ogImage: ogFor('tjenester'), ogAlt: 'Måter å jobbe sammen på hos STØLE' });
 };
 
 /* ---------- Tjenester: enkeltpakke ---------- */
@@ -560,14 +535,14 @@ export const pakke = (ctx, t, p) => {
           <hr class="rule">
           <p class="s-pagehero__lead">${inline(p.ingress)}</p>
           <div class="s-intro__actions">
-            <a class="pill" href="/start/?pakke=${esc(p.slug)}">${esc(ctx.site.knapp_meny)}</a>
-            <a class="textlink" href="#prosess">Slik foregår det</a>
+            <a class="pill" href="#kontakt">${esc(ctx.site.knapp_meny)}</a>
+            <a class="textlink" href="/start/?pakke=${esc(p.slug)}">${esc(ctx.site.skjema.cta_knapp)}</a>
           </div>
         </div>
         <div class="s-pagehero__art s-pagehero__side">
           <div class="s-pagehero__panel" aria-hidden="true">${edge('panel', 'edge--panel')}</div>
           ${p.nivaa > 0
-            ? `${dybdeIkon(p.nivaa, 'dybde--xl dybde--wine')}<p class="s-pagehero__caption"><strong>Omfang:</strong> ${esc(p.dybde)}</p>`
+            ? `${dybdeIkon(p.nivaa, 'dybde--xl dybde--wine')}<p class="s-pagehero__caption"><strong>Omfang:</strong> ${esc(p.dybde)}</p>${p.pris ? `<p class="s-pagehero__caption s-pagehero__pris"><strong>Typisk prosjekt:</strong> ${esc(p.pris)}</p>` : ''}`
             : `<div class="s-pagehero__tl">${tidslinje(f)}</div>`}
         </div>
       </div>
@@ -578,6 +553,20 @@ export const pakke = (ctx, t, p) => {
       <div class="wrap s-passer__grid">
         <h2 class="label label--caps label--blue" id="passer-tittel">${esc(p.passer_tittel)}</h2>
         <ul class="checklist">${(p.passer || []).map((x) => `<li>${inline(x)}</li>`).join('')}</ul>
+      </div>
+    </section>
+
+    <section class="s-leveranse" aria-labelledby="lev-tittel">
+      ${edge('double')}
+      <div class="wrap s-leveranse__grid">
+        <div>
+          <h2 class="label label--caps label--blue" id="lev-tittel">${esc(p.leveranser_tittel)}</h2>
+          <ul class="tags">${(p.leveranser || []).map((x) => `<li class="tag">${esc(x)}</li>`).join('')}</ul>
+        </div>
+        <div>
+          <h2 class="label label--caps label--blue">${esc(p.forvent_tittel)}</h2>
+          <p class="serif-body serif-body--lg">${inline(p.forvent)}</p>
+        </div>
       </div>
     </section>
 
@@ -594,20 +583,6 @@ export const pakke = (ctx, t, p) => {
               <p class="step__text">${inline(s.tekst)}</p>
             </li>`).join('')}
           </ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="s-leveranse" aria-labelledby="lev-tittel">
-      ${edge('double')}
-      <div class="wrap s-leveranse__grid">
-        <div>
-          <h2 class="label label--caps label--blue" id="lev-tittel">${esc(p.leveranser_tittel)}</h2>
-          <ul class="tags">${(p.leveranser || []).map((x) => `<li class="tag">${esc(x)}</li>`).join('')}</ul>
-        </div>
-        <div>
-          <h2 class="label label--caps label--blue">${esc(p.forvent_tittel)}</h2>
-          <p class="serif-body serif-body--lg">${inline(p.forvent)}</p>
         </div>
       </div>
     </section>
@@ -635,8 +610,8 @@ export const pakke = (ctx, t, p) => {
     provider: { '@type': 'ProfessionalService', '@id': `${site.url}/#virksomhet`, name: site.navn, url: `${site.url}/` },
     areaServed: omrader(site),
   };
-  return layout(ctx, { title: p.seo_tittel || `${p.navn} – STØLE`, description: p.seo_beskrivelse, path: `/tjenester/${p.slug}/`, body, bodyClass: 'page-sub',
-    ld: [tjeneste, brodsmuler(site, sti)], ogImage: ogFor(p.slug), ogAlt: `${p.navn} – ${p.naar}` });
+  return layout(ctx, { title: p.seo_tittel || `${p.navn} | STØLE`, description: p.seo_beskrivelse, path: `/tjenester/${p.slug}/`, body, bodyClass: 'page-sub',
+    ld: [tjeneste, brodsmuler(site, sti)], ogImage: ogFor(p.slug), ogAlt: `${p.navn}: ${p.naar}` });
 };
 
 /* ---------- Personvern ---------- */
@@ -841,5 +816,5 @@ export const ikkeFunnet = (ctx) => {
         <div class="s-404__mark" aria-hidden="true"><img src="/i/mark-split.svg" alt="" width="264" height="496"></div>
       </div>
     </section>`;
-  return layout(ctx, { title: 'Siden finnes ikke – STØLE', description: 'Siden du lette etter finnes ikke.', path: '/404.html', body, bodyClass: 'page-sub page-404', noindex: true });
+  return layout(ctx, { title: 'Siden finnes ikke | STØLE', description: 'Siden du lette etter finnes ikke.', path: '/404.html', body, bodyClass: 'page-sub page-404', noindex: true });
 };

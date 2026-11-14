@@ -69,12 +69,13 @@ main:focus { outline: none; }
 
 /* ---------- Typografi ---------- */
 .display { font-family: var(--serif); font-weight: 500; font-size: var(--fs-display); line-height: var(--lh-display); letter-spacing: -0.012em; text-wrap: balance; font-optical-sizing: auto; }
-.display em { font-style: italic; color: var(--accent, var(--blue)); }
+.display em { font-style: italic; }
+.s-om .display em { color: var(--blue); }
 .display--hero { max-width: 13.2em; }
 .display--xl { font-size: var(--fs-display); line-height: 1.05; }
 .display--statement { max-width: 14em; }
 .label { font-family: var(--serif); font-weight: 500; font-size: var(--fs-label); line-height: 1.5; margin-bottom: 14px; color: var(--label-c, currentColor); }
-.label--caps { text-transform: uppercase; letter-spacing: .02em; font-weight: 400; }
+.label--caps { font-weight: 400; }
 .label--center { text-align: center; }
 .label--blue { color: var(--blue); }
 .label--wine { color: var(--wine); }
@@ -85,19 +86,19 @@ main:focus { outline: none; }
 .rule { width: 262px; max-width: 60%; height: 1px; background: rgba(243, 235, 226, .5); margin: 40px 0 0; }
 
 /* ---------- Knapper og lenker ---------- */
-.pill { display: inline-flex; align-items: center; justify-content: center; gap: .5em; min-height: 40px; padding: 4px 18px; border-radius: 999px; background: var(--cream); color: var(--wine); font-family: var(--sans); font-style: italic; font-size: 1rem; line-height: 1.2; text-decoration: none; border: 0; cursor: pointer; transition: background-color .25s var(--ease), color .25s var(--ease), transform .25s var(--ease); }
+.pill { display: inline-flex; align-items: center; justify-content: center; gap: .5em; min-height: 44px; padding: 4px 20px; border-radius: 999px; background: var(--cream); color: var(--wine); font-family: var(--sans); font-style: italic; font-size: 1rem; line-height: 1.2; text-decoration: none; border: 0; cursor: pointer; transition: background-color .25s var(--ease), color .25s var(--ease), transform .25s var(--ease); }
 .pill:hover { background: #fffaf4; transform: translateY(-1px); }
 .pill:active { transform: translateY(0); }
 .pill--sand { background: var(--sand); color: var(--wine); font-family: var(--serif); font-style: normal; font-size: 1.1875rem; min-height: 48px; padding: 4px 14px; }
 .pill--sand:hover { background: var(--cream); }
-.pill--wine { background: var(--wine); color: var(--blue); font-family: var(--serif); font-style: normal; font-size: 1rem; min-height: 40px; padding: 4px 16px; --focus: var(--wine); }
+.pill--wine { background: var(--wine); color: var(--blue); font-family: var(--serif); font-style: normal; font-size: 1rem; min-height: 44px; padding: 4px 18px; --focus: var(--wine); }
 .pill--wine:hover { background: var(--wine-deep); color: #c3d8f1; }
 .pill--wine-solid { background: var(--wine); color: var(--cream); font-family: var(--serif); font-style: normal; font-size: 1.0625rem; min-height: 44px; padding: 4px 18px; --focus: var(--wine); }
 .pill--wine-solid:hover { background: var(--wine-deep); }
 .chev { width: 6px; height: 12px; flex: none; transition: transform .25s var(--ease); }
 a:hover > .chev { transform: translateX(3px); }
 
-.textlink { display: inline-flex; align-items: center; min-height: 40px; font-style: italic; font-size: 1rem; text-decoration: none; background: linear-gradient(currentColor, currentColor) left calc(100% - 8px) / 100% 1px no-repeat; transition: background-size .3s var(--ease), opacity .2s; padding-inline: 2px; }
+.textlink { display: inline-flex; align-items: center; min-height: 44px; font-style: italic; font-size: 1rem; text-decoration: none; background: linear-gradient(currentColor, currentColor) left calc(100% - 10px) / 100% 1px no-repeat; transition: background-size .3s var(--ease), opacity .2s; padding-inline: 2px; }
 .textlink:hover { background-size: 40% 1px; }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 12px 24px; border-radius: 3px; border: 2px solid var(--cream); font-family: var(--sans); font-weight: 600; font-size: 1rem; line-height: 1.2; text-decoration: none; cursor: pointer; transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s; }
@@ -125,7 +126,7 @@ section, footer { position: relative; }
 .nav__list a { position: relative; display: inline-block; padding: 8px 2px; font-size: 1.0625rem; text-decoration: none; }
 .nav__list a::after, .mobile-menu a::after { content: ""; position: absolute; left: 2px; right: 2px; bottom: 4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
 .nav__list a:hover::after, .nav__list a[aria-current]::after { transform: scaleX(1); }
-.pill--nav { font-style: normal; min-height: 37px; padding: 4px 16px; border-radius: 15px; font-size: 1rem; white-space: nowrap; flex-shrink: 0; }
+.pill--nav { font-style: normal; min-height: 44px; padding: 4px 16px; border-radius: 15px; font-size: 1rem; white-space: nowrap; flex-shrink: 0; }
 .pill--nav__short { display: none; }
 .menu-btn { display: none; align-items: center; gap: 10px; min-height: 44px; padding: 0 2px 0 8px; background: none; border: 0; font-weight: 600; cursor: pointer; }
 .menu-btn__icon { position: relative; width: 18px; height: 2px; background: var(--cream); transition: background-color .2s; }
@@ -146,13 +147,6 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .mobile-menu li + li { border-top: 1px solid rgba(122, 55, 67, .6); }
 .mobile-menu a:not(.pill) { position: relative; display: block; padding: 14px 2px; font-family: var(--serif); font-size: 1.75rem; line-height: 1.2; text-decoration: none; }
 .mobile-menu .pill { margin-top: 20px; }
-
-/* ---------- Forside: hero-bilde ---------- */
-.s-hero { position: relative; height: clamp(420px, 65vw, 940px); background: var(--wine); overflow: hidden; }
-.s-hero__img, .s-hero__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.s-hero__img img { object-fit: cover; object-position: 60% 100%; opacity: .8; }
-.s-hero__logo { position: absolute; left: 10%; top: 26%; width: 73%; margin: 0; }
-.s-hero__logo img { width: 100%; }
 
 /* ---------- Forside: intro ---------- */
 .s-intro { --bg: var(--wine); background: var(--wine); padding: clamp(36px, 8vw, 120px) 0 clamp(80px, 9vw, 120px); margin-top: -1px; }
@@ -188,7 +182,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .s-hvorfor__prop { padding-top: 28px; }
 .s-hvorfor__big { font-family: var(--serif); font-style: italic; font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); line-height: 1.56; max-width: 15.6em; }
 .s-hvorfor__small { margin-top: 18px; color: var(--ink-muted); }
-.distill { position: relative; width: min(84.5%, 933px); margin: clamp(80px, 8vw, 104px) auto 0; }
+.distill { position: relative; width: min(84.5%, 933px); margin: clamp(130px, 13vw, 170px) auto 0; }
 .distill__grid { display: grid; grid-template-columns: repeat(13, 1fr); gap: clamp(18px, 2.7vw, 34px) clamp(8px, 1.3vw, 16px); }
 .distill__grid span { aspect-ratio: 56 / 48; background: var(--rose); }
 .distill__note { position: absolute; right: -3%; top: clamp(-96px, -7vw, -60px); font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(1rem, .9rem + .4vw, 1.25rem); color: var(--wine); text-transform: uppercase; }
@@ -209,7 +203,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .case__text { color: var(--cream); font-size: clamp(1.0625rem, 1rem + .2vw, 1.125rem); line-height: 1.65; max-width: 34em; }
 /* Fakta under teksten: små etiketter over verdiene, tydelig underordnet brødteksten */
 .facts.case__facts { display: block; max-width: 34em; margin-top: clamp(28px, 3vw, 36px); padding-top: 20px; border-top: 1px solid rgba(243, 235, 226, .16); }
-.case__facts dt { font-family: var(--sans); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mist); }
+.case__facts dt { font-family: var(--sans); font-size: .8125rem; font-weight: 600; color: var(--mist); }
 .case__facts dd { margin: 3px 0 16px; color: var(--rose); font-size: .9375rem; line-height: 1.55; }
 .case__facts dd:last-child { margin-bottom: 0; }
 .facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 30px; margin-top: 30px; font-size: .9375rem; line-height: 1.65; }
@@ -297,7 +291,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .s-kontakt__addr { margin: 14px 0 20px; font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 1.5rem + 1.6vw, 2.88rem); line-height: 1.05; letter-spacing: -0.01em; overflow-wrap: anywhere; }
 .s-kontakt__addr a { text-decoration: none; }
 .s-kontakt__addr a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
-.tmpl { margin-top: 64px; border-top: 1px solid var(--line); }
+.tmpl { margin-top: 40px; border-top: 1px solid var(--line); }
 .tmpl summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 10px 0; font-weight: 600; font-size: 1.125rem; cursor: pointer; list-style: none; }
 .tmpl summary::-webkit-details-marker { display: none; }
 .tmpl__plus { position: relative; width: 14px; height: 14px; flex: none; }
@@ -313,10 +307,10 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .site-footer__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto; gap: 40px clamp(32px, 5vw, 72px); align-items: start; }
 .site-footer__logo { display: block; max-width: 420px; }
 .facts--footer { margin-top: 6px; font-size: .9375rem; }
-.facts--footer a { text-decoration: none; display: inline-block; padding-block: 4px; margin-block: -4px; }
+.facts--footer a { text-decoration: none; display: inline-block; padding-block: 10px; margin-block: -10px; }
 .facts--footer a:hover { text-decoration: underline; }
 .site-footer__nav ul { list-style: none; margin: 6px 0 0; padding: 0; }
-.site-footer__nav a { display: inline-block; padding: 4px 0; text-decoration: none; }
+.site-footer__nav a { display: inline-block; padding: 10px 0; text-decoration: none; }
 .site-footer__nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .site-footer__fine { grid-column: 1 / -1; border-top: 1px solid rgba(122, 55, 67, .7); padding-top: 22px; font-size: .8125rem; color: var(--rose); }
 
@@ -325,7 +319,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
    ========================================================= */
 .s-pagehero { --bg: var(--wine); position: relative; background: var(--wine); padding: clamp(72px, 9vw, 130px) 0 clamp(90px, 10vw, 140px); overflow: hidden; }
 .s-pagehero__text .display--hero { max-width: 14em; }
-.s-pagehero__lead { margin-top: 40px; max-width: 34em; font-style: italic; line-height: 1.9; }
+.s-pagehero__lead { margin-top: 40px; max-width: 34em; line-height: 1.75; }
 .s-pagehero--short { padding-bottom: clamp(110px, 12vw, 160px); }
 .s-pagehero--short .display--hero { max-width: 16em; }
 
@@ -384,8 +378,6 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .s-404__mark img { width: clamp(140px, 18vw, 240px); }
 
 /* ---------- Diskré inntoning ---------- */
-.js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
-.js .reveal.is-in { opacity: 1; transform: none; }
 
 /* =========================================================
    Nettbrett
@@ -425,11 +417,8 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 @media (max-width: 759px) {
   :root { --header-h: 64px; --fs-display: clamp(2.05rem, 1.5rem + 2.6vw, 2.5rem); }
   .brand img { width: 118px; }
-  .pill--nav { min-height: 36px; padding: 2px 12px; font-size: .875rem; border-radius: 999px; }
+  .pill--nav { min-height: 44px; padding: 2px 14px; font-size: .875rem; border-radius: 999px; }
 
-  .s-hero { height: auto; aspect-ratio: 4 / 4.4; }
-  .s-hero__img img { object-position: 100% 100%; }
-  .s-hero__logo { left: 6%; width: 88%; top: 34%; }
 
   .s-intro .display--hero, .s-intro__body, .s-intro .display { max-width: 100%; }
   .s-intro .display--hero { max-width: 9em; }
@@ -465,7 +454,6 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
   .step:last-child { border-bottom: 1px solid var(--wine); }
   .step__icon { height: 44px; margin-bottom: 20px; }
   .step__num { border-top: 0; padding-top: 0; }
-  .js .step.reveal .step__num, .js .step.reveal.is-in .step__num { background: none; }
   .step__text { max-width: none; font-size: 1rem; }
 
   .s-tjenester .display { margin-bottom: 20px; }
@@ -473,7 +461,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 
   .s-fast::before { background-size: 120px 35px; height: 35px; }
   .s-om::before, .s-reise::before { background-size: 130px 36px; height: 36px; }
-  .tl__k, .tl__d, .tl__s { font-size: .6875rem; height: 36px; }
+  .tl__k, .tl__d, .tl__s { font-size: .75rem; height: 40px; }
 
   .s-om__body { max-width: none; }
 
@@ -495,13 +483,12 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 /* ---------- Respekter brukerens bevegelsesvalg ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  .js .reveal { opacity: 1; transform: none; }
 }
 
 /* ---------- Utskrift ---------- */
 @media print {
   @page { margin: 16mm 14mm; }
-  .site-header, .skip, .s-hero__img, .edge, .s-kontakt__mark, .s-intro__mark, .s-intro__panel, .s-om__glow, .s-pagehero__panel,
+  .site-header, .skip, .s-topp__bilde, .edge, .s-kontakt__mark, .s-intro__mark, .s-intro__panel, .s-om__glow, .s-pagehero__panel,
   .distill, .site-footer__logo, .site-footer__nav, .btn-row, .s-kontakt__ways .btn, .tmpl, .pill, .menu-btn, .mobile-menu,
   .s-prosess__band, .velger__plus, [data-copy-status] { display: none !important; }
   *, *::before, *::after { background: transparent !important; color: #000 !important; box-shadow: none !important; text-shadow: none !important;
@@ -510,9 +497,6 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
   .reveal, .reveal-group, .js .reveal, .reveal *, .is-in { opacity: 1 !important; transform: none !important; }
   .s-kontakt { -webkit-mask: none !important; mask: none !important; }
   section, .s-kontakt, .site-footer, [class*="s-pagehero"] { padding-top: 14pt !important; padding-bottom: 14pt !important; margin: 0 !important; min-height: 0 !important; }
-  .s-hero { min-height: 0 !important; height: auto !important; padding: 0 0 10pt !important; }
-  .s-hero__logo img { width: 60mm !important; height: auto !important; }
-  .s-hero__logo { position: static !important; margin: 0 !important; }
   .wrap { max-width: none !important; padding: 0 !important; }
   .velger__panel[hidden] { display: block !important; }
   .tier, .case, .step, .moment, .kort li, .reise li, .sit li, figure, .tl { break-inside: avoid; }
@@ -663,25 +647,16 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
    Bevegelse – felles tidsbruk og myke overganger
    ========================================================= */
 :root { --dur-fast: .2s; --dur: .45s; --dur-slow: .8s; }
-.js .reveal { transition-delay: calc(var(--i, 0) * 70ms); }
 .pill:active, .btn:active { transform: translateY(0) scale(.98); }
 .tier .dybde { transition: transform var(--dur) var(--ease); }
 .tier:hover .dybde { transform: translateY(-3px); }
 
 /* Linjene over prosesstegene tegnes når de kommer til syne */
-.js .step.reveal .step__num { border-top-color: transparent; background: linear-gradient(currentColor, currentColor) left top / 0% 1px no-repeat; transition: background-size 1s var(--ease) calc(var(--i, 0) * 70ms + .15s); }
-.js .step.reveal.is-in .step__num { background-size: 100% 1px; }
 
 /* Pilen mot «deg» tegnes */
 .distill__arrow-path { stroke-dasharray: 1; stroke-dashoffset: 0; }
-.js .distill.reveal .distill__arrow-path { stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s var(--ease) .5s; }
-.js .distill.reveal .distill__arrow-head { opacity: 0; transition: opacity .4s var(--ease) 1.7s; }
-.js .distill.reveal.is-in .distill__arrow-path { stroke-dashoffset: 0; }
-.js .distill.reveal.is-in .distill__arrow-head { opacity: 1; }
 
 /* Bildene i «Utvalgt arbeid» glir rolig på plass */
-.js .case.reveal .case__pic img { transform: scale(1.045); transition: transform 1.6s var(--ease); }
-.js .case.reveal.is-in .case__pic img { transform: none; }
 
 /* E-postmalen åpnes mykt (der nettleseren støtter det) */
 :root { interpolate-size: allow-keywords; }
@@ -689,16 +664,12 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .tmpl[open]::details-content { height: auto; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .s-hero__img img { animation: heroSettle 2s var(--ease) both; }
-  .s-hero__logo { animation: rise 1.2s var(--ease) .25s both; }
   .s-om__glow { animation: drift 16s ease-in-out infinite alternate; }
   .js .s-om:not(.is-visible) .s-om__glow { animation-play-state: paused; }
   @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; animation-timing-function: var(--ease); }
   .site-header { view-transition-name: topptekst; }
 }
-@keyframes heroSettle { from { transform: scale(1.045); } }
-@keyframes rise { from { opacity: 0; transform: translateY(12px); } }
 @keyframes drift { from { transform: translate3d(-1.2%, 6px, 0); } to { transform: translate3d(1.2%, -10px, 0); } }
 @media (max-width: 759px) {
   .mini-steps { display: grid; gap: 4px; }
@@ -797,7 +768,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 .s-kontakt__h3--alt { padding-top: 40px; border-top: 1px solid var(--line); }
 
 /* Kontaktfeltet: inngang til prosjektskjemaet */
-.kontakt-cta { display: grid; gap: 12px; justify-items: start; margin-bottom: 56px; }
+.kontakt-cta { display: grid; gap: 12px; justify-items: start; margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--line); }
 .kontakt-cta .btn { margin-top: 8px; }
 
 /* =========================================================
@@ -949,7 +920,167 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 .brief__hopp:not(:disabled) { cursor: pointer; }
 .brief__hopp:not(:disabled):hover .brief__navn { text-decoration: underline; text-underline-offset: 3px; }
 .brief__hopp:focus-visible { outline: 2px solid var(--wine); outline-offset: 4px; border-radius: 2px; }
-@media (max-width: 900px) { .brief__hopp { flex-direction: column; gap: 6px; min-height: 40px; } }
+@media (max-width: 900px) { .brief__hopp { flex-direction: column; gap: 6px; min-height: 44px; } }
+
+.s-intro__mark { aspect-ratio: 264 / 496; background: url(/i/mark-split.svg) center / contain no-repeat; }
+.s-kontakt__mark { aspect-ratio: 499 / 937; background: url(/i/mark-deep.svg) center / contain no-repeat; }
+
+.s-kontakt__h3--alt { padding-top: 40px; border-top: 1px solid var(--line); }
+
+/* Kontaktfeltet: inngang til prosjektskjemaet */
+.kontakt-cta { display: grid; gap: 12px; justify-items: start; margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--line); }
+.kontakt-cta .btn { margin-top: 8px; }
+
+/* =========================================================
+   Start et prosjekt: brief i fem steg
+   ========================================================= */
+.page-brief .pill--nav, .page-videre .pill--nav { visibility: hidden; }
+.s-brief { --bg: var(--sand); --focus: var(--wine); background: var(--sand); color: var(--ink); padding: clamp(48px, 6vw, 88px) 0 clamp(110px, 12vw, 160px); }
+.s-brief .edge { --edge: var(--sand); }
+.s-brief__grid { display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 2.2fr); gap: 40px clamp(40px, 7vw, 120px); align-items: start; }
+
+/* Fremdrift: nummererte steg med en linje som fylles */
+.brief__fremdrift { position: sticky; top: 96px; }
+.brief__teller { font-size: .875rem; color: var(--ink-muted); margin-bottom: 18px; }
+.brief__fremdrift ol { list-style: none; margin: 0; padding: 0 0 0 22px; display: grid; gap: 14px; }
+.brief__fremdrift li { display: flex; gap: 14px; align-items: baseline; color: var(--ink-muted); transition: color .3s var(--ease); }
+.brief__fremdrift li.is-naa { color: var(--wine); }
+.brief__fremdrift li.is-naa .brief__navn { font-weight: 600; }
+.brief__fremdrift li.is-ferdig { color: var(--ink); }
+.brief__nr { font-family: var(--sans); font-size: .8125rem; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.brief__navn { font-family: var(--serif); font-size: 1.25rem; line-height: 1.2; }
+.brief__linje { position: absolute; left: 0; top: 38px; bottom: 4px; width: 1px; background: rgba(90, 26, 38, .2); }
+.brief__linje span { position: absolute; left: 0; top: 0; width: 1px; height: var(--fremdrift, 0%); background: var(--wine); transition: height .6s var(--ease); }
+
+/* Stegene */
+.brief { min-width: 0; }
+.brief__steg { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 26px; }
+.brief__steg:not(.is-naa) { display: none; }
+.js .brief__steg.is-naa { animation: briefInn .45s var(--ease) both; }
+@keyframes briefInn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.brief__tittel { font-family: var(--serif); font-weight: 500; font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem); line-height: 1.1; letter-spacing: -0.01em; color: var(--wine); padding: 0; margin-bottom: 4px; max-width: 18em; }
+.brief__h { font-family: var(--serif); font-weight: 500; font-size: 1.375rem; color: var(--wine); margin-bottom: 14px; }
+.brief__felt { display: grid; gap: 8px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.brief [hidden] { display: none !important; }
+.brief__felt > label, .brief__felt > legend { font-weight: 600; font-size: 1rem; padding: 0; margin-bottom: 0; }
+fieldset.brief__felt > legend { margin-bottom: 10px; }
+.brief__valgfritt { font-weight: 400; color: var(--ink-muted); }
+.brief__hjelp { font-size: .9375rem; line-height: 1.5; color: var(--ink-muted); max-width: 38em; margin-top: -2px; }
+.brief input:not([type="checkbox"]):not([type="radio"]), .brief textarea { width: 100%; font: inherit; font-size: 1.0625rem; color: var(--ink); background: #f3ece2; border: 1px solid rgba(90, 80, 74, .45); border-radius: 3px; padding: 13px 14px; min-height: 52px; transition: border-color .2s; }
+.brief textarea { resize: vertical; line-height: 1.55; min-height: 0; }
+.brief input::placeholder, .brief textarea::placeholder { color: #8a7f77; }
+.brief input:hover, .brief textarea:hover { border-color: var(--ink-muted); }
+.brief input:focus-visible, .brief textarea:focus-visible { outline: 2px solid var(--wine); outline-offset: 2px; border-color: var(--wine); }
+.brief [aria-invalid="true"] { border-color: var(--wine) !important; box-shadow: inset 3px 0 0 var(--wine); }
+.brief__feil { font-size: .9375rem; color: var(--wine); }
+
+/* Valg: store, tydelige flater i stedet for nedtrekksliste */
+.brief__valg { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.brief__valg--rad { grid-template-columns: repeat(auto-fill, minmax(150px, max-content)); }
+.valg { position: relative; display: block; cursor: pointer; }
+.valg input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.valg__tekst { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-height: 52px; height: 100%; padding: 12px 16px; border: 1px solid rgba(90, 80, 74, .45); border-radius: 3px; background: #f3ece2; font-weight: 600; line-height: 1.25; transition: background-color .2s, color .2s, border-color .2s; }
+.valg__tekst small { font-weight: 400; font-size: .875rem; color: var(--ink-muted); transition: color .2s; }
+.valg--hint .valg__tekst { min-height: 72px; }
+.valg:hover .valg__tekst { border-color: var(--wine); }
+.valg input:checked + .valg__tekst { background: var(--wine); border-color: var(--wine); color: var(--cream); }
+.valg input:checked + .valg__tekst small { color: var(--rose); }
+.valg input:focus-visible + .valg__tekst { outline: 2px solid var(--wine); outline-offset: 2px; }
+.brief__vilkaar { padding-left: 18px; border-left: 2px solid var(--wine); }
+
+.brief__knapper { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.brief .btn--solid, .s-brief .btn--solid { background: var(--wine); color: var(--cream); border-color: var(--wine); }
+.brief .btn--solid:hover { background: transparent; color: var(--wine); }
+.brief .btn--ghost { color: var(--ink); border-color: rgba(90, 80, 74, .45); }
+.brief .btn--ghost:hover { border-color: var(--ink); background: rgba(90, 26, 38, .05); }
+.brief .btn[disabled] { opacity: .6; cursor: progress; }
+.brief__trygg { font-size: .9375rem; color: var(--ink-muted); }
+.brief__info { font-size: .875rem; color: var(--ink-muted); }
+.brief__info a { color: inherit; }
+.brief__status { padding: 12px 14px; border-left: 3px solid var(--wine); background: #f3ece2; }
+.brief__felle { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.brief__oppsummering { padding-top: 22px; border-top: 1px solid rgba(90, 26, 38, .2); }
+.brief__oppsummering dl { display: grid; grid-template-columns: minmax(110px, auto) 1fr auto; gap: 8px 18px; font-size: .9375rem; }
+.brief__oppsummering dt { color: var(--ink-muted); }
+.brief__oppsummering dd { margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
+.brief__endre { font: inherit; font-size: .875rem; color: var(--wine); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; justify-self: end; }
+.page-brief.is-sender .s-brief .wrap { opacity: 0; transform: translateY(-6px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+
+@media (max-width: 900px) {
+  .s-brief__grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .brief__fremdrift { position: static; }
+  .brief__fremdrift ol { display: flex; gap: 6px; padding: 0; }
+  .brief__fremdrift li { flex: 1; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 3px solid rgba(90, 26, 38, .18); }
+  .brief__fremdrift li.is-naa, .brief__fremdrift li.is-ferdig { border-top-color: var(--wine); }
+  .brief__navn { font-family: var(--sans); font-size: .8125rem; }
+  .brief__fremdrift li:not(.is-naa) .brief__navn { display: none; }
+  .brief__linje { display: none; }
+  .brief__teller { margin-bottom: 12px; }
+}
+@media (max-width: 480px) {
+  .brief__valg { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .brief__valg--rad { grid-template-columns: minmax(0, 1fr); }
+  .valg__tekst { padding: 10px 12px; }
+  .brief__knapper .btn { flex: 1 1 auto; }
+  .brief__oppsummering dl { grid-template-columns: minmax(0, 1fr) auto; }
+  .brief__oppsummering dd { grid-column: 1 / -1; margin-top: -4px; padding-bottom: 6px; }
+}
+
+/* =========================================================
+   Veien videre
+   ========================================================= */
+.reise--fem { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 0; }
+.reise__step.is-naa .reise__dot { background: var(--rose); }
+.reise__naa { margin-left: 8px; font-size: .75rem; letter-spacing: .04em; color: var(--wine-850); background: var(--rose); padding: 2px 7px; border-radius: 2px; }
+.s-videre__mens { display: grid; gap: 12px; max-width: 34em; margin-top: clamp(72px, 9vw, 120px); padding-top: 32px; border-top: 1px solid var(--line); }
+.s-videre__mens .btn-row { margin-top: 10px; }
+@media (min-width: 760px) and (max-width: 1100px) { .reise--fem { grid-template-columns: repeat(3, minmax(0, 1fr)); } .reise--fem::before, .reise--fem::after { display: none; } }
+@media (max-width: 759px) { .reise--fem { grid-template-columns: minmax(0, 1fr); } }
+.s-videre__mens .step__text { color: var(--rose); }
+
+/* Veien videre: stort bilde med tittelen, så kvittering og steg */
+.s-videre-hero { position: relative; display: flex; align-items: flex-end; min-height: clamp(440px, 64vh, 700px); overflow: hidden; background: #2b3540; color: var(--cream); }
+.s-videre-hero__bilde, .s-videre-hero__bilde img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.s-videre-hero__bilde img { object-fit: cover; object-position: 60% 42%; }
+.js .s-videre-hero__bilde img { transform: scale(1.06); transition: transform 6s cubic-bezier(.2, .6, .2, 1); }
+.js .s-videre-hero.is-inne .s-videre-hero__bilde img { transform: scale(1); }
+.s-videre-hero::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, var(--wine) 0%, rgba(90, 26, 38, .82) 22%, rgba(90, 26, 38, .35) 52%, rgba(30, 20, 26, .1) 78%, rgba(30, 20, 26, .25) 100%); }
+.s-videre-hero__tekst { position: relative; z-index: 1; width: 100%; padding-top: 120px; padding-bottom: clamp(40px, 5vw, 64px); }
+.s-videre-hero__tekst .display--hero { text-shadow: 0 1px 24px rgba(40, 10, 16, .35); }
+.s-videre-hero__tekst .s-pagehero__lead { margin-top: 20px; max-width: 30em; }
+.s-videre-hero .label--blue { color: #c3d8f1; }
+.s-videre { --bg: var(--wine); background: var(--wine); padding: 8px 0 clamp(110px, 11vw, 150px); }
+.kvittering { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--rose); border-bottom: 1px solid var(--line); }
+.kvittering__rad { display: grid; gap: 6px; padding: 18px 24px 20px 0; }
+.kvittering__rad + .kvittering__rad { padding-left: 24px; border-left: 1px solid var(--line); }
+.kvittering dt { font-size: .8125rem; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); }
+.kvittering dd { margin: 0; display: flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 600; }
+.kvittering__ok { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--rose) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.4l2.6 2.6L13 6.6' fill='none' stroke='%235A1A26' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 18px no-repeat; }
+.s-videre__steg { margin-top: clamp(48px, 5vw, 72px); }
+.s-videre__h { margin: 0; }
+.s-videre .reise { margin-top: 36px; }
+.s-videre .reise__dot { background: var(--wine); }
+.s-videre__mens { margin-top: clamp(64px, 8vw, 104px); }
+.s-videre__mens .s-kontakt__addr a { color: var(--cream); }
+@media (max-width: 759px) {
+  .s-videre-hero { min-height: 72vh; }
+  .s-videre-hero__bilde img { object-position: 62% 40%; }
+  .kvittering { grid-template-columns: minmax(0, 1fr); }
+  .kvittering__rad, .kvittering__rad + .kvittering__rad { padding: 14px 0 15px; border-left: 0; }
+  .kvittering__rad + .kvittering__rad { border-top: 1px solid var(--line); }
+}
+@media (prefers-reduced-motion: reduce) { .js .s-videre-hero__bilde img { transform: none; transition: none; } }
+/* Beskjed nederst på skjermen */
+.toast { position: fixed; left: 50%; bottom: 20px; z-index: 60; width: min(560px, calc(100% - 32px)); margin: 0; padding: 14px 18px; border-radius: 3px; background: var(--cream); color: var(--wine); font-size: .9375rem; line-height: 1.5; box-shadow: 0 10px 30px rgba(40, 10, 16, .25); transform: translate(-50%, 16px); opacity: 0; pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease); }
+.toast.is-vist { opacity: 1; transform: translate(-50%, 0); }
+
+/* Fremdriften: fullførte steg kan klikkes for å gå tilbake */
+.brief__hopp { all: unset; display: flex; gap: 14px; align-items: baseline; width: 100%; color: inherit; font: inherit; }
+.brief__hopp:not(:disabled) { cursor: pointer; }
+.brief__hopp:not(:disabled):hover .brief__navn { text-decoration: underline; text-underline-offset: 3px; }
+.brief__hopp:focus-visible { outline: 2px solid var(--wine); outline-offset: 4px; border-radius: 2px; }
+@media (max-width: 900px) { .brief__hopp { flex-direction: column; gap: 6px; min-height: 44px; } }
 
 /* Forsiden: en mild tåkesky bak logoen, så den står tydelig mot lia */
 .s-hero__img { z-index: 0; }
@@ -967,4 +1098,43 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 /* Forsiden: den lyse bølgen nede til høyre skal ligge under bretten når man kommer inn */
 @media (min-width: 760px) {
   .s-hero { height: max(clamp(420px, 65vw, 940px), calc(100vh - var(--header-h) + 10vw)); height: max(clamp(420px, 65vw, 940px), calc(100svh - var(--header-h) + 10vw)); }
+}
+
+/* =========================================================
+   Forside: første skjerm
+   Overskrift, én setning og én hovedknapp er synlige uten rulling.
+   Bildet av stølen og signaturen står ved siden av, ikke foran.
+   ========================================================= */
+.s-topp { --bg: var(--cream); --focus: var(--wine); background: var(--cream); color: var(--wine); overflow-x: clip; }
+.s-topp__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); gap: clamp(32px, 5vw, 80px); align-items: stretch; min-height: clamp(540px, calc(100svh - var(--header-h)), 800px); }
+.s-topp__tekst { align-self: center; padding: clamp(48px, 6vw, 88px) 0 clamp(96px, 10vw, 140px); }
+.s-topp__hva { font-family: var(--serif); font-size: 1.125rem; line-height: 1.4; color: var(--wine); margin-bottom: clamp(20px, 2.4vw, 32px); }
+.s-topp .display--hero { max-width: 10.5em; font-size: clamp(2.25rem, 1.1rem + 3.3vw, 4rem); line-height: 1.06; letter-spacing: -0.018em; text-wrap: wrap; }
+.s-topp .display--hero em { display: block; }
+.s-topp__setning { max-width: 27em; margin-top: clamp(24px, 2.6vw, 36px); font-size: clamp(1.0625rem, 1rem + .35vw, 1.25rem); line-height: 1.55; color: var(--ink); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px; margin-top: clamp(32px, 3.4vw, 48px); }
+.s-topp .pill--wine-solid { min-height: 52px; padding: 6px 26px; font-family: var(--sans); font-weight: 600; font-size: 1.0625rem; }
+.s-topp__bilde { position: relative; margin-right: var(--to-edge); background: var(--wine); overflow: hidden; }
+.s-topp__img, .s-topp__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.s-topp__img img { object-fit: cover; object-position: 78% 100%; opacity: .86; }
+.s-topp__bilde::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(221, 210, 214, .55) 0%, rgba(221, 210, 214, .3) 34%, rgba(221, 210, 214, 0) 62%); }
+.s-topp__logo { position: absolute; z-index: 1; left: 9%; top: 15%; width: 82%; height: auto; }
+
+/* Forside: valget av tjeneste, rett under første skjerm */
+.s-sit--forside { padding-top: clamp(72px, 8vw, 112px); }
+.s-sit--forside .display { max-width: 12em; }
+.s-sit__alle { margin-top: clamp(28px, 3vw, 40px); }
+.s-sit__alle .textlink { color: var(--blue); }
+
+/* Forside: fortellingen står sammen med «Hvorfor det betyr noe» */
+.s-hvorfor__body { margin-top: clamp(28px, 3vw, 40px); max-width: 34em; color: var(--ink); line-height: 1.7; }
+.s-hvorfor__body p + p { margin-top: 1.1em; }
+
+.s-pagehero__pris { margin-top: 6px; }
+
+@media (max-width: 899px) {
+  .s-topp__grid { grid-template-columns: minmax(0, 1fr); gap: 0; min-height: 0; }
+  .s-topp__tekst { padding: clamp(36px, 8vw, 64px) 0 clamp(36px, 8vw, 56px); }
+  .s-topp__bilde { margin-inline: var(--to-edge); aspect-ratio: 4 / 3.3; }
+  .s-topp__logo { left: 8%; top: 12%; width: 84%; }
 }

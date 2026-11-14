@@ -47,7 +47,7 @@ node serve.mjs
 
 ## Personvern og cookies
 
-Siden bruker ingen informasjonskapsler, ingen analyse og ingen tredjepartstjenester. Legger du til noe slikt senere (f.eks. Google Analytics, kart eller video), må personvernerklæringen oppdateres, og du må vurdere om det trengs samtykke etter ekomloven § 3-15.
+Siden bruker ingen informasjonskapsler og ingen analyse. Den eneste tredjepartstjenesten er Formspree, som mottar det som sendes inn i prosjektskjemaet (omtalt i personvernerklæringen). Legger du til noe slikt senere (f.eks. Google Analytics, kart eller video), må personvernerklæringen oppdateres, og du må vurdere om det trengs samtykke etter ekomloven § 3-15.
 
 ## Publisering
 

@@ -188,22 +188,15 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
 
   /* ---------- Diskré inntoning når innhold kommer til syne ---------- */
   if (!reduce.matches && 'IntersectionObserver' in window) {
-    const groupSel = '.moments, .steps, .tiers, .sit, .kort__list, .reise';
+    // Én bevegelse med hensikt: linjen i «Slik kommer vi i gang» tegnes når den kommer til syne
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-    const below = (el) => el.getBoundingClientRect().top > window.innerHeight;
-    const watch = (el, cls = 'reveal') => { if (below(el)) { el.classList.add(cls); io.observe(el); } };
-    document.querySelectorAll(groupSel).forEach((g) => {
-      watch(g, 'reveal-group');
-      [...g.children].forEach((child, i) => { child.style.setProperty('--i', String(i)); watch(child); });
+    document.querySelectorAll('.reise').forEach((el) => {
+      if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add('reveal-group'); io.observe(el); }
     });
-    document.querySelectorAll('main .wrap > *, .case, .s-om__fig').forEach((el) => {
-      if (!el.matches(groupSel) && !el.closest('.velger') && !el.matches('.s-intro__panel')) watch(el);
-    });
-    document.querySelectorAll('.velger__item').forEach((el) => watch(el.querySelector('.velger__h')));
   }
 })();
 
