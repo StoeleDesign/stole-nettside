@@ -1108,20 +1108,23 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 .duo { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); column-gap: clamp(40px, 7vw, 112px); align-items: end; }
 
 /* Første skjerm: budskapet først, bildet som én stor flate under (slik Apple bygger produktsidene) */
-.s-topp { --bg: var(--wine); background: radial-gradient(90% 70% at 50% 0%, #6b2231 0%, var(--wine) 62%); color: var(--cream); padding: clamp(48px, 8vh, 96px) 0 0; }
+.s-topp { --bg: var(--wine); display: flex; flex-direction: column; min-height: calc(100svh - var(--header-h)); background: radial-gradient(90% 70% at 50% 0%, #6b2231 0%, var(--wine) 62%); color: var(--cream); padding: clamp(28px, 5.2vh, 64px) 0 clamp(20px, 3.2vh, 36px); }
+.s-topp__ramme { flex: 1 1 auto; display: flex; flex-direction: column; }
 .s-topp__tekst { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.s-topp .label { color: var(--blue); margin-bottom: 16px; }
-.s-topp .display--hero { max-width: 15em; font-size: clamp(2.25rem, 1.15rem + 3.3vw, 3.75rem); line-height: 1.06; letter-spacing: -0.02em; text-wrap: balance; }
+.s-topp .label { color: var(--blue); margin-bottom: clamp(8px, 1.4vh, 16px); }
+.s-topp .display--hero { max-width: 15em; font-size: clamp(2rem, min(1.1rem + 3vw, 6.4vh), 3.5rem); line-height: 1.06; letter-spacing: -0.02em; text-wrap: balance; }
 .s-topp .display--hero em { display: block; color: var(--blue); }
-.s-topp__setning { max-width: 30em; margin-top: 24px; font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); line-height: 1.5; color: var(--rose); }
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; margin-top: 32px; }
+.s-topp__setning { max-width: 30em; margin-top: clamp(12px, 2.2vh, 24px); font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); line-height: 1.5; color: var(--rose); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; margin-top: clamp(16px, 3vh, 32px); }
 .s-topp .actions { justify-content: center; }
 .s-topp__knapp { min-height: 52px; padding: 6px 28px; font-size: 1.0625rem; }
-.s-topp__bilde { position: relative; margin-top: clamp(40px, 6vh, 72px); aspect-ratio: 16 / 8.2; border-radius: var(--r-flate); overflow: hidden; background: var(--wine-850); box-shadow: 0 40px 80px -40px rgba(20, 4, 8, .7); }
+.s-topp__bilde { position: relative; flex: 1 1 auto; min-height: clamp(240px, 36vh, 420px); margin-top: clamp(24px, 4.4vh, 56px); border-radius: var(--r-flate); overflow: hidden; background: var(--wine-850); box-shadow: 0 40px 80px -40px rgba(20, 4, 8, .7); }
 .s-topp__img, .s-topp__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.s-topp__img img { object-fit: cover; object-position: 60% 100%; }
-.s-topp__bilde::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(224, 214, 218, .8) 0%, rgba(224, 214, 218, .35) 42%, rgba(224, 214, 218, 0) 70%); }
-.s-topp__logo { position: absolute; z-index: 1; left: 50%; top: 31%; width: min(46%, 520px); height: auto; transform: translate(-50%, -50%); }
+.s-topp__img img { object-fit: cover; object-position: 100% 100%; }
+.s-topp__bilde::after { content: ""; position: absolute; inset: 0; pointer-events: none; background:
+  radial-gradient(ellipse 40% 46% at 42% 40%, rgba(228, 219, 222, .82) 0%, rgba(228, 219, 222, .5) 50%, rgba(228, 219, 222, 0) 100%),
+  linear-gradient(to bottom, rgba(224, 214, 218, .8) 0%, rgba(224, 214, 218, .3) 40%, rgba(224, 214, 218, 0) 66%); }
+.s-topp__logo { position: absolute; z-index: 1; left: 42%; top: 40%; width: min(44%, 480px); height: auto; transform: translate(-50%, -50%); }
 
 /* Toppmenyen: knappen er en omriss, så hovedknappen på siden er den eneste fylte */
 .pill--nav { background: transparent; color: var(--cream); border: 1px solid rgba(243, 235, 226, .7); }
@@ -1228,11 +1231,12 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 
 @media (max-width: 899px) {
   :root { --r-flate: 22px; --r-kort: 18px; }
-  .s-topp { padding-top: 36px; }
+  .s-topp { padding-top: 28px; }
   .s-topp__tekst { align-items: flex-start; text-align: left; }
   .s-topp .actions { justify-content: flex-start; }
   .s-topp .display--hero { font-size: var(--fs-display); }
-  .s-topp__bilde { margin-top: 36px; aspect-ratio: 4 / 3.1; }
-  .s-topp__logo { width: 78%; top: 30%; }
+  .s-topp__bilde { margin-top: 28px; min-height: 230px; }
+  .s-topp__logo { left: 50%; width: 78%; top: 30%; }
+  .s-topp__bilde::after { background: linear-gradient(to bottom, rgba(224, 214, 218, .8) 0%, rgba(224, 214, 218, .3) 45%, rgba(224, 214, 218, 0) 70%); }
   .page-home .steps { gap: 12px; }
 }

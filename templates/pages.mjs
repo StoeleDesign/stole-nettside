@@ -272,7 +272,7 @@ export const forside = (ctx, c) => {
           <a class="textlink" href="/start/">${esc(site.skjema.cta_knapp)}</a>
         </div>
       </div>
-      <div class="wrap">
+      <div class="wrap s-topp__ramme">
         <div class="s-topp__bilde">
           ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '(min-width: 1280px) 1104px, 92vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
           <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
