@@ -165,7 +165,7 @@ html.menu-open body::after { content: ""; position: fixed; inset: 0; z-index: 40
 
 /* ---------- Forside: kjenner du deg igjen ---------- */
 .s-kjenner { --bg: var(--wine-850); background: var(--wine-850); padding: clamp(64px, 8vw, 112px) 0 clamp(96px, 12vw, 168px); }
-.s-kjenner .label { font-size: .875rem; color: var(--blue); margin-bottom: 0; }
+.s-kjenner .label { font-size: 1.0625rem; color: var(--blue); margin-bottom: 0; }
 .moments { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: clamp(40px, 6vw, 72px); }
 .moment { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 40px clamp(12px, 2.5vw, 40px) 32px; }
 .moment + .moment { border-left: 1px solid var(--line); }
@@ -1129,35 +1129,39 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 .pill--nav:hover { background: var(--cream); color: var(--wine); }
 
 /* Felles luft og kant for seksjonene på forsiden */
-.s-veier, .page-home .s-hvorfor, .page-home .s-arbeid, .page-home .s-prosess__body, .page-home .s-fast, .page-home .s-om { padding-top: clamp(96px, 10vw, 150px); padding-bottom: clamp(110px, 12vw, 176px); }
-.page-home .s-arbeid { background: var(--wine); }
-.page-home .s-arbeid__band { padding: 0 0 14px; }
+.s-veier, .page-home .s-kjenner, .page-home .s-hvorfor, .page-home .s-prosess__body, .page-home .s-fast, .page-home .s-om { padding-top: clamp(96px, 10vw, 150px); padding-bottom: clamp(110px, 12vw, 176px); }
+.page-home .s-arbeid { --edge: #310d14; }
 .page-home .s-prosess__band { display: none; }
 .s-topp__kant { height: clamp(22px, 2.8vw, 40px); }
 
-/* Valget av tjeneste. Samme oppbygning som stegene i «Slik jobber vi sammen»: tegning, linje, tekst. */
-.s-veier { --bg: var(--wine); background: var(--wine); padding-top: clamp(64px, 7vw, 104px); }
+/* Valget av tjeneste: fire flater som ligger et lag over bakgrunnen.
+   Bakgrunnen går fra vin til mørk vin, så siden får dybde nedover. */
+.s-veier { --bg: var(--wine); background: linear-gradient(180deg, var(--wine) 0, var(--wine) 22%, var(--wine-850) 100%); padding-top: clamp(64px, 7vw, 104px); }
+.page-home .s-veier { padding-bottom: clamp(64px, 7vw, 104px); }
+.page-home .s-kjenner { padding-top: clamp(64px, 7vw, 104px); }
 .duo--topp { align-items: start; }
-.veier { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); margin-top: clamp(56px, 6vw, 88px); }
+.veier { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 24px); margin-top: clamp(48px, 5vw, 72px); }
 .veier > li { display: flex; }
-.vei { display: flex; flex-direction: column; align-items: flex-start; width: 100%; text-decoration: none; }
-.vei__ikon { display: flex; align-items: flex-end; width: 100%; height: 100px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
-.vei__ikon .dybde { width: clamp(112px, 10vw, 144px); transition: transform var(--dur) var(--ease); }
-.vei__ikon .dybde--fast { width: clamp(104px, 9.2vw, 132px); }
-.vei:hover .dybde { transform: translateY(-4px); }
-.vei__sitat { margin-top: 22px; font-family: var(--serif); font-style: italic; font-size: 1.0625rem; line-height: 1.35; color: var(--blue); }
-.vei__navn { margin-top: 8px; font-family: var(--serif); font-weight: 500; font-size: clamp(1.625rem, 1rem + 1.3vw, 2.125rem); line-height: 1.08; letter-spacing: -0.01em; }
-.vei__tekst { margin: 14px 0 22px; font-size: .9375rem; line-height: 1.6; color: var(--rose); }
-.vei__go { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: auto; font-family: var(--serif); font-style: italic; font-size: 1.0625rem; color: var(--cream); }
-.vei:hover .vei__go { color: var(--blue); }
+.vei { position: relative; display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding: clamp(24px, 2.2vw, 32px) clamp(22px, 2vw, 30px) clamp(14px, 1.4vw, 20px); border-radius: 22px; text-decoration: none;
+  background: linear-gradient(180deg, rgba(243, 235, 226, .085) 0%, rgba(243, 235, 226, .03) 100%);
+  box-shadow: inset 0 0 0 1px rgba(243, 235, 226, .09), inset 0 1px 0 rgba(243, 235, 226, .1);
+  transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease); }
+.vei:hover { background-color: rgba(243, 235, 226, .05); transform: translateY(-3px); }
+.vei__ikon { display: flex; align-items: flex-end; height: clamp(84px, 8vw, 104px); }
+.vei__ikon .dybde { width: clamp(120px, 10.5vw, 152px); }
+.vei__ikon .dybde--fast { width: clamp(112px, 9.8vw, 140px); }
+.vei__sitat { margin-top: 26px; font-family: var(--serif); font-style: italic; font-size: 1.0625rem; line-height: 1.35; color: var(--blue); }
+.vei__navn { margin-top: 28px; font-family: var(--serif); font-weight: 500; font-size: var(--fs-quote); line-height: 1.1; letter-spacing: -0.01em; }
+.vei__sitat + .vei__navn { margin-top: 6px; }
+.vei__tekst { margin: 12px 0 20px; font-size: 1rem; line-height: 1.55; color: var(--rose); }
+.vei__go { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: auto; font-family: var(--sans); font-weight: 600; font-size: .9375rem; color: var(--blue); }
 .vei:hover .chev { transform: translateX(3px); }
 .s-veier__alle { margin-top: clamp(40px, 4vw, 56px); }
 .veier--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.s-veier--dyp { --bg: var(--wine-850); background: var(--wine-850); }
+.s-veier--dyp { --bg: var(--wine-850); background: linear-gradient(180deg, var(--wine-850) 0, var(--wine-800) 100%); }
 
 /* Undersidene: samme luft, samme titler og samme kant som forsiden */
 .page-sub .s-veier, .page-sub .s-passer, .page-sub .s-leveranse, .page-sub .s-prosess__body, .page-sub .s-velger { padding-top: clamp(96px, 10vw, 150px); padding-bottom: clamp(110px, 12vw, 176px); }
-.page-sub .s-leveranse { --edge: var(--wine); background: var(--wine); }
 .page-sub .s-passer .display, .page-sub .s-leveranse .display, .page-sub .s-veier .display { font-size: clamp(1.75rem, 1.25rem + 1.5vw, 2.5rem); }
 .page-sub .s-leveranse .tags { margin-top: clamp(24px, 3vw, 36px); }
 .page-sub .s-leveranse .label { margin-bottom: 14px; }

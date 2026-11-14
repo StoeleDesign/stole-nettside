@@ -260,7 +260,8 @@ const dybdeIkon = (nivaa, cls = '') => nivaa > 0
 /* ---------- Forside ---------- */
 export const forside = (ctx, c) => {
   const { site, tjenester } = ctx;
-    const body = `
+    const ikon = { vokst: ['ikon-vokst.svg', 166, 100], like: ['ikon-like.svg', 166, 100], logo: ['ikon-logo.svg', 144, 87] };
+  const body = `
     <section class="s-topp" aria-labelledby="intro-tittel">
       <div class="s-topp__bilde">
         ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
@@ -288,8 +289,20 @@ export const forside = (ctx, c) => {
       <div class="wrap">
         <p class="label">${esc(c.tjenester.etikett)}</p>
         <h2 class="display" id="veier-tittel">${esc(tjenester.situasjoner_etikett)}</h2>
-        ${veier(tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return { href: `/tjenester/${pk.slug}/`, nivaa: pk.nivaa, sitat: x.sitat, navn: pk.navn, tekst: x.tekst, go: c.tjenester.knapp }; }))}
+        ${veier(tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return { href: `/tjenester/${pk.slug}/`, nivaa: pk.nivaa, navn: pk.navn, tekst: x.tekst, go: c.tjenester.knapp }; }))}
         <p class="s-veier__alle"><a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a></p>
+      </div>
+    </section>
+
+    <section class="s-kjenner" aria-labelledby="kjenner-tittel">
+      <div class="wrap">
+        <h2 class="label label--center" id="kjenner-tittel">${esc(c.kjenner.etikett)}</h2>
+        <ul class="moments">
+          ${c.kjenner.sitater.map((s) => { const [f, w, h] = ikon[s.ikon] || ikon.vokst; return `<li class="moment">
+            <img src="/i/${f}" alt="" width="${w}" height="${h}" loading="lazy">
+            <blockquote><p>${esc(s.a)}${s.b ? ` <span>${esc(s.b)}</span>` : ''}</p></blockquote>
+          </li>`; }).join('')}
+        </ul>
       </div>
     </section>
 
@@ -383,6 +396,7 @@ export const forside = (ctx, c) => {
           <figcaption class="s-om__figcap">${esc(c.om.illustrasjon_tekst)}</figcaption>
         </figure>
       </div>
+      <div class="s-om__glow" aria-hidden="true"></div>
     </section>
 
     ${kontakt(ctx)}`;

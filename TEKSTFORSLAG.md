@@ -30,7 +30,6 @@ Hver for seg er den grei. Fem ganger gir den en malfølelse. Forslag som sier de
 
 Feltene finnes fortsatt i `forside.json` og i redigeringspanelet, men malen bruker dem ikke:
 
-* `kjenner` (de tre sitatene). De fire situasjonene fra tjenestesiden gjør samme jobb og lenker rett til en pakke.
 * `tjenester` (tittel, ingress, usikker, knapp). Bare lenketeksten «Se alle måter å jobbe sammen på» er i bruk.
 * `helt.lenke` («Se arbeidet») og `site.skjema.epost_alternativ`.
 
