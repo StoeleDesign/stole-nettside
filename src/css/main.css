@@ -1111,11 +1111,11 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 .s-topp { --bg: var(--wine); position: relative; display: flex; flex-direction: column; background: var(--wine); color: var(--cream); min-height: clamp(600px, calc(100svh - var(--header-h)), 900px); }
 .s-topp__bilde { position: relative; flex: 1 1 0; min-height: clamp(220px, 34vh, 420px); overflow: hidden; background: var(--wine); }
 .s-topp__img, .s-topp__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.s-topp__img img { object-fit: cover; object-position: 50% 69%; opacity: .86; }
+.s-topp__img img { object-fit: cover; object-position: 62% 100%; opacity: .86; }
 .s-topp__bilde::after { content: ""; position: absolute; inset: 0; pointer-events: none; background:
   radial-gradient(ellipse 46% 62% at 50% 40%, rgba(224, 214, 218, .86) 0%, rgba(224, 214, 218, .5) 52%, rgba(224, 214, 218, 0) 100%),
-  linear-gradient(to bottom, rgba(214, 203, 208, .45) 0%, rgba(214, 203, 208, 0) 70%); }
-.s-topp__logo { position: absolute; z-index: 1; left: 50%; top: 40%; width: min(46%, 660px); height: auto; transform: translate(-50%, -50%); }
+  linear-gradient(to bottom, rgba(220, 210, 214, .78) 0%, rgba(220, 210, 214, .3) 46%, rgba(220, 210, 214, 0) 74%); }
+.s-topp__logo { position: absolute; z-index: 1; left: 50%; top: 36%; width: min(44%, 640px); height: auto; transform: translate(-50%, -50%); }
 .s-topp__innhold { position: relative; z-index: 2; background: var(--wine); padding: clamp(20px, 3.2vh, 40px) 0 clamp(40px, 7vh, 72px); }
 .s-topp .label { color: var(--blue); margin-bottom: clamp(10px, 1.6vh, 18px); }
 .s-topp .display--hero { max-width: 11.5em; font-size: clamp(2rem, min(3.5vw, 6vh), 3.375rem); line-height: 1.07; letter-spacing: -0.015em; text-wrap: balance; }
@@ -1133,10 +1133,11 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 .page-home .s-arbeid { background: var(--wine); }
 .page-home .s-arbeid__band { padding: 0 0 14px; }
 .page-home .s-prosess__band { display: none; }
-.s-fast--rolig::before, .page-home .s-om::before { display: none; }
+.s-topp__kant { height: clamp(22px, 2.8vw, 40px); }
 
 /* Valget av tjeneste. Samme oppbygning som stegene i «Slik jobber vi sammen»: tegning, linje, tekst. */
 .s-veier { --bg: var(--wine); background: var(--wine); padding-top: clamp(64px, 7vw, 104px); }
+.duo--topp { align-items: start; }
 .veier { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); margin-top: clamp(56px, 6vw, 88px); }
 .veier > li { display: flex; }
 .vei { display: flex; flex-direction: column; align-items: flex-start; width: 100%; text-decoration: none; }
@@ -1151,6 +1152,15 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 .vei:hover .vei__go { color: var(--blue); }
 .vei:hover .chev { transform: translateX(3px); }
 .s-veier__alle { margin-top: clamp(40px, 4vw, 56px); }
+.veier--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.s-veier--dyp { --bg: var(--wine-850); background: var(--wine-850); }
+
+/* Undersidene: samme luft, samme titler og samme kant som forsiden */
+.page-sub .s-veier, .page-sub .s-passer, .page-sub .s-leveranse, .page-sub .s-prosess__body, .page-sub .s-velger { padding-top: clamp(96px, 10vw, 150px); padding-bottom: clamp(110px, 12vw, 176px); }
+.page-sub .s-leveranse { --edge: var(--wine); background: var(--wine); }
+.page-sub .s-passer .display, .page-sub .s-leveranse .display, .page-sub .s-veier .display { font-size: clamp(1.75rem, 1.25rem + 1.5vw, 2.5rem); }
+.page-sub .s-leveranse .tags { margin-top: clamp(24px, 3vw, 36px); }
+.page-sub .s-leveranse .label { margin-bottom: 14px; }
 
 /* Forside: fortellingen står sammen med «Hvorfor det betyr noe» */
 .s-hvorfor__body { max-width: 34em; color: var(--ink); line-height: 1.7; }
@@ -1161,9 +1171,11 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 
 @media (max-width: 1080px) {
   .veier { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 64px; }
+  .veier--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 899px) {
   .duo { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  .duo--topp { row-gap: 32px; }
   .s-topp { min-height: 0; }
   .s-topp__bilde { flex: none; min-height: 0; aspect-ratio: 390 / 250; }
   .s-topp__img img { object-position: 100% 100%; }
@@ -1172,6 +1184,6 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
   .s-topp .display--hero { font-size: var(--fs-display); }
 }
 @media (max-width: 599px) {
-  .veier { grid-template-columns: minmax(0, 1fr); row-gap: 48px; }
+  .veier, .veier--3 { grid-template-columns: minmax(0, 1fr); row-gap: 48px; }
   .vei__ikon { height: auto; }
 }

@@ -267,7 +267,7 @@ export const forside = (ctx, c) => {
         <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
       </div>
       <div class="s-topp__innhold">
-        ${edge('soft')}
+        ${edge('soft', 's-topp__kant')}
         <div class="wrap duo">
           <div>
             ${c.helt.etikett ? `<p class="label">${esc(c.helt.etikett)}</p>` : ''}
@@ -288,21 +288,13 @@ export const forside = (ctx, c) => {
       <div class="wrap">
         <p class="label">${esc(c.tjenester.etikett)}</p>
         <h2 class="display" id="veier-tittel">${esc(tjenester.situasjoner_etikett)}</h2>
-        <ul class="veier">
-          ${tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return `<li><a class="vei" href="/tjenester/${esc(pk.slug)}/">
-            <span class="vei__ikon">${dybdeIkon(pk.nivaa)}</span>
-            <span class="vei__sitat">${esc(x.sitat)}</span>
-            <span class="vei__navn">${esc(pk.navn)}</span>
-            <span class="vei__tekst">${esc(x.tekst)}</span>
-            <span class="vei__go">${esc(c.tjenester.knapp)} ${chevron}</span>
-          </a></li>`; }).join('')}
-        </ul>
+        ${veier(tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return { href: `/tjenester/${pk.slug}/`, nivaa: pk.nivaa, sitat: x.sitat, navn: pk.navn, tekst: x.tekst, go: c.tjenester.knapp }; }))}
         <p class="s-veier__alle"><a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a></p>
       </div>
     </section>
 
     <section class="s-hvorfor" aria-labelledby="hvorfor-tittel">
-      ${edge('peak')}
+      ${edge('soft')}
       <div class="wrap">
         <p class="label">${esc(c.hvorfor.etikett)}</p>
         <div class="s-hvorfor__grid">
@@ -361,8 +353,7 @@ export const forside = (ctx, c) => {
       </div>
     </section>
 
-    <section class="s-fast s-fast--rolig" aria-labelledby="fast-tittel">
-      ${edge('soft')}
+    <section class="s-fast s-fast--page" aria-labelledby="fast-tittel">
       <div class="wrap s-fast__grid">
         <div>
           <p class="label label--caps label--wine">${esc(c.fast.etikett)}</p>
@@ -376,7 +367,6 @@ export const forside = (ctx, c) => {
     </section>
 
     <section class="s-om" id="om" aria-labelledby="om-tittel">
-      ${edge('soft')}
       <div class="wrap s-om__grid">
         <div class="s-om__head">
           <p class="label label--caps">${esc(c.om.etikett)}</p>
@@ -398,6 +388,17 @@ export const forside = (ctx, c) => {
     ${kontakt(ctx)}`;
   return layout(ctx, { title: c.seo_tittel, description: c.seo_beskrivelse, path: '/', body, bodyClass: 'page-home', preloadHero: true });
 };
+
+/* Veier: samme byggekloss på forsiden, tjenestesiden og pakkesidene */
+const veier = (items) => `<ul class="veier veier--${items.length}">
+          ${items.map((v) => `<li><a class="vei" href="${esc(v.href)}"${v.open ? ` data-open="${esc(v.open)}"` : ''}>
+            <span class="vei__ikon">${dybdeIkon(v.nivaa)}</span>
+            ${v.sitat ? `<span class="vei__sitat">${esc(v.sitat)}</span>` : ''}
+            <span class="vei__navn">${esc(v.navn)}</span>
+            <span class="vei__tekst">${esc(v.tekst)}</span>
+            <span class="vei__go">${esc(v.go)} ${chevron}</span>
+          </a></li>`).join('')}
+        </ul>`;
 
 /* ---------- Tjenester: oversikt ---------- */
 export const tjenesteoversikt = (ctx, t) => {
@@ -428,22 +429,16 @@ export const tjenesteoversikt = (ctx, t) => {
       </div>
     </section>
 
-    <section class="s-sit" aria-labelledby="sit-tittel">
-      ${edge('sag')}
+    <section class="s-veier s-veier--dyp" aria-labelledby="sit-tittel">
+      ${edge('soft')}
       <div class="wrap">
-        <h2 class="label label--caps label--center label--blue" id="sit-tittel">${esc(t.situasjoner_etikett)}</h2>
-        <ul class="sit">
-          ${t.situasjoner.map((x) => `<li><a class="sit__item" href="${anker(x.pakke)}" data-open="${esc(x.pakke)}">
-            <span class="sit__quote">${esc(x.sitat)}</span>
-            <span class="sit__text">${esc(x.tekst)}</span>
-            <span class="sit__go">${esc(navn(x.pakke))} ${chevron}</span>
-          </a></li>`).join('')}
-        </ul>
+        <h2 class="display" id="sit-tittel">${esc(t.situasjoner_etikett)}</h2>
+        ${veier(t.situasjoner.map((x) => { const pk = t.pakker.find((p) => p.slug === x.pakke); return { href: anker(x.pakke), open: x.pakke, nivaa: pk.nivaa, sitat: x.sitat, navn: pk.navn, tekst: x.tekst, go: ctx.forside.tjenester.knapp }; }))}
       </div>
     </section>
 
     <section class="s-velger" id="nivaa" aria-labelledby="velger-tittel">
-      ${edge('peak')}
+      ${edge('soft')}
       <div class="wrap">
         <div class="s-velger__head">
           <div>
@@ -558,22 +553,22 @@ export const pakke = (ctx, t, p) => {
     </section>
 
     <section class="s-passer" aria-labelledby="passer-tittel">
-      ${edge('sag')}
-      <div class="wrap s-passer__grid">
-        <h2 class="label label--caps label--blue" id="passer-tittel">${esc(p.passer_tittel)}</h2>
+      ${edge('soft')}
+      <div class="wrap duo duo--topp">
+        <h2 class="display" id="passer-tittel">${esc(p.passer_tittel)}</h2>
         <ul class="checklist">${(p.passer || []).map((x) => `<li>${inline(x)}</li>`).join('')}</ul>
       </div>
     </section>
 
     <section class="s-leveranse" aria-labelledby="lev-tittel">
-      ${edge('double')}
-      <div class="wrap s-leveranse__grid">
+      ${edge('soft')}
+      <div class="wrap duo duo--topp">
         <div>
-          <h2 class="label label--caps label--blue" id="lev-tittel">${esc(p.leveranser_tittel)}</h2>
+          <h2 class="display" id="lev-tittel">${esc(p.leveranser_tittel)}</h2>
           <ul class="tags">${(p.leveranser || []).map((x) => `<li class="tag">${esc(x)}</li>`).join('')}</ul>
         </div>
         <div>
-          <h2 class="label label--caps label--blue">${esc(p.forvent_tittel)}</h2>
+          <h3 class="label label--blue">${esc(p.forvent_tittel)}</h3>
           <p class="serif-body serif-body--lg">${inline(p.forvent)}</p>
         </div>
       </div>
@@ -581,7 +576,7 @@ export const pakke = (ctx, t, p) => {
 
     <section class="s-prosess s-prosess--pakke" id="prosess" aria-labelledby="prosess-tittel">
       <div class="s-prosess__body">
-        ${edge('peak')}
+        ${edge('soft')}
         <div class="wrap">
           <p class="label">${esc(p.prosess_tittel)}</p>
           <h2 class="display" id="prosess-tittel">${esc(p.prosess_overskrift || 'Forstå behovet bak først. Designe etterpå.')}</h2>
@@ -596,17 +591,11 @@ export const pakke = (ctx, t, p) => {
       </div>
     </section>
 
-    <section class="s-andre" aria-labelledby="andre-tittel">
+    <section class="s-veier" aria-labelledby="andre-tittel">
+      ${edge('soft')}
       <div class="wrap">
-        <h2 class="label label--caps label--blue" id="andre-tittel">Andre måter å jobbe sammen på</h2>
-        <ul class="tiers tiers--small">
-          ${andre.map((x) => `<li class="tier">
-            ${dybdeIkon(x.nivaa)}
-            <h3 class="tier__name">${esc(x.navn)}</h3>
-            <p class="tier__when">${esc(x.naar)}</p>
-            <a class="pill pill--sand" href="/tjenester/${x.slug}/" aria-label="Utforsk: ${esc(x.navn)}">Utforsk</a>
-          </li>`).join('')}
-        </ul>
+        <h2 class="display" id="andre-tittel">Andre måter å jobbe sammen på</h2>
+        ${veier(andre.map((x) => ({ href: `/tjenester/${x.slug}/`, nivaa: x.nivaa, navn: x.navn, tekst: x.naar, go: ctx.forside.tjenester.knapp })))}
       </div>
     </section>
 
@@ -634,7 +623,7 @@ export const personvern = (ctx, c) => {
       </div>
     </section>
     <section class="s-tekst" aria-label="Personvernerklæring">
-      ${edge('peak')}
+      ${edge('soft')}
       <div class="wrap s-tekst__grid">
         <nav class="toc" aria-label="Innhold på siden"><p class="label">På denne siden</p><ol>${c.seksjoner.map((s, i) => `<li><a href="#del-${i + 1}">${esc(s.tittel)}</a></li>`).join('')}</ol></nav>
         <div class="prose">
@@ -677,7 +666,7 @@ export const startside = (ctx, c) => {
     </section>
     <noscript><link rel="stylesheet" href="/css/uten-js.css"></noscript>
     <section class="s-brief" aria-label="Prosjektskjema">
-      ${edge('peak')}
+      ${edge('soft')}
       <div class="wrap s-brief__grid">
         <nav class="brief__fremdrift" aria-label="Steg i skjemaet">
           <p class="brief__teller" aria-live="polite" data-teller>Steg 1 av 5</p>
