@@ -126,7 +126,7 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   ${fonts}
-  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="${[1100, 1600, 2320].map((x) => `/img/hero-${x}.avif?v=${bildeVersjon('hero', 1600)} ${x}w`).join(', ')}" imagesizes="(min-width: 900px) 50vw, 100vw" fetchpriority="high">` : ''}
+  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="${[1100, 1600, 2320].map((x) => `/img/hero-${x}.avif?v=${bildeVersjon('hero', 1600)} ${x}w`).join(', ')}" imagesizes="100vw" fetchpriority="high">` : ''}
   <link rel="stylesheet" href="${hashed['css/main.css']}">
   <script src="${hashed['js/main.js']}" defer></script>
   ${ld}
@@ -262,35 +262,38 @@ export const forside = (ctx, c) => {
   const { site, tjenester } = ctx;
     const body = `
     <section class="s-topp" aria-labelledby="intro-tittel">
-      <div class="wrap s-topp__grid">
-        <div class="s-topp__tekst">
-          ${c.helt.etikett ? `<p class="s-topp__hva">${esc(c.helt.etikett)}</p>` : ''}
-          <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
-          ${c.helt.setning ? `<p class="s-topp__setning">${inline(c.helt.setning)}</p>` : ''}
-          <div class="actions">
-            <a class="pill pill--wine-solid" href="#kontakt">${esc(c.helt.knapp)}</a>
-            <a class="textlink" href="/start/">${esc(site.skjema.cta_knapp)}</a>
+      ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
+      <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
+      <svg class="s-topp__flate" viewBox="0 0 1440 840" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 322C180 262 440 258 640 316C836 373 874 532 968 644C1046 738 1226 792 1440 734V841H0Z"/></svg>
+      <div class="s-topp__innhold">
+        ${edge('wave', 's-topp__kant')}
+        <div class="wrap">
+          <div class="s-topp__tekst">
+            ${c.helt.etikett ? `<p class="s-topp__hva">${esc(c.helt.etikett)}</p>` : ''}
+            <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
+            ${c.helt.setning ? `<p class="s-topp__setning">${inline(c.helt.setning)}</p>` : ''}
+            <div class="actions">
+              <a class="pill s-topp__knapp" href="#kontakt">${esc(c.helt.knapp)}</a>
+              <a class="textlink" href="/start/">${esc(site.skjema.cta_knapp)}</a>
+            </div>
           </div>
-        </div>
-        <div class="s-topp__bilde">
-          ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '(min-width: 900px) 50vw, 100vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
-          <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
         </div>
       </div>
     </section>
 
-    <section class="s-sit s-sit--forside" id="tjenester" aria-labelledby="sit-tittel">
-      ${edge('sag')}
+    <section class="s-veier" id="tjenester" aria-labelledby="veier-tittel">
       <div class="wrap">
-        <h2 class="display" id="sit-tittel">${esc(tjenester.situasjoner_etikett)}</h2>
-        <ul class="sit">
-          ${tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return `<li><a class="sit__item" href="/tjenester/${esc(pk.slug)}/">
-            <span class="sit__quote">${esc(x.sitat)}</span>
-            <span class="sit__text">${esc(x.tekst)}</span>
-            <span class="sit__go">${esc(pk.navn)} ${chevron}</span>
+        <h2 class="display" id="veier-tittel">${esc(tjenester.situasjoner_etikett)}</h2>
+        <ul class="veier">
+          ${tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return `<li><a class="vei" href="/tjenester/${esc(pk.slug)}/">
+            <span class="vei__ikon">${dybdeIkon(pk.nivaa)}</span>
+            <span class="vei__sitat">${esc(x.sitat)}</span>
+            <span class="vei__navn">${esc(pk.navn)}</span>
+            <span class="vei__tekst">${esc(x.tekst)}</span>
+            <span class="vei__go">${esc(c.tjenester.knapp)} ${chevron}</span>
           </a></li>`; }).join('')}
         </ul>
-        <p class="s-sit__alle"><a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a></p>
+        <p class="s-veier__alle"><a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a></p>
       </div>
     </section>
 

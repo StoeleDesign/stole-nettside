@@ -1102,29 +1102,50 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 
 /* =========================================================
    Forside: første skjerm
-   Overskrift, én setning og én hovedknapp er synlige uten rulling.
-   Bildet av stølen og signaturen står ved siden av, ikke foran.
+   Simens komposisjon (fullt bilde, stor signatur, organisk vinflate),
+   men med overskrift, én setning og hovedknapp synlig uten rulling.
    ========================================================= */
-.s-topp { --bg: var(--cream); --focus: var(--wine); background: var(--cream); color: var(--wine); overflow-x: clip; }
-.s-topp__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); gap: clamp(32px, 5vw, 80px); align-items: stretch; min-height: clamp(540px, calc(100svh - var(--header-h)), 800px); }
-.s-topp__tekst { align-self: center; padding: clamp(48px, 6vw, 88px) 0 clamp(96px, 10vw, 140px); }
-.s-topp__hva { font-family: var(--serif); font-size: 1.125rem; line-height: 1.4; color: var(--wine); margin-bottom: clamp(20px, 2.4vw, 32px); }
-.s-topp .display--hero { max-width: 10.5em; font-size: clamp(2.25rem, 1.1rem + 3.3vw, 4rem); line-height: 1.06; letter-spacing: -0.018em; text-wrap: wrap; }
-.s-topp .display--hero em { display: block; }
-.s-topp__setning { max-width: 27em; margin-top: clamp(24px, 2.6vw, 36px); font-size: clamp(1.0625rem, 1rem + .35vw, 1.25rem); line-height: 1.55; color: var(--ink); }
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px; margin-top: clamp(32px, 3.4vw, 48px); }
-.s-topp .pill--wine-solid { min-height: 52px; padding: 6px 26px; font-family: var(--sans); font-weight: 600; font-size: 1.0625rem; }
-.s-topp__bilde { position: relative; margin-right: var(--to-edge); background: var(--wine); overflow: hidden; }
+.s-topp { --bg: var(--wine); position: relative; background: var(--wine); color: var(--cream); overflow: hidden; height: clamp(600px, calc(100svh - var(--header-h)), 920px); }
 .s-topp__img, .s-topp__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.s-topp__img img { object-fit: cover; object-position: 78% 100%; opacity: .86; }
-.s-topp__bilde::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(221, 210, 214, .55) 0%, rgba(221, 210, 214, .3) 34%, rgba(221, 210, 214, 0) 62%); }
-.s-topp__logo { position: absolute; z-index: 1; left: 9%; top: 15%; width: 82%; height: auto; }
+.s-topp__img img { object-fit: cover; object-position: 60% 100%; opacity: .84; }
+.s-topp::before { content: ""; position: absolute; z-index: 1; inset: 0; pointer-events: none; background:
+  radial-gradient(ellipse 44% 30% at 70% 20%, rgba(221, 210, 214, .8) 0%, rgba(221, 210, 214, .45) 50%, rgba(221, 210, 214, 0) 100%),
+  linear-gradient(to bottom, rgba(214, 203, 208, .4) 0%, rgba(214, 203, 208, 0) 55%); }
+.s-topp__logo { position: absolute; z-index: 2; left: 46%; top: 6.5%; width: 48%; height: auto; }
+.s-topp__flate { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; color: var(--wine); }
+.s-topp__kant { display: none; }
+.s-topp__innhold { position: absolute; z-index: 3; inset: 0; display: flex; align-items: flex-end; padding-bottom: clamp(36px, 6.5vh, 72px); }
+.s-topp__tekst { max-width: min(500px, 37vw); }
+.s-topp__hva { font-family: var(--serif); font-size: clamp(.9375rem, .9rem + .2vw, 1.0625rem); line-height: 1.4; color: var(--blue); margin-bottom: clamp(14px, 2.2vh, 24px); }
+.s-topp .display--hero { max-width: 10em; font-size: clamp(2rem, min(3.4vw, 5.7vh), 3.25rem); line-height: 1.08; letter-spacing: -0.015em; text-wrap: wrap; }
+.s-topp .display--hero em { display: block; color: var(--blue); text-wrap: balance; }
+.s-topp__setning { margin-top: clamp(16px, 2.6vh, 28px); max-width: 26em; font-size: clamp(1rem, .95rem + .25vw, 1.125rem); line-height: 1.55; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px; margin-top: clamp(22px, 3.6vh, 40px); }
+.s-topp__knapp { min-height: 52px; padding: 6px 28px; font-style: normal; font-weight: 600; font-size: 1.0625rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .s-topp__img img { animation: toppRo 2.2s var(--ease) both; }
+}
+@keyframes toppRo { from { transform: scale(1.04); } }
 
-/* Forside: valget av tjeneste, rett under første skjerm */
-.s-sit--forside { padding-top: clamp(72px, 8vw, 112px); }
-.s-sit--forside .display { max-width: 12em; }
-.s-sit__alle { margin-top: clamp(28px, 3vw, 40px); }
-.s-sit__alle .textlink { color: var(--blue); }
+/* Forside: valget av tjeneste. Halvsirklene er lagene: hvor langt inn i bedriften arbeidet går. */
+.s-veier { --bg: var(--wine); background: linear-gradient(180deg, var(--wine) 0, var(--wine) 55%, var(--wine-800) 100%); padding: clamp(72px, 8vw, 120px) 0 clamp(120px, 13vw, 180px); }
+.s-veier .display { max-width: 12em; }
+.veier { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: clamp(56px, 6vw, 88px); }
+.veier > li { display: flex; }
+.veier > li + li { border-left: 1px solid var(--line); }
+.vei { display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding: 8px clamp(18px, 2.4vw, 36px) 12px; text-decoration: none; }
+.veier > li:first-child .vei { padding-left: 0; }
+.vei__ikon { display: flex; align-items: flex-end; height: 76px; }
+.vei__ikon .dybde { width: clamp(112px, 10.5vw, 150px); transition: transform var(--dur) var(--ease); }
+.vei__ikon .dybde--fast { width: clamp(104px, 9.6vw, 138px); }
+.vei:hover .dybde { transform: translateY(-4px); }
+.vei__sitat { margin-top: 34px; font-family: var(--serif); font-style: italic; font-size: 1.0625rem; line-height: 1.35; color: var(--blue); }
+.vei__navn { margin-top: 10px; font-family: var(--serif); font-weight: 500; font-size: clamp(1.75rem, 1rem + 1.5vw, 2.375rem); line-height: 1.05; letter-spacing: -0.012em; }
+.vei__tekst { margin: 18px 0 30px; font-size: .9375rem; line-height: 1.6; color: var(--rose); max-width: 19em; }
+.vei__go { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: auto; padding: 4px 18px; border-radius: 999px; background: var(--sand); color: var(--wine); font-family: var(--serif); font-size: 1.0625rem; transition: background-color var(--dur-fast) var(--ease); }
+.vei:hover .vei__go { background: var(--cream); }
+.vei:hover .chev { transform: translateX(3px); }
+.s-veier__alle { margin-top: clamp(40px, 4vw, 56px); }
 
 /* Forside: fortellingen står sammen med «Hvorfor det betyr noe» */
 .s-hvorfor__body { margin-top: clamp(28px, 3vw, 40px); max-width: 34em; color: var(--ink); line-height: 1.7; }
@@ -1132,9 +1153,30 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 
 .s-pagehero__pris { margin-top: 6px; }
 
+@media (max-width: 1080px) {
+  .veier { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 56px; }
+  .veier > li:nth-child(3) { border-left: 0; }
+  .veier > li:nth-child(3) .vei { padding-left: 0; }
+}
 @media (max-width: 899px) {
-  .s-topp__grid { grid-template-columns: minmax(0, 1fr); gap: 0; min-height: 0; }
-  .s-topp__tekst { padding: clamp(36px, 8vw, 64px) 0 clamp(36px, 8vw, 56px); }
-  .s-topp__bilde { margin-inline: var(--to-edge); aspect-ratio: 4 / 3.3; }
-  .s-topp__logo { left: 8%; top: 12%; width: 84%; }
+  .s-topp { height: auto; overflow: visible; }
+  .s-topp__img { position: relative; inset: auto; display: block; height: auto; aspect-ratio: 390 / 270; }
+  .s-topp::before { bottom: auto; height: 0; padding-bottom: 69%; background:
+    radial-gradient(ellipse 75% 30% at 50% 38%, rgba(221, 210, 214, .8) 0%, rgba(221, 210, 214, .45) 50%, rgba(221, 210, 214, 0) 100%),
+    linear-gradient(to bottom, rgba(214, 203, 208, .4) 0%, rgba(214, 203, 208, 0) 60%); }
+  .s-topp__img img { object-position: 100% 100%; }
+  .s-topp__logo { left: 8%; width: 84%; top: 0; margin-top: 15%; }
+  .s-topp__flate { display: none; }
+  .s-topp__kant { display: block; }
+  .s-topp__innhold { position: relative; inset: auto; display: block; background: var(--wine); padding: clamp(20px, 5vw, 40px) 0 clamp(48px, 10vw, 72px); }
+  .s-topp__tekst { max-width: 34em; }
+  .s-topp .display--hero { font-size: var(--fs-display); }
+}
+@media (max-width: 599px) {
+  .veier { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+  .veier > li + li { border-left: 0; border-top: 1px solid var(--line); }
+  .vei, .veier > li:nth-child(3) .vei { padding: 36px 0 40px; }
+  .veier > li:first-child .vei { padding-top: 0; }
+  .vei__ikon { height: auto; }
+  .vei__sitat { margin-top: 24px; }
 }
