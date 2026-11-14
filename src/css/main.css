@@ -1107,22 +1107,21 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
    ========================================================= */
 .duo { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); column-gap: clamp(40px, 7vw, 112px); align-items: end; }
 
-/* Første skjerm: bildet og signaturen øverst, budskapet og knappen under */
-.s-topp { --bg: var(--wine); position: relative; display: flex; flex-direction: column; background: var(--wine); color: var(--cream); min-height: clamp(600px, calc(100svh - var(--header-h)), 900px); }
-.s-topp__bilde { position: relative; flex: 1 1 0; min-height: clamp(220px, 34vh, 420px); overflow: hidden; background: var(--wine); }
-.s-topp__img, .s-topp__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.s-topp__img img { object-fit: cover; object-position: 62% 100%; opacity: .86; }
-.s-topp__bilde::after { content: ""; position: absolute; inset: 0; pointer-events: none; background:
-  radial-gradient(ellipse 46% 62% at 50% 40%, rgba(224, 214, 218, .86) 0%, rgba(224, 214, 218, .5) 52%, rgba(224, 214, 218, 0) 100%),
-  linear-gradient(to bottom, rgba(220, 210, 214, .78) 0%, rgba(220, 210, 214, .3) 46%, rgba(220, 210, 214, 0) 74%); }
-.s-topp__logo { position: absolute; z-index: 1; left: 50%; top: 36%; width: min(44%, 640px); height: auto; transform: translate(-50%, -50%); }
-.s-topp__innhold { position: relative; z-index: 2; background: var(--wine); padding: clamp(20px, 3.2vh, 40px) 0 clamp(40px, 7vh, 72px); }
-.s-topp .label { color: var(--blue); margin-bottom: clamp(10px, 1.6vh, 18px); }
-.s-topp .display--hero { max-width: 11.5em; font-size: clamp(2rem, min(3.5vw, 6vh), 3.375rem); line-height: 1.07; letter-spacing: -0.015em; text-wrap: balance; }
+/* Første skjerm: budskapet først, bildet som én stor flate under (slik Apple bygger produktsidene) */
+.s-topp { --bg: var(--wine); background: radial-gradient(90% 70% at 50% 0%, #6b2231 0%, var(--wine) 62%); color: var(--cream); padding: clamp(48px, 8vh, 96px) 0 0; }
+.s-topp__tekst { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.s-topp .label { color: var(--blue); margin-bottom: 16px; }
+.s-topp .display--hero { max-width: 15em; font-size: clamp(2.25rem, 1.15rem + 3.3vw, 3.75rem); line-height: 1.06; letter-spacing: -0.02em; text-wrap: balance; }
 .s-topp .display--hero em { display: block; color: var(--blue); }
-.s-topp__setning { max-width: 24em; font-size: clamp(1.0625rem, 1rem + .3vw, 1.1875rem); line-height: 1.55; }
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px; margin-top: clamp(22px, 3.4vh, 36px); }
-.s-topp__knapp { min-height: 52px; padding: 6px 28px; font-style: normal; font-weight: 600; font-size: 1.0625rem; }
+.s-topp__setning { max-width: 30em; margin-top: 24px; font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); line-height: 1.5; color: var(--rose); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; margin-top: 32px; }
+.s-topp .actions { justify-content: center; }
+.s-topp__knapp { min-height: 52px; padding: 6px 28px; font-size: 1.0625rem; }
+.s-topp__bilde { position: relative; margin-top: clamp(40px, 6vh, 72px); aspect-ratio: 16 / 8.2; border-radius: var(--r-flate); overflow: hidden; background: var(--wine-850); box-shadow: 0 40px 80px -40px rgba(20, 4, 8, .7); }
+.s-topp__img, .s-topp__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.s-topp__img img { object-fit: cover; object-position: 60% 100%; }
+.s-topp__bilde::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(224, 214, 218, .8) 0%, rgba(224, 214, 218, .35) 42%, rgba(224, 214, 218, 0) 70%); }
+.s-topp__logo { position: absolute; z-index: 1; left: 50%; top: 31%; width: min(46%, 520px); height: auto; transform: translate(-50%, -50%); }
 
 /* Toppmenyen: knappen er en omriss, så hovedknappen på siden er den eneste fylte */
 .pill--nav { background: transparent; color: var(--cream); border: 1px solid rgba(243, 235, 226, .7); }
@@ -1132,7 +1131,6 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 .s-veier, .page-home .s-kjenner, .page-home .s-hvorfor, .page-home .s-prosess__body, .page-home .s-fast, .page-home .s-om { padding-top: clamp(96px, 10vw, 150px); padding-bottom: clamp(110px, 12vw, 176px); }
 .page-home .s-arbeid { --edge: #310d14; }
 .page-home .s-prosess__band { display: none; }
-.s-topp__kant { height: clamp(22px, 2.8vw, 40px); }
 
 /* Valget av tjeneste: fire flater som ligger et lag over bakgrunnen.
    Bakgrunnen går fra vin til mørk vin, så siden får dybde nedover. */
@@ -1180,14 +1178,61 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 @media (max-width: 899px) {
   .duo { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
   .duo--topp { row-gap: 32px; }
-  .s-topp { min-height: 0; }
-  .s-topp__bilde { flex: none; min-height: 0; aspect-ratio: 390 / 250; }
-  .s-topp__img img { object-position: 100% 100%; }
-  .s-topp__logo { width: 80%; top: 40%; }
-  .s-topp__innhold { padding: 14px 0 clamp(48px, 10vw, 72px); }
-  .s-topp .display--hero { font-size: var(--fs-display); }
 }
 @media (max-width: 599px) {
   .veier, .veier--3 { grid-template-columns: minmax(0, 1fr); row-gap: 48px; }
   .vei__ikon { height: auto; }
+}
+
+/* =========================================================
+   Formelt uttrykk, inspirert av iOS
+   Rette overganger. Innhold på flater med lik avrunding. Oppreiste kontroller.
+   Én størrelse per nivå. Skjellkanten rundt «Fast designer» er den ene lekne formen.
+   ========================================================= */
+:root { --r-flate: 28px; --r-kort: 22px; --flate: linear-gradient(180deg, rgba(243, 235, 226, .085) 0%, rgba(243, 235, 226, .03) 100%); --flate-kant: inset 0 0 0 1px rgba(243, 235, 226, .09), inset 0 1px 0 rgba(243, 235, 226, .1); --flate-lys: rgba(255, 252, 247, .62); --luft: clamp(88px, 9.5vw, 144px); }
+
+.edge:not(.edge--panel) { display: none; }
+.site-header { background: color-mix(in srgb, var(--wine-nav) 82%, transparent); -webkit-backdrop-filter: saturate(160%) blur(18px); backdrop-filter: saturate(160%) blur(18px); }
+
+/* Kontroller: oppreist, halvfet, kapselform */
+.pill { font-style: normal; font-weight: 600; font-size: .9375rem; }
+.btn { border-radius: 999px; border-width: 1px; }
+.textlink { font-style: normal; font-weight: 600; font-size: .9375rem; background: none; gap: .4em; }
+.textlink::after { content: "›"; font-size: 1.15em; line-height: 1; transition: transform var(--dur-fast) var(--ease); }
+.textlink:hover { text-decoration: underline; text-underline-offset: 4px; }
+.textlink:hover::after { transform: translateX(3px); }
+.label { font-family: var(--sans); font-weight: 600; font-size: .875rem; letter-spacing: .01em; margin-bottom: 12px; }
+.s-hvorfor__big, .s-fast__lead, .vei__sitat, .vei__go { font-style: normal; }
+
+/* Lik luft i alle seksjoner på forsiden */
+.page-home .s-veier, .page-home .s-kjenner, .page-home .s-hvorfor, .page-home .s-prosess__body, .page-home .s-fast, .page-home .s-om { padding-top: var(--luft); padding-bottom: var(--luft); }
+.page-home .s-kjenner { padding-top: 0; }
+.page-home .s-arbeid { padding-bottom: var(--luft); }
+.page-home .s-om__glow { display: none; }
+.s-kontakt { -webkit-mask: none; mask: none; margin-top: 0; padding-top: var(--luft); }
+
+/* Kjenner du deg igjen: samme flater som tjenestevalget */
+.s-kjenner .display { text-align: left; }
+.moments { gap: clamp(14px, 1.6vw, 24px); margin-top: clamp(40px, 4.5vw, 64px); }
+.moment, .moment + .moment { border: 0; border-radius: var(--r-kort); background: var(--flate); box-shadow: var(--flate-kant); padding: clamp(36px, 4vw, 56px) clamp(20px, 2.4vw, 36px); }
+.moment p { font-size: clamp(1.375rem, 1.15rem + .7vw, 1.75rem); }
+
+/* Flater på lyse seksjoner */
+.page-home .steps { gap: clamp(12px, 1.4vw, 20px); }
+.page-home .step { background: var(--flate-lys); border-radius: var(--r-kort); padding: 28px 22px 26px; }
+.page-home .step__icon { height: 48px; margin-bottom: 28px; }
+.page-home .step__num { border-top: 0; padding-top: 0; font-family: var(--sans); font-weight: 600; }
+.page-home .step__title { font-size: clamp(1.375rem, 1.15rem + .6vw, 1.625rem); }
+.s-fast .tl { background: rgba(255, 255, 255, .34); border-radius: var(--r-kort); padding: clamp(22px, 2.4vw, 32px); }
+.distill { width: 100%; margin-top: clamp(56px, 6vw, 88px); padding: clamp(112px, 11vw, 150px) clamp(24px, 6vw, 88px) clamp(48px, 6vw, 80px); background: var(--flate-lys); border-radius: var(--r-flate); }
+
+@media (max-width: 899px) {
+  :root { --r-flate: 22px; --r-kort: 18px; }
+  .s-topp { padding-top: 36px; }
+  .s-topp__tekst { align-items: flex-start; text-align: left; }
+  .s-topp .actions { justify-content: flex-start; }
+  .s-topp .display--hero { font-size: var(--fs-display); }
+  .s-topp__bilde { margin-top: 36px; aspect-ratio: 4 / 3.1; }
+  .s-topp__logo { width: 78%; top: 30%; }
+  .page-home .steps { gap: 12px; }
 }

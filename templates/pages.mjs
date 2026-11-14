@@ -126,7 +126,7 @@ const layout = (ctx, { title, description, path: p, body, bodyClass = '', noinde
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   ${fonts}
-  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="${[1100, 1600, 2320].map((x) => `/img/hero-${x}.avif?v=${bildeVersjon('hero', 1600)} ${x}w`).join(', ')}" imagesizes="100vw" fetchpriority="high">` : ''}
+  ${preloadHero ? `<link rel="preload" as="image" type="image/avif" imagesrcset="${[1100, 1600, 2320].map((x) => `/img/hero-${x}.avif?v=${bildeVersjon('hero', 1600)} ${x}w`).join(', ')}" imagesizes="(min-width: 1280px) 1104px, 92vw" fetchpriority="high">` : ''}
   <link rel="stylesheet" href="${hashed['css/main.css']}">
   <script src="${hashed['js/main.js']}" defer></script>
   ${ld}
@@ -263,24 +263,19 @@ export const forside = (ctx, c) => {
     const ikon = { vokst: ['ikon-vokst.svg', 166, 100], like: ['ikon-like.svg', 166, 100], logo: ['ikon-logo.svg', 144, 87] };
   const body = `
     <section class="s-topp" aria-labelledby="intro-tittel">
-      <div class="s-topp__bilde">
-        ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
-        <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
+      <div class="wrap s-topp__tekst">
+        ${c.helt.etikett ? `<p class="label">${esc(c.helt.etikett)}</p>` : ''}
+        <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
+        ${c.helt.setning ? `<p class="s-topp__setning">${inline(c.helt.setning)}</p>` : ''}
+        <div class="actions">
+          <a class="pill s-topp__knapp" href="#kontakt">${esc(c.helt.knapp)}</a>
+          <a class="textlink" href="/start/">${esc(site.skjema.cta_knapp)}</a>
+        </div>
       </div>
-      <div class="s-topp__innhold">
-        ${edge('soft', 's-topp__kant')}
-        <div class="wrap duo">
-          <div>
-            ${c.helt.etikett ? `<p class="label">${esc(c.helt.etikett)}</p>` : ''}
-            <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
-          </div>
-          <div class="s-topp__side">
-            ${c.helt.setning ? `<p class="s-topp__setning">${inline(c.helt.setning)}</p>` : ''}
-            <div class="actions">
-              <a class="pill s-topp__knapp" href="#kontakt">${esc(c.helt.knapp)}</a>
-              <a class="textlink" href="/start/">${esc(site.skjema.cta_knapp)}</a>
-            </div>
-          </div>
+      <div class="wrap">
+        <div class="s-topp__bilde">
+          ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '(min-width: 1280px) 1104px, 92vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
+          <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
         </div>
       </div>
     </section>
@@ -296,7 +291,7 @@ export const forside = (ctx, c) => {
 
     <section class="s-kjenner" aria-labelledby="kjenner-tittel">
       <div class="wrap">
-        <h2 class="label label--center" id="kjenner-tittel">${esc(c.kjenner.etikett)}</h2>
+        <h2 class="display" id="kjenner-tittel">${esc(c.kjenner.etikett)}</h2>
         <ul class="moments">
           ${c.kjenner.sitater.map((s) => { const [f, w, h] = ikon[s.ikon] || ikon.vokst; return `<li class="moment">
             <img src="/i/${f}" alt="" width="${w}" height="${h}" loading="lazy">
