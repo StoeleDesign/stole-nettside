@@ -302,7 +302,7 @@ export const forside = (ctx, c) => {
     </section>
 
     <section class="s-hvorfor" aria-labelledby="hvorfor-tittel">
-      ${edge('soft')}
+      ${edge('wave')}
       <div class="wrap">
         <p class="label">${esc(c.hvorfor.etikett)}</p>
         <div class="s-hvorfor__grid">

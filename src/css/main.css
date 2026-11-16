@@ -1189,12 +1189,11 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 
 /* =========================================================
    Formelt uttrykk, inspirert av iOS
-   Rette overganger. Innhold på flater med lik avrunding. Oppreiste kontroller.
-   Én størrelse per nivå. Skjellkanten rundt «Fast designer» er den ene lekne formen.
+   Innhold på flater med lik avrunding. Oppreiste kontroller. Én størrelse per nivå.
+   Overgangene mellom seksjonene er organiske: det er den personlige streken.
    ========================================================= */
 :root { --r-flate: 28px; --r-kort: 22px; --flate: linear-gradient(180deg, rgba(243, 235, 226, .085) 0%, rgba(243, 235, 226, .03) 100%); --flate-kant: inset 0 0 0 1px rgba(243, 235, 226, .09), inset 0 1px 0 rgba(243, 235, 226, .1); --flate-lys: rgba(255, 252, 247, .62); --luft: clamp(88px, 9.5vw, 144px); }
 
-.edge:not(.edge--panel) { display: none; }
 .site-header { background: color-mix(in srgb, var(--wine-nav) 82%, transparent); -webkit-backdrop-filter: saturate(160%) blur(18px); backdrop-filter: saturate(160%) blur(18px); }
 
 /* Kontroller: oppreist, halvfet, kapselform */
@@ -1209,10 +1208,9 @@ fieldset.brief__felt > legend { margin-bottom: 10px; }
 
 /* Lik luft i alle seksjoner på forsiden */
 .page-home .s-veier, .page-home .s-kjenner, .page-home .s-hvorfor, .page-home .s-prosess__body, .page-home .s-fast, .page-home .s-om { padding-top: var(--luft); padding-bottom: var(--luft); }
-.page-home .s-kjenner { padding-top: 0; }
+.page-home .s-kjenner { padding-top: 0; padding-bottom: calc(var(--luft) + 3vw); }
+.page-home .s-hvorfor, .page-home .s-prosess__body { padding-bottom: calc(var(--luft) + 3vw); }
 .page-home .s-arbeid { padding-bottom: var(--luft); }
-.page-home .s-om__glow { display: none; }
-.s-kontakt { -webkit-mask: none; mask: none; margin-top: 0; padding-top: var(--luft); }
 
 /* Kjenner du deg igjen: samme flater som tjenestevalget */
 .s-kjenner .display { text-align: left; }
