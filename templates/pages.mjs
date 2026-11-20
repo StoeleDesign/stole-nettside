@@ -263,46 +263,53 @@ export const forside = (ctx, c) => {
     const ikon = { vokst: ['ikon-vokst.svg', 166, 100], like: ['ikon-like.svg', 166, 100], logo: ['ikon-logo.svg', 144, 87] };
   const body = `
     <section class="s-topp" aria-labelledby="intro-tittel">
-      <div class="wrap s-topp__tekst">
-        ${c.helt.etikett ? `<p class="label">${esc(c.helt.etikett)}</p>` : ''}
-        <h1 class="display display--hero" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
-        ${c.helt.setning ? `<p class="s-topp__setning">${inline(c.helt.setning)}</p>` : ''}
-        <div class="actions">
-          <a class="pill s-topp__knapp" href="#kontakt">${esc(c.helt.knapp)}</a>
-          <a class="textlink" href="/start/">${esc(site.skjema.cta_knapp)}</a>
+      <div class="wrap s-topp__grid">
+        ${c.helt.etikett ? `<p class="label s-topp__hva">${esc(c.helt.etikett)}</p>` : ''}
+        <h1 class="s-topp__tittel" id="intro-tittel">${esc(c.helt.tittel_a)} <em>${esc(c.helt.tittel_b)}</em></h1>
+        <div class="s-topp__side">
+          ${c.helt.setning ? `<p class="s-topp__setning">${inline(c.helt.setning)}</p>` : ''}
+          <div class="actions">
+            <a class="pill s-topp__knapp" href="#kontakt">${esc(c.helt.knapp)}</a>
+            <a class="textlink" href="/start/">${esc(site.skjema.cta_knapp)}</a>
+          </div>
         </div>
       </div>
-      <div class="wrap s-topp__ramme">
-        <div class="s-topp__bilde">
-          ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '(min-width: 1280px) 1104px, 92vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
-          <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
-        </div>
-      </div>
-    </section>
-
-    <section class="s-veier" id="tjenester" aria-labelledby="veier-tittel">
-      <div class="wrap">
-        <p class="label">${esc(c.tjenester.etikett)}</p>
-        <h2 class="display" id="veier-tittel">${esc(tjenester.situasjoner_etikett)}</h2>
-        ${veier(tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return { href: `/tjenester/${pk.slug}/`, nivaa: pk.nivaa, navn: pk.navn, tekst: x.tekst, go: c.tjenester.knapp }; }))}
-        <p class="s-veier__alle"><a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a></p>
+      <div class="s-topp__bilde">
+        ${picture({ name: 'hero', widths: [1100, 1600, 2320], sizes: '100vw', alt: c.helt.bilde_alt, cls: 's-topp__img', w: 2320, h: 1683, eager: true })}
+        <img class="s-topp__logo" src="/i/logo-wine.svg" alt="" width="934" height="270">
+        ${edge('soft', 's-topp__kant')}
       </div>
     </section>
 
     <section class="s-kjenner" aria-labelledby="kjenner-tittel">
-      <div class="wrap">
+      ${edge('soft')}
+      <div class="wrap s-kjenner__grid">
         <h2 class="display" id="kjenner-tittel">${esc(c.kjenner.etikett)}</h2>
-        <ul class="moments">
-          ${c.kjenner.sitater.map((s) => { const [f, w, h] = ikon[s.ikon] || ikon.vokst; return `<li class="moment">
-            <img src="/i/${f}" alt="" width="${w}" height="${h}" loading="lazy">
-            <blockquote><p>${esc(s.a)}${s.b ? ` <span>${esc(s.b)}</span>` : ''}</p></blockquote>
+        <ul class="ytringer">
+          ${c.kjenner.sitater.map((x) => { const [f, w, h] = ikon[x.ikon] || ikon.vokst; return `<li class="ytring">
+            <img class="ytring__ikon" src="/i/${f}" alt="" width="${w}" height="${h}" loading="lazy">
+            <blockquote class="ytring__sitat"><p>${esc(x.a)}${x.b ? ` <span>${esc(x.b)}</span>` : ''}</p></blockquote>
           </li>`; }).join('')}
         </ul>
       </div>
     </section>
 
-    <section class="s-hvorfor" aria-labelledby="hvorfor-tittel">
+    <section class="s-indeks" id="tjenester" aria-labelledby="indeks-tittel">
       ${edge('wave')}
+      <div class="wrap">
+        <div class="s-indeks__topp">
+          <div>
+            <p class="label">${esc(c.tjenester.etikett)}</p>
+            <h2 class="display" id="indeks-tittel">${esc(tjenester.situasjoner_etikett)}</h2>
+          </div>
+          <a class="textlink" href="/tjenester/">${esc(c.tjenester.alle)}</a>
+        </div>
+        ${veier(tjenester.situasjoner.map((x) => { const pk = tjenester.pakker.find((p) => p.slug === x.pakke); return { href: `/tjenester/${pk.slug}/`, nivaa: pk.nivaa, sitat: x.sitat, navn: pk.navn, tekst: x.tekst }; }), { lys: true })}
+      </div>
+    </section>
+
+    <section class="s-hvorfor" aria-labelledby="hvorfor-tittel">
+      ${edge('soft')}
       <div class="wrap">
         <p class="label">${esc(c.hvorfor.etikett)}</p>
         <div class="s-hvorfor__grid">
@@ -364,7 +371,7 @@ export const forside = (ctx, c) => {
     <section class="s-fast s-fast--page" aria-labelledby="fast-tittel">
       <div class="wrap s-fast__grid">
         <div>
-          <p class="label label--caps label--wine">${esc(c.fast.etikett)}</p>
+          <p class="label">${esc(c.fast.etikett)}</p>
           <h2 class="display" id="fast-tittel">${inline(c.fast.tittel)}</h2>
           <p class="s-fast__q">${esc(c.fast.sporsmal)}</p>
           <p class="s-fast__text">${inline(c.fast.tekst)}</p>
@@ -377,7 +384,7 @@ export const forside = (ctx, c) => {
     <section class="s-om" id="om" aria-labelledby="om-tittel">
       <div class="wrap s-om__grid">
         <div class="s-om__head">
-          <p class="label label--caps">${esc(c.om.etikett)}</p>
+          <p class="label">${esc(c.om.etikett)}</p>
           <h2 class="display display--statement" id="om-tittel">${inline(c.om.tittel)}</h2>
         </div>
         <div class="s-om__body">
@@ -398,16 +405,18 @@ export const forside = (ctx, c) => {
   return layout(ctx, { title: c.seo_tittel, description: c.seo_beskrivelse, path: '/', body, bodyClass: 'page-home', preloadHero: true });
 };
 
-/* Veier: samme byggekloss på forsiden, tjenestesiden og pakkesidene */
-const veier = (items) => `<ul class="veier veier--${items.length}">
-          ${items.map((v) => `<li><a class="vei" href="${esc(v.href)}"${v.open ? ` data-open="${esc(v.open)}"` : ''}>
-            <span class="vei__ikon">${dybdeIkon(v.nivaa)}</span>
-            ${v.sitat ? `<span class="vei__sitat">${esc(v.sitat)}</span>` : ''}
-            <span class="vei__navn">${esc(v.navn)}</span>
-            <span class="vei__tekst">${esc(v.tekst)}</span>
-            <span class="vei__go">${esc(v.go)} ${chevron}</span>
+/* Indeks: tjenestene som en liste, ikke like kort. Buene blir større jo dypere oppdraget går. */
+const veier = (items, { lys = false } = {}) => `<ol class="indeks${lys ? ' indeks--lys' : ''}">
+          ${items.map((v) => `<li class="indeks__punkt${v.nivaa === 0 ? ' indeks__punkt--fast' : ''}"><a class="indeks__rad" href="${esc(v.href)}"${v.open ? ` data-open="${esc(v.open)}"` : ''}>
+            <span class="indeks__ikon indeks__ikon--${v.nivaa}">${dybdeIkon(v.nivaa)}</span>
+            <span class="indeks__hva">
+              ${v.sitat ? `<span class="indeks__sitat">${esc(v.sitat)}</span>` : ''}
+              <span class="indeks__navn">${esc(v.navn)}</span>
+            </span>
+            <span class="indeks__tekst">${esc(v.tekst)}</span>
+            <span class="indeks__pil" aria-hidden="true">${chevron}</span>
           </a></li>`).join('')}
-        </ul>`;
+        </ol>`;
 
 /* ---------- Tjenester: oversikt ---------- */
 export const tjenesteoversikt = (ctx, t) => {
@@ -435,14 +444,6 @@ export const tjenesteoversikt = (ctx, t) => {
           <h2 class="kort__title" id="kort-tittel">${esc(t.kortfortalt_tittel)}</h2>
           <ol class="kort__list">${t.kortfortalt.map((k, i) => `<li><span class="kort__num">0${i + 1}</span><span><strong>${esc(k.tittel)}</strong> ${esc(k.tekst)}</span></li>`).join('')}</ol>
         </div>
-      </div>
-    </section>
-
-    <section class="s-veier s-veier--dyp" aria-labelledby="sit-tittel">
-      ${edge('soft')}
-      <div class="wrap">
-        <h2 class="display" id="sit-tittel">${esc(t.situasjoner_etikett)}</h2>
-        ${veier(t.situasjoner.map((x) => { const pk = t.pakker.find((p) => p.slug === x.pakke); return { href: anker(x.pakke), open: x.pakke, nivaa: pk.nivaa, sitat: x.sitat, navn: pk.navn, tekst: x.tekst, go: ctx.forside.tjenester.knapp }; }))}
       </div>
     </section>
 
@@ -604,7 +605,7 @@ export const pakke = (ctx, t, p) => {
       ${edge('soft')}
       <div class="wrap">
         <h2 class="display" id="andre-tittel">Andre måter å jobbe sammen på</h2>
-        ${veier(andre.map((x) => ({ href: `/tjenester/${x.slug}/`, nivaa: x.nivaa, navn: x.navn, tekst: x.naar, go: ctx.forside.tjenester.knapp })))}
+        ${veier(andre.map((x) => ({ href: `/tjenester/${x.slug}/`, nivaa: x.nivaa, navn: x.navn, tekst: x.naar })))}
       </div>
     </section>
 
@@ -813,7 +814,7 @@ export const ikkeFunnet = (ctx) => {
       <div class="wrap s-404__grid">
         <div>
           <p class="label label--caps label--blue">Feil 404</p>
-          <h1 class="display display--hero" id="side-tittel">Denne siden finnes ikke. <em>Men du er fortsatt hos STØLE.</em></h1>
+          <h1 class="display display--hero" id="side-tittel">Denne siden finnes ikke. <span class="display__dempet">Men du er fortsatt hos STØLE.</span></h1>
           <p class="s-pagehero__lead">Lenken kan være gammel, eller adressen kan ha en skrivefeil.</p>
           <div class="s-intro__actions">
             <a class="pill" href="/">Til forsiden</a>
