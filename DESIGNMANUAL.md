@@ -20,7 +20,7 @@ Tre ord å teste alt mot: **fundament, samlingssted, kuratert rot.**
 ## 2. Fem prinsipper
 
 1. **Det viktigste først, og størst.** Hver skjerm har ett budskap og én hovedhandling. Resten er mindre.
-2. **Asymmetri med balanse.** Ingenting er sentrert som standard. Vekten fordeles skjevt og balanseres med luft.
+2. **Aksen.** Signaturen står på en midtakse, og det gjør sidens viktigste øyeblikk også: første skjerm, «Kjenner du deg igjen?» og tjenestene. Symmetrien gir ro, men vekten er aldri lik. Det viktigste står i midten og er størst eller mørkest, det rundt er lettere.
 3. **Form med mening.** En form, farge eller kursiv brukes bare når den betyr noe. Står det ikke i denne manualen hva den betyr, skal den ikke brukes.
 4. **Vis arbeidet.** Ekte prosjekter, ekte skisser og ekte ord. Aldri plassholdere, oppdiktede tall eller kunder.
 5. **Det skal tåle virkeligheten.** Tomme tilstander, feil, treg nettforbindelse, stor tekst og tastatur er designet, ikke glemt.
@@ -84,8 +84,9 @@ Ingen løpende tekst under 15 px. Ingen versaler som etikett. Linjelengde i brø
 ## 6. Rutenett og luft
 
 * 12 kolonner, maks 1280 px bredt, marg 20 til 88 px.
-* Seksjoner deler seg skjevt: 5 og 7, eller 4 og 8 kolonner. Aldri 6 og 6 som standard.
-* Overskriften står alltid i venstre spalte. Teksten står forskjøvet til høyre, så øyet går på skrå ned siden.
+* **Aksen** brukes der siden gjør et utsagn: første skjerm, «Kjenner du deg igjen?» og tjenestene. Overskrift, etikett og knapper står på midten. Tre elementer på rad deles 1 til 1,3 til 1, så midten veier mest. Aksen gjelder også på mobil.
+* **Lesespalten** brukes der siden forklarer: hvorfor, arbeid, prosess, fast designer, om og kontakt. Overskriften står til venstre, og lengre tekst står venstrejustert. Sentrert tekst er bare lov for korte ingresser og korttekster på inntil tre linjer. Lengre tekst sentreres aldri, fordi den er tung å lese.
+* På mobil stables elementer i samme rekkefølge som på stor skjerm. Midten flyttes ikke først, fordi rekkefølgen (1, 2, 3 buer) er en del av betydningen.
 * Avstander i trinn på 8 px: 8, 16, 24, 32, 48, 64, 96, 144. Luft mellom seksjoner: 96 til 160 px.
 * Tettere avstand betyr «hører sammen». Mer luft betyr «nytt tema». Avstanden følger innholdet, den er ikke lik overalt.
 
@@ -110,7 +111,7 @@ Ingen løpende tekst under 15 px. Ingen versaler som etikett. Linjelengde i brø
 
 Samme handling heter det samme overalt. «Gratis prat (15 min)» er alltid hovedknappen. «Start et prosjekt» er alltid lenken.
 
-**Lister før flater.** Innhold ligger rett på grunnen, ordnet med linjer og luft. En flate (kort med avrundede hjørner) brukes bare når innholdet er én ting du kan ta på: et case, et skjema, en tidslinje. Tjenestene er en liste, ikke fire like kort.
+**Lister før flater.** Innhold ligger rett på grunnen, ordnet med linjer og luft. En flate (kort med avrundede hjørner) brukes bare når innholdet er én ting du kan velge eller ta på: en pakke, et case, et skjema. Tjenestene på forsiden er tre pakker med ulik vekt: den midterste står på vin og er løftet, de to andre er lyse. Fast designer er et eget bånd under, fordi det er et samarbeid og ikke et oppdrag. På pakkesidene brukes listen.
 
 **Klikkflater.** Minst 44 × 44 px. Hele raden er klikkbar når raden er én handling.
 
@@ -153,7 +154,8 @@ Dette skal være designet, ikke overlatt til nettleseren:
 
 Før noe publiseres, svar nei på alle:
 
-* Er noe sentrert bare fordi det er lettvint?
+* Er noe sentrert som ikke står på aksen, eller er tekst over tre linjer sentrert?
+* Har tre ting på rad lik vekt, uten at én er tydelig viktigst?
 * Står tre eller fire like kort på rad med samme høyde og vekt?
 * Er alle seksjoner like høye, like tette og like viktige?
 * Er det mer enn én hovedknapp på skjermen?
